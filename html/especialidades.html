@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SP Medical Group</title>
+    <link rel="stylesheet" href="../css/especialidades.css">
+    <link rel="shortcut icon" href="./assets/logo_spmedgroup_v2.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <a href="../index.html"><img id="logo-img"  src="../assets/logo_spmedgroup_v2.png" alt=""></a>
+        <a>Sobre nós</a>
+        <a>Unidades</a>
+        <a>Contato</a>
+        <a href="./login.html" id="entrar-btn">Entrar</a>
+    </header>
+
+    <section>
+        <div id="textos-section">
+            <h1>Encontre seu médico do SP Medical Group</h1>
+            <p>Temos dezenas de profissionais médicos em nosso corpo clínico capacitados para te acolher com excelência.</p>
+        </div>
+
+        <div id="imagem">
+            <img src="../assets/Doctors-pana.svg" alt="">
+        </div>
+    </section>
+
+    <form id="section-filtros">
+        <div id="filtros">
+            <div id="especialidade" class="filtro">
+                <label for="especialidade-select">Especialidade</label>
+                <select name="especialidade" id="especialidade-select">
+                    <option id="none" value="0">Qualquer</option>
+                </select>
+            </div>
+            <div id="nome-medico" class="filtro">
+                <label for="nome-medico-input">Nome do médico</label>
+                <input type="text" id="nome-medico-input" name="medico">
+            </div>
+            <div id="numero-crm" class="filtro">
+                <label for="numero-crm-input">Número do CRM</label>
+                <input type="text" id="numero-crm-input" name="crm">
+            </div>
+        </div>
+        <div id="div-btn-filtro">
+            <button type="submit" id="buscar-btn">Buscar</button>
+        </div>
+    </form>
+
+
+
+
+    <main>
+        
+
+        <h1 id="profissionais-encontrados-ou-nao"></h1>
+        <div id="profissionais-encontrados">
+
+        </div>
+    </main>
+
+    <script src="../js/especialidades.js"></script>
+</body>
+</html>

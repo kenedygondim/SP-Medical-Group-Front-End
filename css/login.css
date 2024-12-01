@@ -1,0 +1,162 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+a:visited {
+    text-decoration: none; /* Remove o sublinhado do link após ser clicado */
+    color: inherit; /* Mantém a cor do texto após ser clicado */
+}
+
+body {
+    height: 100vh;
+    display: flex;
+}
+
+section {
+    height: 100%;
+}
+
+#section-left {
+    width: 50%;
+    background: linear-gradient(to bottom, #FFFFFF 0%, #E9F1D9 79%, #CEE6CE 89%, #9EEBAC 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+main {
+    height: 75%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#logo {
+    height: 8em;
+    width: 8em;
+}
+
+#logo img {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+}
+
+#textos {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.8em;
+}
+
+#div-form {
+    position: absolute;
+    top: 45%;
+    width: 30%;
+}
+
+#form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 100%;
+    height: 4em;
+    background-color: #f1f1f1;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: 2px solid #003A56;
+    border-radius: 8px;
+    padding: 0.5em;
+    margin-bottom: 1em;
+    outline: none; /* Remove o contorno azul padrão */
+
+}
+
+.hidden {
+    visibility: hidden;
+    transform: translateY(20px); /* Movido para baixo */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transição suave */
+}
+
+h1 {
+    font-size: 2.0em;
+    color: #2C485F;
+}
+
+p {
+    font-size: 1.2em;
+    color: #424242;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    width: 65%;
+    text-align: center;
+}
+
+
+#login-falhou {
+    color: #ff4d4d; /* Cor vermelha clara para chamar atenção */
+    font-size: 1rem; /* Tamanho de fonte ajustado */
+    font-weight: bold; /* Deixa a mensagem mais destacada */
+    margin-top: 10px; /* Espaço acima do elemento */
+    text-align: center; /* Centraliza o texto */
+    background-color: #ffe6e6; /* Fundo suave para contraste */
+    padding: 10px; /* Adiciona espaço interno */
+    border-radius: 5px; /* Bordas arredondadas */
+    border: 1px solid #ff9999; /* Borda vermelha clara */
+    width: fit-content; /* Ajusta à largura do conteúdo */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+button {
+    background-color: #003A56;
+    color: #ffffff;
+    font-size: 1.0em;
+    border: none;
+    border-radius: 3px;
+    padding: 0.7em 2.5em;
+    cursor: pointer;
+}
+
+
+#div-botoes {
+    padding-top: 2em;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3em;
+}
+
+#voltar-button {
+    background-color: #E9F1D9;
+    color: #003A56;
+    font-size: 1.0em;
+    border: 2px solid #003A56;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+
+
+#section-right {
+    width: 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../assets/pexels-gustavo-fring-7446987.jpg");
+    
+}

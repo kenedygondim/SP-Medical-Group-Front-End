@@ -1,0 +1,169 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+a:visited {
+    text-decoration: none; /* Remove o sublinhado do link após ser clicado */
+    color: inherit; /* Mantém a cor do texto após ser clicado */
+}
+
+body {
+    height: 100vh;
+}
+
+header {
+    height: 10%;
+    background-color: #ffffff;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#logo-img {
+    width: 7vh;
+    height: 7vh;
+}
+
+#entrar-btn {
+    background-color: #167CAD;
+    color: white;
+    border-radius: 5px;
+    padding: 1em 3em;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+main {
+    height: 67%;
+    background-image: url(../assets/pexels-olly-3760279.jpg);
+    background-size: cover;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+#div-pesquisa-input{
+    background-color: rgb(255, 255, 255);
+    width: 50%;
+    height: 4em;
+    border-radius: 5px 0px 5 0px;
+    margin-bottom: 8em;
+    display: flex;
+    align-items: center;
+}
+
+
+#pesquisa-input {
+    width: 90%;
+    height: 100%;
+    border-radius: 5px;
+    margin-left: 2em;
+    border: none;
+    outline: none;
+    color: #000000b2;
+    font-size: 1.0em;
+}
+
+#div-pesquisa-input svg {
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#pesquisa-input::placeholder {
+    color: #999; /* Muda a cor do placeholder */
+    padding-left: 15px; /* Adiciona padding à esquerda */
+}
+
+
+#sugestoes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%; /* Coloca o menu exatamente abaixo do input */
+    left: 0;   /* Alinha à esquerda do input */
+    width: 100%; /* Igual à largura do input */
+    background: white;
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Inicialmente oculto */
+    max-height: 200px; /* Altura máxima com rolagem */
+    overflow-y: auto;
+}
+
+#sugestoes-list li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+#sugestoes-list li:hover {
+    background-color: #f0f0f0;
+}
+
+#div-pesquisa-input {
+    position: relative; /* Garante que o menu suspenso seja posicionado em relação a esse contêiner */
+}
+
+
+section {
+    height: 20%;
+    background: linear-gradient(to right, #167CAD, #07415E, #0C5980, #167CAD);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    
+}
+
+.section-div {
+    height: 100%;
+    width: 100%;
+    border-right: 2px solid white;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+svg {
+    width: 3em;
+    height: 3em;
+}	
+
+.section-div p {
+    color: white;
+    width: 30%;
+    font-size: 1em;
+    text-align: center;
+}
+
+footer {
+    height: 3%;
+    background-color: #ffffff;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+
+#copyright {
+    text-align: center;
+    color: black;
+    font-size: 0.5em;
+    opacity: 75%;
+}
