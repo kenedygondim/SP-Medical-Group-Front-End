@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal do médico</title>
+    <link rel="stylesheet" href="../css/medico.css" />
+    <link
+      rel="shortcut icon"
+      href="./assets/logo_spmedgroup_v2.png"
+      type="image/x-icon"
+    />
+  </head>
+<body>
+    <header>
+      <a href="../index.html"
+        ><img id="logo-img" src="../assets/logo_spmedgroup_v2.png" alt=""
+      /></a>
+      <a>Consultas realizadas</a>
+      <a>Consultas agendadas</a>
+      <a>Meu perfil</a>
+      <a href="./html/login.html" id="entrar-btn">Log-Off</a>
+    </header>
+
+    <main>
+        <section id="left-section">
+            <form id="div-pesquisa-input" method="GET" action="./html/especialidades.html">
+                <input
+                placeholder="Buscar paciente..."
+                type="search"
+                name="especialidade"
+                id="pesquisa-input"
+                oninput="buscarSugestoes()"
+                required/>
+                <button type="submit" style="border: none; background-color: transparent">
+                <svg width="64px" height="64px" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="http://www.w3.org/2000/svg" fill="#000000" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M448 768A320 320 0 1 0 448 128a320 320 0 0 0 0 640z m297.344-76.992l214.592 214.592-54.336 54.336-214.592-214.592a384 384 0 1 1 54.336-54.336z" fill="#000000"></path></g></svg>
+                </button>
+                <ul id="sugestoes-list"></ul>
+            </form>
+
+            <div class="div-squares">
+                <div class="agenda div-square"></div>
+                <div class="pacientes div-square"></div>              
+                <div class="alterar-consulta div-square"></div>
+            </div>
+        </section>
+    
+        <section id="right-section">
+            <h6 >Agenda do dia</h6>
+            <div id="agenda-medico">
+
+            </div>
+        </section>
+
+
+
+
+    </main>
+    
+
+<body>
+    
+</body>
+</html>

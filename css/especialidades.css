@@ -26,7 +26,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    border-bottom: 1px solid #b1d4ac;
+    border-bottom: 1px solid #1b4449;
+}
+
+section {
+    background-color: #f5f4f4;
 }
 
 #logo-img {

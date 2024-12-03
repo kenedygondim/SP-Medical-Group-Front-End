@@ -1,13 +1,16 @@
 document.addEventListener("DOMContentLoaded", fetchItems);
 especialidades = [];
 
+token = sessionStorage.getItem("token");
+role = sessionStorage.getItem("role");
+
+console.log(token);
+console.log(role);
+
 
 // Função para buscar dados da API
 async function fetchItems() {
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
-
-
-
     try {
         const response = await fetch('http://localhost:8080/api/TipoMedico/ListarTodos');
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
@@ -22,9 +25,6 @@ async function fetchItems() {
         console.error("Erro ao buscar dados:", error);
     }
 }
-
-
-
 
 // Função para buscar sugestões
 function buscarSugestoes() {
