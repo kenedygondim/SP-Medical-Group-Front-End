@@ -4,22 +4,19 @@ especialidades = [];
 token = sessionStorage.getItem("token");
 role = sessionStorage.getItem("role");
 
-console.log(token);
-console.log(role);
-
-
 // Função para buscar dados da API
 async function fetchItems() {
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
     try {
-        const response = await fetch('http://localhost:8080/api/TipoMedico/ListarTodos');
+        const response = await fetch('http://localhost:8080/api/Especialidade/ListarTodos');
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
 
         items = await response.json(); // Assume que a resposta está no formato JSON
 
         // Dados simulados
-        especialidades = items.map(item => item.nomeTipoMedico);
+        especialidades = items.map(item => item.nome);
 
+        console.log(especialidades);
 
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
