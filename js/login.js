@@ -1,5 +1,33 @@
 formElement = document.getElementById('form')
 
+console.log(sessionStorage.getItem("token"));
+console.log(sessionStorage.getItem("role"));
+
+document.addEventListener("DOMContentLoaded", function () {
+    const token = sessionStorage.getItem("token");
+
+    if(token) {
+        const teste = fetch('http://localhost:8080/api/Medico/Acessar', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        teste.then((response) => {
+            if (response.status == 200) {
+                const role = sessionStorage.getItem("role");
+                if (role == "PACIENTE") 
+                    window.location.href = 'http://127.0.0.1:5500/html/paciente.html';
+                else if (role == "MEDICO") 
+                    window.location.href = 'http://127.0.0.1:5500/html/medico.html';
+                else if (role == "ADMIN") 
+                    window.location.href = 'http://127.0.0.1:5500/html/admin.html';
+            }
+        });
+    }
+});
+
 function toggleElements() {
     const textos = document.getElementById('textos');
     const form = document.getElementById('div-form');
@@ -20,6 +48,8 @@ function toggleElements() {
 formElement.addEventListener('submit', async (e) => {
     e.preventDefault();
 
+    sessionStorage.clear();
+
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value
 
@@ -37,9 +67,14 @@ formElement.addEventListener('submit', async (e) => {
             const token = data.token;
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('role', parseJwt(token).role);
-            window.location.href = '../index.html';
 
-            
+            if (sessionStorage.getItem('role') == "PACIENTE") 
+                    window.location.href = '../html/paciente.html';
+            else if (sessionStorage.getItem('role') == "MEDICO") 
+                    window.location.href = 'http://127.0.0.1:5500/html/medico.html';
+            else if (sessionStorage.getItem('role') == "ADMIN") {
+                    window.location.href = '../html/admin.html';
+            }    
         } else {
             document.getElementById("login-falhou").classList.remove('hidden');
         }
