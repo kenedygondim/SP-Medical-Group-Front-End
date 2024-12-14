@@ -4,14 +4,9 @@ async function fetchItems() {
     try {
         const response = await fetch('http://localhost:8080/paginaEspecialidades');
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
-
         items = await response.json(); // Assume que a resposta está no formato JSON
-
-
         mostrarProfissionais(items);
-
         console.log(items);
-
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
     }
@@ -19,16 +14,11 @@ async function fetchItems() {
 
 function mostrarProfissionais(items) {
     const especialidades = document.getElementById("section-id");
-
-    apoio = 1;
-
-    items.forEach(esp => {
-
-        console.log(esp);
-        
+    items.forEach(esp => {        
         const divCard = document.createElement("div");
         divCard.className = "div-card";
 
+        divCard.setAttribute('data-nome-especialidade', esp.especialidade);
 
         const nomeEspecialidade = document.createElement("h3");
         nomeEspecialidade.textContent = esp.especialidade;
@@ -48,9 +38,6 @@ function mostrarProfissionais(items) {
         minPreco.textContent = "A partir de R$" + esp.precoMinimo.toFixed(2);
 
 
-        console.log(esp.numeroMedicos);
-        console.log(esp.precoMinimo);
-
         additionalInformation.appendChild(numProfissionais);
         additionalInformation.appendChild(minPreco);
 
@@ -58,8 +45,11 @@ function mostrarProfissionais(items) {
         divCard.appendChild(descricaoEspecialidade);
         divCard.appendChild(additionalInformation);
 
+        divCard.addEventListener('click', function() {
+            const especialidade = this.getAttribute('data-nome-especialidade');
+            window.location.href = `http://127.0.0.1:5500/html/profissionais.html?especialidade=${especialidade}`;
+        });
         especialidades.appendChild(divCard);
-
-        apoio++
     });
 }
+
