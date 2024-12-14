@@ -8,52 +8,24 @@ const numCrm = params.get('crm');
 // Função para buscar dados da API
 async function fetchItems() {
     try {
-        const getProfissionais = await fetch("http://localhost:8080/api/Medico/ListarTodos"); //Lista todos os médicos com as informações básicas do card
+        const url = "http://localhost:8080/api/Medico/ListarInformacoesBasicasMedico";
 
+        const getProfissionais = await fetch(
+            `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
+            method: 'GET', // Usar GET, pois os parâmetros estão na query string
+            headers: {
+                'Content-Type': 'application/json' // Ainda define o tipo de conteúdo, mas o corpo não é necessário
+            }
+        });
 
-        
         const getEspecialidades = await fetch("http://localhost:8080/api/Especialidade/ListarTodos") //Lista todas as especialidades
-
-        console.log(getProfissionais);
-
         if (!getProfissionais.ok || !getEspecialidades) throw new Error("Erro ao carregar os dados.");
 
-        items = await getProfissionais.json(); // Assume que a resposta está no formato JSON
+        profissionais = await getProfissionais.json(); // Assume que a resposta está no formato JSON
         especialidades = await getEspecialidades.json();
 
-        // Dados simulados
-
-        if (especialidade !== null && nomeDoMedico === null && numCrm === null) { //apenas o o primeiro campo marcadao
-            profissionais = items.filter(item => item.nome === especialidade);
-        }
-        else if (especialidade === null && nomeDoMedico !== null && numCrm === null) { //apenas o segundo campo marcado
-            profissionais = items.filter(item => item.nomeCompleto.includes(nomeDoMedico));
-        }
-        else if (especialidade === null && nomeDoMedico === null && numCrm !== null) { //apenas o terceiro campo marcado
-            profissionais = items.filter(item => item.crm === numCrm);
-        }
-        else if (especialidade !== null && nomeDoMedico !== null && numCrm === null) { //o primeiro e o segundo campo marcados
-            profissionais = items.filter(item => item.nome === especialidade && item.nomeUsuario.includes(nomeDoMedico));
-        }
-        else if (especialidade !== null && nomeDoMedico === null && numCrm !== null) { //o primeiro e o terceiro campo marcados
-            profissionais = items.filter(item => item.nome === especialidade && item.crm === numCrm);
-        }
-        else if (especialidade === null && nomeDoMedico !== null && numCrm !== null) { //o segundo e o terceiro campo marcados
-            profissionais = items.filter(item => item.nomeCompleto.includes(nomeDoMedico) && item.crm === numCrm);
-        }
-        else if (especialidade !== null && nomeDoMedico !== null && numCrm !== null) { //todos os campos marcados
-            profissionais = items.filter(item => item.nome === especialidade && item.nomeCompleto.includes(nomeDoMedico) && item.crm === numCrm);
-        }
-        else { //nenhum campo marcado
-            profissionais = items;
-        }
-
-
-        console.log(profissionais);
-        console.log(especialidades);
-
-        mostrarProfissionais();
         carregarEspecialidadeMedicoCrm();
+        mostrarProfissionais();
 
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -68,22 +40,18 @@ function mostrarProfissionais() {
             numeroProfissionais.textContent = `Nenhum profissional encontrado`;
             return;
         }
-        else if (profissionais.length === 1) {
+        else if (profissionais.length === 1) 
             numeroProfissionais.textContent = `Encontramos 1 profissional de ${especialidade.toLowerCase()}`;
-        } 
-        else {
+        else 
             numeroProfissionais.textContent = `Foram encontrados ${profissionais.length} profissionais de ${especialidade.toLowerCase()}.`;
-        }
     }
     else {
-
         if (profissionais.length === 0) {
             numeroProfissionais.textContent = `Nenhum profissional encontrado`;
             return;
         }
-        else if (profissionais.length === 1) {
+        else if (profissionais.length === 1) 
             numeroProfissionais.textContent = `Encontramos 1 profissional.`;
-        }
         else
             numeroProfissionais.textContent = `Encontramos ${profissionais.length} profissionais`;
     }
@@ -154,9 +122,8 @@ function carregarEspecialidadeMedicoCrm() {
 
     if (especialidade) {
         const optionToSelect = select.querySelector(`option[value="${especialidade}"]`);
-        if (optionToSelect) {
+        if (optionToSelect) 
             optionToSelect.selected = true;
-        }
     }
 
     if (nomeDoMedico) {
@@ -183,19 +150,20 @@ form.addEventListener("submit", function (event) {
     const especialidadeSelecionada = select.value;
 
     if (especialidadeSelecionada === "0" && nomeMedicoInput.value === "" && crmInput.value === "") // todos os campos vazios
-        window.location.href = `especialidades.html`;
+        window.location.href = `profissionais.html`;
     else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value === "" && crmInput.value === "") // apenas o primeiro campo marcado
-        window.location.href = `especialidades.html?especialidade=${especialidadeSelecionada}`;
+        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}`;
     else if (especialidadeSelecionada === "0" && nomeMedicoInput.value !== "" && crmInput.value === "") // apenas o segundo campo marcado
-        window.location.href = `especialidades.html?medico=${nomeMedicoInput.value}`;
+        window.location.href = `profissionais.html?medico=${nomeMedicoInput.value}`;
     else if (especialidadeSelecionada === "0" && nomeMedicoInput.value === "" && crmInput.value !== "") // apenas o terceiro campo marcado
-        window.location.href = `especialidades.html?crm=${crmInput.value}`;
+        window.location.href = `profissionais.html?crm=${crmInput.value}`;
     else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value !== "" && crmInput.value === "") // o primeiro e o segundo campo marcados
-        window.location.href = `especialidades.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}`;
+        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}`;
     else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value === "" && crmInput.value !== "") // o primeiro e o terceiro campo marcados
-        window.location.href = `especialidades.html?especialidade=${especialidadeSelecionada}&crm=${crmInput.value}`;
+        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&crm=${crmInput.value}`;
     else if (especialidadeSelecionada === "0" && nomeMedicoInput.value !== "" && crmInput.value !== "") // o segundo e o terceiro campo marcados
-        window.location.href = `especialidades.html?medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
+        window.location.href = `profissionais.html?medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
     else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value !== "" && crmInput.value !== "") // todos os campos marcados
-        window.location.href = `especialidades.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
+        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
 });
+
