@@ -59,7 +59,6 @@ function mostrarProfissionais() {
  
     const perfis = document.getElementById("profissionais-encontrados");
 
-    apoio = 1;
 
     profissionais.forEach(profissional => {
 
@@ -73,7 +72,7 @@ function mostrarProfissionais() {
         perfil.className = "perfil";
 
         const foto = document.createElement("img");
-        foto.src = `../assets/foto-medicos-teste/${apoio}.jpg`; //apenas teste
+        foto.src = `../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp`; //apenas teste
         foto.className = "foto";
 
         const nomeUsuario = document.createElement("h3");
@@ -106,7 +105,6 @@ function mostrarProfissionais() {
 
         perfis.appendChild(perfil);
 
-        apoio++
     });
 }
 
