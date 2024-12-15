@@ -100,7 +100,9 @@ main {
 }
 
 .div-squares {
-    display: flex;
+    display: grid;
+    grid-template-rows: 2fr 2fr;
+    grid-template-columns: 2fr 2fr;
     width: 90%;
     flex-wrap: wrap; /* Permite que os elementos quebrem para uma nova linha */
     gap: 1px; /* Espaçamento entre as divs */
@@ -108,24 +110,48 @@ main {
 
 .div-square {
     height: 11em;
+    display: flex  ;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: linear-gradient(to right, #167CAD 0%, #0C5980 100%);
+    gap: 1em;
 }
 
-.agenda, .pacientes {
-    flex: 1; /* Dividem o espaço igualmente na linha */
+svg {
+    width: 3em;
+    height: 3em;
+}	
+
+.div-square p {
+    color: white;
+    width: 30%;
+    font-size: 1em;
+    text-align: center;
 }
 
-.agenda {
-    background: linear-gradient(to right, #167CAD 0%, #0C5980 100%)
+
+.pacientes, .disponibilidade {
+    background: linear-gradient(to left, #167CAD 0%, #0C5980 100%);
 }
 
-.pacientes {
-    background: linear-gradient(to right, #0C5980 0%, #167CAD 100%)
+.alterar-consulta,  .agenda {
+    background: linear-gradient(to right, #167CAD 0%, #0C5980 100%);
 }
 
-.alterar-consulta {
-    background: linear-gradient(to right, #167CAD 0%, #0C5980 33%, #0C5980 67%, #167CAD 100%);
-    flex-basis: 100%; /* Ocupa 100% da largura da linha */
-}
+
+
+
+
+
+
+
+
+
+
+
+
 
 #right-section {
     width: 30%;
@@ -145,3 +171,4 @@ main {
     gap: 1em;
     background-color: #167CAD;
 }
+
