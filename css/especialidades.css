@@ -18,6 +18,8 @@ a:visited {
 
 body {
     height: 100vh;
+    background-color: #f5f4f4;
+
 }
 
 header {
@@ -61,6 +63,7 @@ main {
     align-items: center;
     flex-direction: column;
     margin-top: 2em;
+
 }
 
 section {
@@ -69,10 +72,11 @@ section {
     flex-wrap: wrap;
     justify-content: center;
     gap: 2em;
+    margin-bottom: 2em;
 }
 
 .div-card {
-    width: 45%;
+    width: 30%;
     height: 20vh;
     background-color: #ffffff;
     border-radius: 7px;
@@ -82,14 +86,14 @@ section {
     border-bottom: 1px solid #57B76C;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 2em;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 
 .nome-especialidade {
-    padding-top: 1em;
+    padding-top: 0.5em;
     font-size: 1.0em;
     font-weight: 600;
     color: #000000a2;
@@ -112,8 +116,9 @@ section {
 }
 
 .additional-information p {
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: 400;
     color: #57B76C;
-    background-color: #ffffff;
+    background-color: #57b76c11;
+
 }
