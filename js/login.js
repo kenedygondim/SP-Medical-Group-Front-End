@@ -17,11 +17,11 @@ document.addEventListener("DOMContentLoaded", function () {
         teste.then((response) => {
             if (response.status == 200) {
                 const role = sessionStorage.getItem("role");
-                if (role == "PACIENTE") 
+                if (role == "1") 
                     window.location.href = 'http://127.0.0.1:5500/html/paciente.html';
-                else if (role == "MEDICO") 
+                else if (role == "2") 
                     window.location.href = 'http://127.0.0.1:5500/html/medico.html';
-                else if (role == "ADMIN") 
+                else if (role == "3") 
                     window.location.href = 'http://127.0.0.1:5500/html/admin.html';
             }
         });
@@ -48,8 +48,6 @@ function toggleElements() {
 formElement.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    sessionStorage.clear();
-
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value
 
@@ -67,12 +65,36 @@ formElement.addEventListener('submit', async (e) => {
             const token = data.token;
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('role', parseJwt(token).role);
+            
 
-            if (sessionStorage.getItem('role') == "PACIENTE") 
+
+
+            if (sessionStorage.getItem('role') == "1") 
                     window.location.href = '../html/paciente.html';
-            else if (sessionStorage.getItem('role') == "MEDICO") 
-                    window.location.href = 'http://127.0.0.1:5500/html/medico.html';
-            else if (sessionStorage.getItem('role') == "ADMIN") {
+
+
+
+            else if (sessionStorage.getItem('role') == "2") 
+
+                    try {
+                        const response = await fetch('http://localhost:8080/api/Medico/Acessar', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        }).then((response) => {
+                            if (response.status == 200) 
+                                window.location.href = 'http://127.0.0.1:5500/html/medico.html'
+                            else 
+                                alert("Acesso negado");
+                        });
+                    } catch (error) 
+                    {
+                    console.log(error);
+                    }
+
+
+            else if (sessionStorage.getItem('role') == "3") {
                     window.location.href = '../html/admin.html';
             }    
         } else {
