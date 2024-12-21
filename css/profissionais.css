@@ -44,8 +44,13 @@ section {
     height: 7vh;
 }
 
+svg {
+    width: 3em;
+    height: 3em;
+}	
+
 #entrar-btn {
-    background-color: #167CAD;
+    background: none;
     color: white;
     border-radius: 5px;
     padding: 1em 3em;

@@ -36,7 +36,7 @@ header > a {
 }
 
 #entrar-btn {
-    background-color: #167CAD;
+    background: none;
     color: white;
     border-radius: 5px;
     padding: 1em 3em;
