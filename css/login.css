@@ -6,21 +6,17 @@
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
-
 a:visited {
     text-decoration: none; /* Remove o sublinhado do link após ser clicado */
     color: inherit; /* Mantém a cor do texto após ser clicado */
 }
-
 body {
     height: 100vh;
     display: flex;
 }
-
 section {
     height: 100%;
 }
-
 #section-left {
     width: 50%;
     background: linear-gradient(to bottom, #FFFFFF 0%, #E9F1D9 79%, #CEE6CE 89%, #9EEBAC 100%);
@@ -28,7 +24,6 @@ section {
     align-items: center;
     justify-content: space-around;
 }
-
 main {
     height: 75%;
     width: 80%;
@@ -68,7 +63,7 @@ main {
     flex-direction: column;
 }
 
-input {
+#form > input {
     width: 100%;
     height: 4em;
     background-color: #f1f1f1;
@@ -121,7 +116,7 @@ p {
 }
 
 
-button {
+#entrar-button, #proximo-button {
     background-color: #003A56;
     color: #ffffff;
     font-size: 1.0em;
@@ -149,6 +144,7 @@ button {
     border: 2px solid #003A56;
     border-radius: 3px;
     cursor: pointer;
+    padding: 0.7em 2.5em;
 }
 
 
@@ -159,4 +155,99 @@ button {
     background-size: cover;
     background-image: url("../assets/pexels-gustavo-fring-7446987.jpg");
     
+}
+
+#p-cadastre-se {
+    width: 100%;
+    font-size: 1.0em;
+    color: #424242;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+}
+
+#span-cadastre-se {
+    color: #003A56;
+    cursor: pointer;
+}
+
+#popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: auto;
+    width: 50%;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 20px;
+    z-index: 1000;
+}
+#popup.active {
+    display: block;
+}
+
+#overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+#overlay.active {
+    display: block;
+}
+.hidden {
+    display: none;
+}
+.form-section {
+    margin-bottom: 20px;
+}
+.form-section > button {
+    background-color: #003A56;
+    color: #ffffff;
+    font-size: 1.0em;
+    border: none;
+    border-radius: 3px;
+    padding: 0.7em 2.5em;
+    cursor: pointer;
+}
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+input {
+    width: 80%;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+#close-popup {
+    cursor: pointer;
+    background: none;
+    border: none;
+    align-self: flex-end;
+}
+
+#close-popup svg {
+    width: 35px;
+    height: 35px;
+}
+
+.field-input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    height: auto;
+    width: 45%;
+    background-color: #2C485F;
 }
