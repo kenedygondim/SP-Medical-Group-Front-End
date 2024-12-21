@@ -1,7 +1,3 @@
-
-
-
-
 document.getElementById('availabilityForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
@@ -10,7 +6,7 @@ document.getElementById('availabilityForm').addEventListener('submit', async fun
     const endTime = document.getElementById('endTime').value;
 
     const body = {
-        cpfMedico: "11111111111",
+        emailMedico: sessionStorage.getItem('email'),
         dataDisp: date,
         horaInicio: startTime,
         horaFim: endTime
