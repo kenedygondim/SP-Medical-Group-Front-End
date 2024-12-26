@@ -24,6 +24,8 @@ async function fetchItems() {
         profissionais = await getProfissionais.json(); // Assume que a resposta está no formato JSON
         especialidades = await getEspecialidades.json();
 
+        console.log(profissionais);
+
         carregarEspecialidadeMedicoCrm();
         mostrarProfissionais();
 
@@ -71,6 +73,8 @@ function mostrarProfissionais() {
         const perfil = document.createElement("div");
         perfil.className = "perfil";
 
+        perfil.setAttribute('medico-identificador', profissional.cpf);
+
         const foto = document.createElement("img");
         foto.src = `../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp`; //apenas teste
         foto.className = "foto";
@@ -104,9 +108,85 @@ function mostrarProfissionais() {
         agrupaParagrafo.appendChild(empresa);
 
         perfis.appendChild(perfil);
+        
+        perfil.style.cursor = 'pointer'
+
+        perfil.addEventListener('click', function() {
+            const medicoIdentificador = this.getAttribute('medico-identificador');
+            showPopup(medicoIdentificador);
+        });
+
 
     });
 }
+
+
+
+
+async function showPopup(medicoIdentificador) {
+        const urlMedicos = `http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`;
+        const urlEspecialidades = `http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`;
+
+        try {
+          const responseMedicos = await fetch(urlMedicos);
+          const responseEspecialidades = await fetch(urlEspecialidades);
+
+          if (!responseMedicos.ok || !responseEspecialidades.ok) throw new Error("Erro ao buscar informações.");
+          
+          const medico = await responseMedicos.json();
+          const especialidadesJson = await responseEspecialidades.json();
+
+          const fotoPerfil = document.getElementById("fotoPerfil");
+          const nomeMedico = document.getElementById("nomeMedico");
+          const dataNascimento = document.getElementById("dataNascimento");
+          const numeroConsultas = document.getElementById("numeroConsultas");
+          const crm = document.getElementById("crm");
+          const contato = document.getElementById("contato");
+          const hospital = document.getElementById("hospital");
+          const especialidadess = document.getElementById("especialidadess");
+
+          // Preenchendo as informações no pop-up
+          fotoPerfil.src = medico.fotoPerfilUrl;
+          nomeMedico.textContent = medico.nomeCompleto;
+          dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
+          numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
+          crm.textContent = `CRM: ${medico.crm}`;
+          contato.textContent = `Contato: ${medico.email}`;
+          hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
+          especialidadess.textContent = `Especialidades: ${especialidadesJson.map(especialidade => especialidade.especialidade).join(", ")}`;
+
+          // Exibir o pop-up
+          popupOverlay.style.display = "flex";
+
+          popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
+        } catch (error) {
+          console.error(error.message);
+          alert("Não foi possível carregar as informações do médico.");
+        }
+}
+
+
+// Evento para fechar o pop-up
+closePopup.addEventListener("click", () => {
+    popupOverlay.style.display = "none";
+});
+
+// Redirecionar para agendar consulta
+agendarConsulta.addEventListener("click", async () => {
+    const token = sessionStorage.getItem("token");
+    const response = await fetch("http://localhost:8080/api/Consulta/Acessar", {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`
+        } 
+    });
+
+    if(response.status != 200) 
+        window.location.href = "http://127.0.0.1:5500/html/login.html"
+    else 
+        window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html"
+});
+
 
 function carregarEspecialidadeMedicoCrm() {
     const select = document.getElementById('especialidade-select');
@@ -143,7 +223,6 @@ form.addEventListener("submit", function (event) {
     const select = document.getElementById('especialidade-select');
     const nomeMedicoInput = document.getElementById('nome-medico-input');
     const crmInput = document.getElementById('numero-crm-input');
-
 
     const especialidadeSelecionada = select.value;
 

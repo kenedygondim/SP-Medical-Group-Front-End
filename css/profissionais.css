@@ -175,10 +175,6 @@ section {
     color: #0b1d1ad7;
 }
 
-
-
-
-
 #textos h1 {
     font-size: 2.5em;
     margin-top: 1em;
@@ -191,8 +187,6 @@ section {
     justify-content: center;
     align-items: center;
 }
-
-
 
 #profissionais-encontrados-ou-nao{
     font-size: 1.7em;
@@ -215,7 +209,7 @@ section {
 
 .perfil {
     background-color: rgb(255, 255, 255);
-    height: 25%; /* Ajusta a altura automaticamente */
+    height: 150px; /* Ajusta a altura automaticamente */
     box-shadow: 3px 6px 10px rgba(0, 0, 0, 0.13); /* Adiciona sombra aos perfis */
     width: 30%;
     border-radius: 10px;
@@ -248,6 +242,8 @@ section {
 .right h3{
     color: rgba(0, 0, 0, 0.719);
     margin-top: 0.8em;
+    font-size: 1.2em;
+    width: 80%;
 }
 
 .right p {
@@ -255,3 +251,75 @@ section {
     margin-bottom: 0.5em;
     font-size: 0.9em;
 }
+
+.medico-card {
+    width: 300px;
+    height: 150px;
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 20px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+  }
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+  .popup {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 50%;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+  .popup .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff5f5f;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .popup img {
+    max-width: 100px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+  .popup h2 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  .popup p {
+    margin: 5px 0;
+  }
+  .popup button.agendar-btn {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+  }
+  .popup button.agendar-btn:hover {
+    background: #0056b3;
+  }
