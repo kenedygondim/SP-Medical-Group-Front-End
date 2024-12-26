@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal do paciente</title>
+    <link rel="stylesheet" href="../../css/portal-do-paciente/agendar-consulta.css" />
+    <link rel="shortcut icon" href="../../assets/logo_spmedgroup_v2.png" type="image/x-icon"/>
+  </head>
+<body>
+    <header>
+      <a href="../../index.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""
+      /></a>
+      <a>Consultas realizadas</a>
+      <a>Consultas agendadas</a>
+      <a>Meu perfil</a>
+      <a id="sair-btn">Log-Off</a>
+    </header>
+    <main>
+        <form id="form-selecao" class="form-active">
+            <h2 id="agendar-consulta-h2">Agendar Consulta</h2>
+            <label for="medico">Selecione o Médico:</label>
+            <select id="medico" name="medico">
+              <option value="">Carregando...</option>
+            </select>
+            <label for="especialidade">Selecione a Especialidade:</label>
+            <select id="especialidade" name="especialidade">
+              <option value="">Selecione um médico primeiro</option>
+            </select>
+            <label for="data">Escolha a Data:</label>
+            <input type="date" id="data" name="data" />
+            <label for="horario">Selecione o Horário Disponível:</label>
+            <select id="horario" name="horario">
+              <option value="">Selecione uma data primeiro</option>
+            </select>
+            <button type="button" id="avancar">Avançar</button>
+          </form>
+          <form id="resumo-consulta" action="post" class="resumo-consulta">
+            <h2>Resumo da Consulta</h2>
+            <p id="medico-consulta">Médico da Consulta: Carregando...</p>
+            <p id="especialidade-consulta">Especialidade da Consulta: Carregando...</p>
+            <p id="data-consulta">Data da Consulta: Carregando...</p>
+            <p id="horario-consulta">Horário da Consulta: Carregando...</p>
+            <p id="valor-consulta">Valor da Consulta: Carregando...</p>
+            <p id="endereco-consulta">Endereço da Consulta: Carregando...</p>
+            <button type="button" id="voltar">Voltar</button>
+            <button type="submit" id="confirmar-consulta">Agendar Consulta</button>
+          </form>
+    </main>
+    <script src="../../js/portal-do-paciente/agenda-consulta.js"></script>
+</body>
+</html>

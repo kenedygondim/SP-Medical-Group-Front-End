@@ -1,0 +1,100 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+a:visited {
+    text-decoration: none; /* Remove o sublinhado do link após ser clicado */
+    color: inherit; /* Mantém a cor do texto após ser clicado */
+}
+
+body {
+    height: 100vh;
+    background-color: #f5f4f4;    
+}
+
+header {
+    height: 10%;
+    background-color: #ffffff;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    border-bottom: 1px solid #1b4449;
+}
+
+header a {
+    cursor: pointer;
+}
+
+#logo-img {
+    width: 7vh;
+    height: 7vh;
+}
+
+#sair-btn {
+    background-color: #167CAD;
+    color: white;
+    border-radius: 5px;
+    padding: 1em 3em;
+    font-size: 0.9em;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90%;
+  width: 100%;
+}
+
+form, .resumo-consulta {
+width: 60%;
+margin: 0 auto;
+padding: 20px;
+border: 1px solid #ccc;
+border-radius: 10px;
+background-color: #f9f9f9;
+display: none; /* Ambos, form e resumo-consulta começam ocultos */
+}
+
+.form-active {
+display: block; /* Somente o elemento ativo é exibido */
+}
+
+
+#agendar-consulta-h2  {
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: "Inter", sans-serif;
+    font-size: 1.5em;
+    font-weight: 500;
+}
+
+label {
+  font-weight: 400;
+  display: block;
+  margin-bottom: 5px;
+}
+select, input, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+button {
+  background-color: #007BFF;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+button:hover {
+  background-color: #0056b3;
+}
