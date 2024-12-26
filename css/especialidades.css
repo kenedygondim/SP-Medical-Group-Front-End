@@ -47,6 +47,10 @@ svg {
     height: 3em;
 }	
 
+header > p {
+    width: 3em;
+}
+
 #entrar-btn {
     background: none;
     color: white;

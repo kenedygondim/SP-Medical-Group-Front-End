@@ -68,8 +68,6 @@ main {
     gap: 2em;
 }   
 
-
-
 #div-pesquisa-input{
     background-color: rgb(255, 255, 255);
     width: 90%;
@@ -78,7 +76,6 @@ main {
     display: flex;
     align-items: center;
 }
-
 
 #pesquisa-input {
     width: 90%;
@@ -166,7 +163,6 @@ svg {
     text-align: center;
 }
 
-
 .pacientes, .disponibilidade {
     background: linear-gradient(to left, #167CAD 0%, #0C5980 100%);
 }
@@ -174,9 +170,6 @@ svg {
 .alterar-consulta,  .agenda {
     background: linear-gradient(to right, #167CAD 0%, #0C5980 100%);
 }
-
-
-
 
 #right-section {
     width: 30%;
