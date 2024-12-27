@@ -10,14 +10,8 @@ async function fetchItems() {
     try {
         const response = await fetch('http://localhost:8080/api/Especialidade/ListarTodos');
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
-
         items = await response.json(); // Assume que a resposta está no formato JSON
-
-        // Dados simulados
         especialidades = items.map(item => item.nome);
-
-        console.log(especialidades);
-
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
     }
@@ -54,11 +48,8 @@ function buscarSugestoes() {
     }
 }
 
-// Função para selecionar uma sugestão
 function selecionarSugestao(sugestao) {
     const input = document.getElementById("pesquisa-input");
     input.value = sugestao;
-
-    // Limpar a lista de sugestões
     document.getElementById("sugestoes-list").style.display = "none";
 }

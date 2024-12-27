@@ -24,8 +24,6 @@ async function fetchItems() {
         profissionais = await getProfissionais.json(); // Assume que a resposta está no formato JSON
         especialidades = await getEspecialidades.json();
 
-        console.log(profissionais);
-
         carregarEspecialidadeMedicoCrm();
         mostrarProfissionais();
 
@@ -76,7 +74,8 @@ function mostrarProfissionais() {
         perfil.setAttribute('medico-identificador', profissional.cpf);
 
         const foto = document.createElement("img");
-        foto.src = `../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp`; //apenas teste
+
+        foto.src = profissional.fotoPerfilUrl; //apenas teste
         foto.className = "foto";
 
         const nomeUsuario = document.createElement("h3");
@@ -153,7 +152,7 @@ async function showPopup(medicoIdentificador) {
           crm.textContent = `CRM: ${medico.crm}`;
           contato.textContent = `Contato: ${medico.email}`;
           hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
-          especialidadess.textContent = `Especialidades: ${especialidadesJson.map(especialidade => especialidade.especialidade).join(", ")}`;
+          especialidadess.textContent = `Especialidades: ${especialidadesJson.map(especialidade => especialidade.nome).join(", ")}`;
 
           // Exibir o pop-up
           popupOverlay.style.display = "flex";
@@ -184,7 +183,7 @@ agendarConsulta.addEventListener("click", async () => {
     if(response.status != 200) 
         window.location.href = "http://127.0.0.1:5500/html/login.html"
     else 
-        window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html"
+        window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=" + popupOverlay.getAttribute('medico-identificador');
 });
 
 

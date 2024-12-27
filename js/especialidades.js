@@ -6,7 +6,6 @@ async function fetchItems() {
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
         items = await response.json(); // Assume que a resposta está no formato JSON
         mostrarProfissionais(items);
-        console.log(items);
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
     }

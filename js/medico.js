@@ -8,9 +8,6 @@ async function fetchItems() {
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
     const email = sessionStorage.getItem("email"); // Recupera o email salvo
 
-    console.log("Token:", token);
-    console.log("Email:", email);
-
     if (!email) {
         console.error("Erro: Email não encontrado no sessionStorage.");
         return;
@@ -41,18 +38,8 @@ async function fetchItems() {
             const errorMessage = await response2.text(); // Aguarda o texto da resposta
             throw new Error(`Erro na requisição: ${errorMessage}`);
         }
-
-
-
-
         items = await response.json(); // Assume que a resposta está no formato JSON
         items2 = await response2.json(); // Assume que a resposta está no formato JSON
-
-
-
-        console.log("Pacientes carregados:", items);
-        console.log("Consultas carregadas:", items2);
-
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
     }
@@ -71,8 +58,6 @@ function buscarSugestoes() {
         const resultados = items.filter(paciente =>
             paciente.nomeCompleto.toLowerCase().includes(termo)
         );
-
-        console.log("Resultados:", resultados);
 
         // Mostrar sugestões
         if (resultados.length > 0) {

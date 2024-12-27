@@ -1,10 +1,5 @@
 formElement = document.getElementById('form')
 
-console.log(sessionStorage.getItem("token"));
-console.log(sessionStorage.getItem("role"));
-
-
-//Tenta logar automaticamente
 document.addEventListener("DOMContentLoaded", function () {
     const token = sessionStorage.getItem("token");
     const role = sessionStorage.getItem("role");
@@ -120,11 +115,10 @@ formElement.addEventListener('submit', async (e) => {
             }    
         } else {  document.getElementById("login-falhou").classList.remove('hidden'); }
     } catch (error) {
-        console.log(error);
+        alert('Erro ao fazer login. Verifique sua conexão.');
     }
 
 });
-
 
 function parseJwt(token) {
     try {
@@ -220,8 +214,6 @@ submitButton.addEventListener('click', async () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
-
-        console.log(JSON.stringify(payload));
 
         if (response.ok) {
             alert('Conta criada com sucesso!');

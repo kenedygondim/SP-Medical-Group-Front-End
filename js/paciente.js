@@ -8,9 +8,6 @@ async function fetchItems() {
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
     const email = sessionStorage.getItem("email"); // Recupera o email salvo
 
-    console.log("Token:", token);
-    console.log("Email:", email);
-
     if (!email) {
         console.error("Erro: Email não encontrado no sessionStorage.");
         return;
@@ -24,34 +21,12 @@ async function fetchItems() {
             }
          });
 
-        //  const response2 = await fetch(`http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
-        //     method: 'GET',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     }
-        // });
-
-
         if (!response.ok) {
             const errorMessage = await response.text(); // Aguarda o texto da resposta
             throw new Error(`Erro na requisição: ${errorMessage}`);
         }
 
-        // if (!response2.ok) {
-        //     const errorMessage = await response2.text(); // Aguarda o texto da resposta
-        //     throw new Error(`Erro na requisição: ${errorMessage}`);
-        // }
-
-
-
-
-        items = await response.json(); // Assume que a resposta está no formato JSON
-        // items2 = await response2.json(); // Assume que a resposta está no formato JSON
-
-
-
-        console.log("Especialidades carregadas:", items);
-        // console.log("Consultas carregadas:", items2);
+        items = await response.json(); 
 
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -72,9 +47,6 @@ function buscarSugestoes() {
             especialidade.nome.toLowerCase().includes(termo)
         );
 
-        console.log("Resultados:", resultados);
-
-        // Mostrar sugestões
         if (resultados.length > 0) {
             listaSugestoes.style.display = "block";
             resultados.forEach(resultado => {
@@ -91,19 +63,14 @@ function buscarSugestoes() {
     }
 }
 
-// Função para selecionar uma sugestão
 function selecionarSugestao(sugestao) {
     const input = document.getElementById("pesquisa-input");
     input.value = sugestao;
-
-    // Limpar a lista de sugestões
     document.getElementById("sugestoes-list").style.display = "none";
 }
 
-// Adiciona o evento de entrada no campo de pesquisa
 document.getElementById("pesquisa-input").addEventListener("input", buscarSugestoes);
 
-// Botão de sair
 document.getElementById("sair-btn").addEventListener("click", function () {
     sessionStorage.clear();
     window.location.href = "http://127.0.0.1:5500/index.html";
