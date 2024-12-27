@@ -19,21 +19,30 @@
     <main>
         <form id="form-selecao" class="form-active">
             <h2 id="agendar-consulta-h2">Agendar Consulta</h2>
-            <label for="medico">Selecione o Médico:</label>
-            <select id="medico" name="medico">
+            <label for="medico">Selecione o médico:</label>
+            <select required id="medico" name="medico">
               <option value="">Carregando...</option>
             </select>
-            <label for="especialidade">Selecione a Especialidade:</label>
-            <select id="especialidade" name="especialidade">
+            <label for="especialidade">Selecione a especialidade:</label>
+            <select required id="especialidade" name="especialidade">
               <option value="">Selecione um médico primeiro</option>
             </select>
-            <label for="data">Escolha a Data:</label>
-            <input type="date" id="data" name="data" />
-            <label for="horario">Selecione o Horário Disponível:</label>
-            <select id="horario" name="horario">
+            <label for="data">Escolha a data:</label>
+            <input required type="date" id="data" name="data" />
+            <label for="horario">Selecione o horário que deseja:</label>
+            <select required id="horario" name="horario">
               <option value="">Selecione uma data primeiro</option>
             </select>
+            <label for="descricao">Motivo da consulta:</label>
+            <input required type="text" name="" id="descricao" placeholder="Exemplo: Estou com dores na região abdominal desde ontem" />
+            
+            <label for="online">Deseja ser atendido(a) online?</label>
+            <select required id="online" name="online">
+              <option value="0">Não</option>
+              <option value="1">Sim</option>
+            </select>
             <button type="button" id="avancar">Avançar</button>
+
           </form>
           <form id="resumo-consulta" action="post" class="resumo-consulta">
             <h2>Resumo da Consulta</h2>
@@ -46,6 +55,7 @@
             <button type="button" id="voltar">Voltar</button>
             <button type="submit" id="confirmar-consulta">Agendar Consulta</button>
           </form>
+
     </main>
     <script src="../../js/portal-do-paciente/agenda-consulta.js"></script>
 </body>
