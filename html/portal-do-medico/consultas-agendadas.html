@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal do Médico</title>
+    <link rel="stylesheet" href="../../css/portal-do-medico/consultas-agendadas.css" />
+    <link rel="shortcut icon" href="../../assets/logo_spmedgroup_v2.png" type="image/x-icon"/>
+  </head>
+<body>
+    <header>
+      <a href="../portal-do-medico/medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
+      <a>Consultas realizadas</a>
+      <a>Consultas agendadas</a>
+      <a>Meu perfil</a>
+      <a id="sair-btn">Log-Off</a>
+    </header>
+    <div id="app">
+      <section>
+        <button id="prev-day">&larr; Anterior</button>
+        <h1 id="current-date"></h1>
+        <button id="next-day">Próximo &rarr;</button>
+      </section>
+      <main>
+        <ul id="appointments">
+        </ul>
+      </main>
+    </div>
+
+    <script src="../../js/portal-do-medico/consultas-agendadas.js"></script>
+</body>
+</html>
