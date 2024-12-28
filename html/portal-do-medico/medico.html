@@ -13,20 +13,26 @@
   </head>
 <body>
     <header>
-      <a href="../../index.html"
+      <a href="./medico.html"
         ><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""
       /></a>
       <a>Consultas realizadas</a>
-      <a>Consultas agendadas</a>
+      <a href="./consultas-agendadas.html">Consultas agendadas</a>
       <a>Meu perfil</a>
-      <a id="sair-btn">Log-Off</a>
+      <div id="profile-container">
+        <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
+        <div id="profile-menu">
+          <ul>
+            <li id="view-profile">Ver Perfil</li>
+            <li id="logout">Logout</li>
+          </ul>
+        </div>
+      </div>
     </header>
 
     <main>
         <section id="left-section">
-
           <h2 id="nome-medico-h2"></h2>
-
             <form id="div-pesquisa-input" method="GET" action="./html/especialidades.html">
                 <input
                 placeholder="Buscar paciente..."

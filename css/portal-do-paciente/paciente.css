@@ -11,13 +11,13 @@
     font-family: "Poppins", sans-serif;
 }
 
-a:visited {
-    text-decoration: none; /* Remove o sublinhado do link após ser clicado */
-    color: inherit; /* Mantém a cor do texto após ser clicado */
+a { 
+    text-decoration: none; 
 }
 
-a {
-    text-decoration: none; /* Remover o sublinhado */
+a:visited {
+    text-decoration: none; 
+    color: inherit; 
 }
 
 body {
@@ -25,6 +25,7 @@ body {
     background-color: #f5f4f4;
 }
 
+/* Header */
 header {
     height: 10%;
     background-color: #ffffff;
@@ -37,6 +38,7 @@ header {
 
 header a {
     cursor: pointer;
+    font-family: "Poppins", sans-serif;
 }
 
 #logo-img {
@@ -44,17 +46,51 @@ header a {
     height: 7vh;
 }
 
-#sair-btn {
-    background-color: #167CAD;
-    color: white;
-    border-radius: 5px;
-    padding: 1em 3em;
-    font-size: 0.9em;
-    cursor: pointer;
-    border: none;
-    text-decoration: none;
+#profile-container {
+    position: relative;
+    display: inline-block;
 }
 
+#foto-perfil-options {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+#profile-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%; /* Posicione o menu abaixo da foto */
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 150px;
+}
+
+#profile-menu ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#profile-menu li {
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+#profile-menu li:hover {
+    background-color: #f5f5f5;
+    color: #000;
+}
+
+/* Main */
 main {
     height: 90%;
     width: 80%;
@@ -244,8 +280,9 @@ svg {
 
 }
 
+
 .div-card-none p {
-    font-size: 1.2em;
+    font-size: 1.0em;
 }
 
 .nome-medico, .div-card p {

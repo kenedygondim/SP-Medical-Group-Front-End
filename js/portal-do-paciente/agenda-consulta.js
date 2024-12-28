@@ -9,7 +9,38 @@ const descricaoInput = document.getElementById('descricao');
 const isConsultaOnline = document.getElementById('online');
 
 document.addEventListener('DOMContentLoaded', async () => {
+    await fetchItems();
+
+    const profileContainer = document.getElementById("profile-container");
+    const profileMenu = document.getElementById("profile-menu");
+    const logoutOption = document.getElementById("logout");
+    const viewProfileOption = document.getElementById("view-profile");
+  
+    document.getElementById("foto-perfil-options").addEventListener("click", () => {
+        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
+  
+    document.addEventListener("click", (event) => {
+        if (!profileContainer.contains(event.target)) {
+            profileMenu.style.display = "none";
+        }
+    });
+  
+    logoutOption.addEventListener("click", () => {
+        sessionStorage.clear();
+        window.location.href = "../index.html";
+    });
+  
+    viewProfileOption.addEventListener("click", () => {
+        window.location.href = "./meu-perfil.html";
+    });
+
+
+});
+
+async function fetchItems() {
   const token = sessionStorage.getItem("token")
+  const email = sessionStorage.getItem("email");
 
   const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
     method: 'GET',
@@ -30,6 +61,18 @@ document.addEventListener('DOMContentLoaded', async () => {
   const medicoQuery = urlParams.get('medico');
 
 
+
+  const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+    }
+});
+
+  const InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
+  document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+
   medicoSelect.innerHTML = '<option value="">Selecione um médico</option>';
   medicos.forEach(medico => {
     const option = document.createElement('option');
@@ -41,8 +84,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       option.selected = true;
       carregarEspecialidades(medico.cpf);
     }
-  });
-})
+
+})}
 
 document.getElementById('avancar').addEventListener('click', () => {
   if(!especialidadeSelect.value || !medicoSelect.value || !dataInput.value || !horarioSelect.value){
