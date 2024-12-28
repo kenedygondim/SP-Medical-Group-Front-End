@@ -1,46 +1,70 @@
-formElement = document.getElementById('form')
+const formElement = document.getElementById('form')
+const popup = document.getElementById('popup');
+const overlay = document.getElementById('overlay');
+const step1 = document.getElementById('step-1');
+const step2 = document.getElementById('step-2');
 
-document.addEventListener("DOMContentLoaded", function () {
-    const token = sessionStorage.getItem("token");
-    const role = sessionStorage.getItem("role");
+document.addEventListener("DOMContentLoaded", async () => {
+    await realizarLogin();
+});
 
-    if(token) {
-        if (role == "1") 
-        {
-            fetch('http://localhost:8080/api/Paciente/Acessar', 
-            {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            }).then((response) => {
-                if (response.status == 200) 
-                    window.location.href = 'http://127.0.0.1:5500/html/paciente.html';
-            });
-
-        } else if (role == "2") {
-            fetch('http://localhost:8080/api/Medico/Acessar', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }).then((response) => {
-                if (response.status == 200) 
-                    window.location.href = 'http://127.0.0.1:5500/html/medico.html';
-            });
-        }  else if (role == "3") {
-            fetch('http://localhost:8080/api/Admin/Acessar', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }).then((response) => {
-                    if (response.status == 200) 
-                        window.location.href = 'http://127.0.0.1:5500/html/admin.html';
-                });
-        }
+formElement.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+    try {
+        const response = await fetch('http://localhost:8080/api/Login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, senha })
+        });
+        if (response.ok) {
+            const data = await response.json();
+            const token = data.token;
+            sessionStorage.setItem('token', token);
+            sessionStorage.setItem('role', parseJwt(token).role);
+            sessionStorage.setItem('email', email);
+            await realizarLogin();
+        } else 
+             document.getElementById("login-falhou").classList.remove('hidden'); 
+    } catch (error) {
+        alert('Erro ao fazer login. Verifique sua conexão.');
     }
 });
+
+async function realizarLogin() {
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
+    if (token) {
+        console.log("5")
+        await redirecionaUsuario(role, token);
+    }
+}
+
+async function redirecionaUsuario(role, token) {
+    const nomeRole = retornaNomeDaRole(role)
+    await fetch(`http://localhost:8080/api/${nomeRole}/Acessar`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` }
+        }).then((response) => {
+            console.log("8")
+            if (response.status == 200) 
+                window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole}/${nomeRole}.html`;
+        });
+}
+
+function retornaNomeDaRole (role) {
+    switch (role) {
+        case "1":
+            return "Paciente";
+        case "2":
+            return "Medico";
+        case "3":
+            return "Admin";
+    }
+}
 
 function toggleElements() {
     const textos = document.getElementById('textos');
@@ -58,73 +82,9 @@ function toggleElements() {
     }
 }
 
-formElement.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const senha = document.getElementById("senha").value
-
-    try {
-        const response = await fetch('http://localhost:8080/api/Login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, senha })
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            const token = data.token;
-            sessionStorage.setItem('token', token);
-            sessionStorage.setItem('role', parseJwt(token).role);
-            sessionStorage.setItem('email', email);
-
-            if (sessionStorage.getItem('role') == "1") {
-                    fetch('http://localhost:8080/api/Paciente/Acessar', 
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        } 
-                    }).then((response) => {
-                        if (response.status == 200) 
-                            window.location.href = 'http://127.0.0.1:5500/html/paciente.html';
-                    });
-            }
-            else if (sessionStorage.getItem('role') == "2") {
-                    await fetch('http://localhost:8080/api/Medico/Acessar', {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    }).then((response) => {
-                    if (response.status == 200) 
-                        window.location.href = 'http://127.0.0.1:5500/html/medico.html';
-                    });
-            } else if (sessionStorage.getItem('role') == "3") {
-                    await fetch('http://localhost:8080/api/Admin/Acessar', {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                }).then((response) => {
-                    if (response.status == 200) 
-                        window.location.href = 'http://127.0.0.1:5500/html/admin.html';
-                });
-            }    
-        } else {  document.getElementById("login-falhou").classList.remove('hidden'); }
-    } catch (error) {
-        alert('Erro ao fazer login. Verifique sua conexão.');
-    }
-
-});
-
 function parseJwt(token) {
     try {
-        // Divide o token nas partes (header, payload, signature)
         const base64Url = token.split('.')[1];
-        // Decodifica a seção payload de Base64Url para JSON
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
         const jsonPayload = decodeURIComponent(
             atob(base64)
@@ -139,32 +99,22 @@ function parseJwt(token) {
     }
 }
 
-const popup = document.getElementById('popup');
-const overlay = document.getElementById('overlay');
-const spanCadastreSe = document.getElementById('span-cadastre-se');
-const closePopup = document.getElementById('close-popup');
-const step1 = document.getElementById('step-1');
-const step2 = document.getElementById('step-2');
-const toStep2 = document.getElementById('to-step-2');
-const backToStep1 = document.getElementById('back-to-step-1');
-const submitButton = document.getElementById('submit');
-
-spanCadastreSe.addEventListener('click', () => {
+document.getElementById('span-cadastre-se').addEventListener('click', () => {
     popup.classList.add('active');
     overlay.classList.add('active');
 });
 
-closePopup.addEventListener('click', () => {
+document.getElementById('close-popup').addEventListener('click', () => {
     popup.classList.remove('active');
     overlay.classList.remove('active');
 });
 
-toStep2.addEventListener('click', () => {
+document.getElementById('to-step-2').addEventListener('click', () => {
     step1.classList.add('hidden');
     step2.classList.remove('hidden');
 });
 
-backToStep1.addEventListener('click', () => {
+document.getElementById('back-to-step-1').addEventListener('click', () => {
     step2.classList.add('hidden');
     step1.classList.remove('hidden');
 });
@@ -191,7 +141,7 @@ document.getElementById('cep').addEventListener('blur', async () => {
     }
 });
 
-submitButton.addEventListener('click', async () => {
+document.getElementById('submit').addEventListener('click', async () => {
     const payload = {
         cpf: document.getElementById('cpf').value,
         nomeCompleto: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
