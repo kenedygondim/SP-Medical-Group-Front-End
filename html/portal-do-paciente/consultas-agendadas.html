@@ -12,9 +12,17 @@
       <a href="../portal-do-paciente/paciente.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""
       /></a>
       <a>Consultas realizadas</a>
-      <a>Consultas agendadas</a>
-      <a>Meu perfil</a>
-      <a id="sair-btn">Log-Off</a>
+      <a href="./consultas-agendadas.html">Consultas agendadas</a>
+      <a href="./meu-perfil.html">Meu perfil</a>
+      <div id="profile-container">
+        <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
+        <div id="profile-menu">
+          <ul>
+            <li id="view-profile">Ver Perfil</li>
+            <li id="logout">Logout</li>
+          </ul>
+        </div>
+      </div>
     </header>
 
     <div id="app">
@@ -28,6 +36,26 @@
           <!-- Consultas serão carregadas aqui -->
         </ul>
       </main>
+    </div>
+
+
+    <div id="popupOverlay" class="popup-overlay">
+      <div class="popup">
+        <button class="close-btn" id="closePopup">x</button>
+        <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
+        <div>
+            <div id="texts">
+                <h2 id="nomeMedico">Nome do Médico</h2>
+                <p id="dataConsulta">Data da consulta: </p>
+                <p id="horario">Horário da consulta: </p>
+                <p id="especialidade">Especialidade: </p>
+                <p id="preco">Preço da consulta: </p>
+                <p id="motivo">Motivo da consulta: </p>
+                <p id="endereco"></p>
+            </div>
+            <div id="div-button-cancelar"><button class="cancelar-btn" id="cancelarConsulta">Cancelar Consulta</button></div>
+        </div>
+      </div>
     </div>
 
     <script src="../../js/portal-do-paciente/consultas-agendadas.js"></script>
