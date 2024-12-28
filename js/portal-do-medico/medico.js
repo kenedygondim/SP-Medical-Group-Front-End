@@ -1,5 +1,29 @@
 document.addEventListener("DOMContentLoaded", async ( )=>  {
     await fetchItems();
+
+    const profileContainer = document.getElementById("profile-container");
+    const profileMenu = document.getElementById("profile-menu");
+    const logoutOption = document.getElementById("logout");
+    const viewProfileOption = document.getElementById("view-profile");
+
+    document.getElementById("foto-perfil-options").addEventListener("click", () => {
+        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!profileContainer.contains(event.target)) {
+            profileMenu.style.display = "none";
+        }
+    });
+
+    logoutOption.addEventListener("click", () => {
+        sessionStorage.clear();
+        window.location.href = "http://127.0.0.1:5500/index.html";
+    });
+
+    viewProfileOption.addEventListener("click", () => {
+        window.location.href = "./perfil.html";
+    });
 });
 
 // Função para buscar dados da API
@@ -13,24 +37,15 @@ async function fetchItems() {
     }
 
     try {
-        const medicosPaciente = await fetch(`http://localhost:8080/api/Paciente/ListarPacientesMedico?emailUsuario=${email}`, { //pacientes atendidos ou que serãoa atendidos pelo médico
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-         });
-
          const consultasMedico = await fetch(`http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
-
             }
         });
 
-        const nomeMedico = await fetch(`http://localhost:8080/api/Medico/NomeECpfMedico?email=${email}`, {
+        const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,20 +53,22 @@ async function fetchItems() {
             }
         });
 
-
-        if (!medicosPaciente.ok || !consultasMedico.ok || !nomeMedico.ok) {
-            const errorMessage = await response.text(); // Aguarda o texto da resposta
+        if (!consultasMedico.ok) {
+            const errorMessage = await consultasMedico.text(); // Aguarda o texto da resposta
+            throw new Error(`Erro na requisição: ${errorMessage}`);
+        }
+        if (!InfoBasicasUsuario.ok) {
+            const errorMessage = await InfoBasicasUsuario.text(); // Aguarda o texto da resposta
             throw new Error(`Erro na requisição: ${errorMessage}`);
         }
 
-        items = await medicosPaciente.json(); // Assume que a resposta está no formato JSON
-        items2 = await consultasMedico.json(); // Assume que a resposta está no formato JSON
-        const nomePacienteJson = await nomeMedico.json();
+        consultasMedicoJson = await consultasMedico.json(); // Assume que a resposta está no formato JSON
+        const InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
 
+        document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+        document.getElementById("nome-medico-h2").textContent = `${saudacao()}, Dr(a). ${InfoBasicasUsuarioJson.nomeCompleto}!`;
 
-        document.getElementById("nome-medico-h2").textContent = `${saudacao()}, Dr(a). ${nomePacienteJson.nomeCompleto}!`;
-
-
+        mostrarConsultas();
 
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
@@ -101,32 +118,36 @@ function selecionarSugestao(sugestao) {
 // Adiciona o evento de entrada no campo de pesquisa
 document.getElementById("pesquisa-input").addEventListener("input", buscarSugestoes);
 
-// Botão de sair
-document.getElementById("sair-btn").addEventListener("click", function () {
-    sessionStorage.clear();
-    window.location.href = "http://127.0.0.1:5500/index.html";
-});
 
 function mostrarConsultas() {
     const consultas = document.getElementById("appointments");
+
+    console.log(consultasMedicoJson);
+
 
     // Adiciona efeito de saída
     consultas.classList.add('fade-out');
     
     // Aguarda o efeito de saída antes de atualizar o conteúdo
     setTimeout(() => {
-        if (consultasPacienteJson.length > 0) {
-            consultasPacienteJson.forEach(consulta => {    
+
+        const consultasDoDia = consultasMedicoJson.filter(consulta => {
+            return formatarData(consulta.dataConsulta) == new Date().toLocaleDateString()
+        });
+
+
+        if (consultasDoDia.length > 0) {
+            consultasDoDia.forEach(consulta => {    
 
                 const divCard = document.createElement("div");
                 divCard.className = "div-card";
 
                 const fotoMedico = document.createElement("img");
-                fotoMedico.src = consulta.fotoPerfilUrl;
+                fotoMedico.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : consulta.fotoPerfilUrl;
                 fotoMedico.className = "foto-medico";
 
                 const nomeMedico = document.createElement("h3");
-                nomeMedico.textContent =  consulta.nomeMedico.length > 10 ? "Dr(a). " + consulta.nomeMedico.substring(0, 5) + "..." : "Dr(a). " + consulta.nomeMedico;
+                nomeMedico.textContent =  consulta.nomePaciente.length > 10 ? consulta.nomePaciente.substring(0, 5) + "..." : "Dr(a). " + consulta.nomeMedico;
                 nomeMedico.className = "nome-medico";
 
                 const especialidade = document.createElement("p");
@@ -146,16 +167,15 @@ function mostrarConsultas() {
                 consultas.appendChild(divCard);
             });
         } else {
-            const divCardNone = document.createElement("div");
-            divCardNone.className = "div-card-none";
+            const agendaMedico = document.getElementById("agenda-medico");
+            agendaMedico.style.backgroundColor = "transparent";
+            agendaMedico.style.border = "1px dashed green"
 
             const mensagem = document.createElement("p");
             mensagem.textContent = "Nenhuma consulta agendada para este dia.";
             mensagem.className = "mensagem";
 
-            divCardNone.appendChild(mensagem);
-
-            consultas.appendChild(divCardNone);
+            consultas.appendChild(mensagem);
         }
 
         // Adiciona efeito de entrada
@@ -176,4 +196,8 @@ function saudacao() {
     } else {
         return "Boa noite";
     }
+}
+
+function formatarData (data) {
+    return data.split('-').reverse().join('/');
 }
