@@ -1,107 +1,115 @@
 const currentDateHTML = document.getElementById('current-date');
+const token = sessionStorage.getItem("token");
+const email = sessionStorage.getItem("email");
 let currentDate = new Date();
+let consultasMedicoJson = [];
+let InfoBasicasUsuarioJson = [];
+let disponibilidadesMedicoJson = [];
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
-
-
+    createProfilePictureActions();    
+    mostrarConsultas();
+    currentDateHTML.textContent = currentDate.toLocaleDateString();    
 });
 
 async function fetchItems() {
-    const token = sessionStorage.getItem("token")
-    const email = sessionStorage.getItem("email")
-    
-    const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
-        method: 'GET', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-    });
-
-    const consultasMedico = await fetch('http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=' + email, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
-    });
-    
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }
-    });
-
-    if(!consultasMedico.status == 200) {
-        const errorMessage = await consultasMedico.text();
-        throw new Error(`Erro na requisição: ${errorMessage}`);
-    }
-
-    if(!acesso.status == 200) {
-        const errorMessage = await acesso.text();
-        throw new Error(`Erro na requisição: ${errorMessage}`);
-    }
-
-    consultasMedicoJson = await consultasMedico.json();
-    currentDateHTML.textContent = currentDate.toLocaleDateString();
-
-    const InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
-    document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
-
-    mostrarConsultas();
+    await acessar();
+    await fetchConsultas();
+    await fetchInfoBasicasUsuario();
+    await fetchDisponibilidades();
 }
 
 document.getElementById("prev-day").addEventListener('click', () => {
     currentDate.setDate(currentDate.getDate() - 1);
     currentDateHTML.textContent = currentDate.toLocaleDateString();
+    fetchDisponibilidades();
     mostrarConsultas();
 });
 
 document.getElementById("next-day").addEventListener('click', () => {
     currentDate.setDate(currentDate.getDate() + 1);
     currentDateHTML.textContent = currentDate.toLocaleDateString();
+    fetchDisponibilidades();
     mostrarConsultas();
 }); 
 
 function mostrarConsultas() {
     const consultas = document.getElementById("appointments");
-
-    // Adiciona efeito de saída
     consultas.classList.add('fade-out');
     
-    // Aguarda o efeito de saída antes de atualizar o conteúdo
     setTimeout(() => {
         document.querySelectorAll(".div-card").forEach(e => e.remove());
-        document.querySelectorAll(".div-card-none").forEach(e => e.remove());
+        document.querySelectorAll(".div-card-principal").forEach(e => e.remove());
 
 
-        console.log(consultasMedicoJson);
 
         const consultasDoDia = consultasMedicoJson.filter(consulta => {
             return formatarData(consulta.dataConsulta) == currentDateHTML.textContent;
         });
 
-        if (consultasDoDia.length > 0) {
-            consultasDoDia.forEach(consulta => {    
+        let organizadorSupremo = [...disponibilidadesMedicoJson, ...consultasDoDia];
+
+
+        organizadorSupremo = organizadorSupremo.sort((a, b) => {
+            return new Date(trasnformaEmTimestamp(a.horaInicio)) - new Date(trasnformaEmTimestamp(b.horaInicio));
+        });
+        
+
+
+        organizadorSupremo.forEach(org => {
+
+            if(org.consultaId == null) {
+                const divCardPrincipal = document.createElement("div");
+                divCardPrincipal.className = "div-card-principal";
+
+                const horario = document.createElement("p");
+                horario.textContent = org.horaInicio + " - " + org.horaFim;
+                horario.className = "horario";
+
+                const divCardDashed = document.createElement("div");
+                divCardDashed.className = "div-card-dashed";
+
+                const divCardDashedText = document.createElement("p");
+                divCardDashedText.textContent = "Horário não preenchido";
+                divCardDashedText.className = "div-card-dashed-text";
+
+                divCardDashed.appendChild(divCardDashedText);
+                divCardPrincipal.appendChild(horario);
+                divCardPrincipal.appendChild(divCardDashed);
+
+                consultas.appendChild(divCardPrincipal);
+            }
+            else {
+                const divCardPrincipal = document.createElement("div");
+                divCardPrincipal.className = "div-card-principal";
+
+                const horarioP = document.createElement("p");
+                horarioP.textContent = org.horaInicio + " - " + org.horaFim;
+                horarioP.className = "horario";
 
                 const divCard = document.createElement("div");
                 divCard.className = "div-card";
 
                 const fotoMedico = document.createElement("img");
-                fotoMedico.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : consulta.fotoPerfilUrl;
+                fotoMedico.src = org.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : org.fotoPerfilUrl;
                 fotoMedico.className = "foto-medico";
 
                 const nomeMedico = document.createElement("h3");
-                nomeMedico.textContent = consulta.nomePaciente;
+                nomeMedico.textContent = org.nomePaciente;
                 nomeMedico.className = "nome-medico";
 
 
                 const especialidade = document.createElement("p");
-                especialidade.textContent = consulta.especialidade;
+                especialidade.textContent = org.especialidade;
                 especialidade.className = "especialidade";
 
                 const status = document.createElement("p");
-                status.textContent = consulta.situacao;
+                status.textContent = org.situacao;
                 status.className = "status";
 
                 const horario = document.createElement("p");
-                horario.textContent = consulta.horaInicio + " - " + consulta.horaFim;
+                horario.textContent = org.horaInicio + " - " + org.horaFim;
                 horario.className = "horario";
 
                 divCard.appendChild(fotoMedico);
@@ -110,31 +118,113 @@ function mostrarConsultas() {
                 divCard.appendChild(status);
                 divCard.appendChild(horario);
 
+                divCardPrincipal.appendChild(horarioP);
+                divCardPrincipal.appendChild(divCard);
 
-                consultas.appendChild(divCard);
-            });
-        } else {
-            const divCardNone = document.createElement("div");
-            divCardNone.className = "div-card-none";
+                consultas.appendChild(divCardPrincipal);
+            }
+            
+        });
 
-            const mensagem = document.createElement("p");
-            mensagem.textContent = "Nenhuma consulta agendada para este dia.";
-            mensagem.className = "mensagem";
-
-            divCardNone.appendChild(mensagem);
-
-            consultas.appendChild(divCardNone);
-        }
-
-        // Adiciona efeito de entrada
         consultas.classList.remove('fade-out');
         consultas.classList.add('fade-in');
 
     }, 200); // Tempo do efeito de saída
 }
 
+
+async function acessar() {
+    const response = await fetch('http://localhost:8080/api/Consulta/Acessar', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    });
+
+    if(response.status !== 200) {
+        const errorMessage = await response.text();
+        throw new Error(`Erro na requisição: ${errorMessage}`);
+    }
+}
+
+async function fetchConsultas() {
+    const consultasMedico = await fetch('http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=' + email, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+    });
+
+    if(consultasMedico.status !== 200) {
+        const errorMessage = await response.text();
+        throw new Error(`Erro na requisição: ${errorMessage}`);
+    }
+
+    consultasMedicoJson = await consultasMedico.json();
+}
+
+async function fetchInfoBasicasUsuario() {
+    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+    });
+
+    if(InfoBasicasUsuario.status !== 200) {
+        const errorMessage = await InfoBasicasUsuario.text();
+        throw new Error(`Erro na requisição: ${errorMessage}`);
+    }
+
+    InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
+}
+
+async function fetchDisponibilidades() {
+    const disponibilidadesMedico = await fetch(`http://localhost:8080/api/Disponibilidade/ListarDisponibilidadesMedicoPorData?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+    });
+
+    if(disponibilidadesMedico.status !== 200) {
+        const errorMessage = await disponibilidadesMedico.text();
+        throw new Error(`Erro na requisição: ${errorMessage}`);
+    }
+    disponibilidadesMedicoJson = await disponibilidadesMedico.json();
+}
+
+function createProfilePictureActions() {
+    const profileContainer = document.getElementById("profile-container");
+    const profileMenu = document.getElementById("profile-menu");
+    const logoutOption = document.getElementById("logout");
+    const viewProfileOption = document.getElementById("view-profile");
+
+    document.getElementById("foto-perfil-options").addEventListener("click", () => {
+        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!profileContainer.contains(event.target)) {
+            profileMenu.style.display = "none";
+        }
+    });
+
+    logoutOption.addEventListener("click", () => {
+        sessionStorage.clear();
+        window.location.href = "http://127.0.0.1:5500/index.html";
+    });
+
+    viewProfileOption.addEventListener("click", () => {
+        window.location.href = "./meu-perfil.html";
+    });
+
+    document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+}
+
 function formatarData (data) {
     return data.split('-').reverse().join('/');
+}
+
+function formatarDataInvertida (data) {
+    return data.split('/').reverse().join('-');
+}
+
+function trasnformaEmTimestamp(horaInicio) {
+    const dataDisp = formatarDataInvertida(currentDateHTML.textContent);
+    return `${dataDisp}T${horaInicio}:00`
 }
 
 function parseJwt(token) {
