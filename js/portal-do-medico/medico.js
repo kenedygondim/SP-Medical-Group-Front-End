@@ -31,6 +31,9 @@ async function fetchItems() {
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
     const email = sessionStorage.getItem("email"); // Recupera o email salvo
 
+
+    console.log(email);
+
     if (!email) {
         console.error("Erro: Email não encontrado no sessionStorage.");
         return;
@@ -84,9 +87,15 @@ function buscarSugestoes() {
     // Limpar sugestões anteriores
     listaSugestoes.innerHTML = "";
 
+    items = Array.from(
+        new Map(consultasMedicoJson.map(item => [item.cpfPaciente, item])).values()
+    )
+
+    console.log(items);
+
     if (termo) {
         const resultados = items.filter(paciente =>
-            paciente.nomeCompleto.toLowerCase().includes(termo)
+            paciente.nomePaciente.toLowerCase().includes(termo)
         );
 
         // Mostrar sugestões
@@ -94,8 +103,8 @@ function buscarSugestoes() {
             listaSugestoes.style.display = "block";
             resultados.forEach(resultado => {
                 const item = document.createElement("li");
-                item.textContent = resultado.nomeCompleto;
-                item.onclick = () => selecionarSugestao(resultado.nomeCompleto);
+                item.textContent = resultado.nomePaciente;
+                item.onclick = () => selecionarSugestao(resultado.nomePaciente);
                 listaSugestoes.appendChild(item);
             });
         } else {
