@@ -31,10 +31,6 @@ async function fetchItems() {
     const email = sessionStorage.getItem("email"); // Recupera o email salvo
     const token = sessionStorage.getItem("token"); // Recupera o token salvo
 
-    if (!email) {
-        console.error("Erro: Email não encontrado no sessionStorage.");
-        return;
-    }
 
     try {
         const especialidades = await fetch(`http://localhost:8080/api/Especialidade/ListarTodos`, { 
