@@ -65,7 +65,6 @@ async function fetchItems() {
     document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
 
     currentDateHTML.textContent = currentDate.toLocaleDateString();
-
     mostrarConsultas();
 }
 
@@ -172,12 +171,10 @@ async function showPopup(consultaIdentificador) {
       const nomeMedico = document.getElementById("nomeMedico");
       const dataConsulta = document.getElementById("dataConsulta");
       const horario = document.getElementById("horario");
-    //   const motivo = document.getElementById("motivo");
       const preco = document.getElementById("preco");
       const endereco = document.getElementById("endereco");
       const especialidade = document.getElementById("especialidade");
 
-      // Preenchendo as informações no pop-up
       fotoPerfil.src = consulta.fotoPerfilUrl;
       nomeMedico.textContent = consulta.nomeMedico
       dataConsulta.textContent = `Data da consulta: ${formatarData(consulta.dataConsulta)}`;
@@ -186,39 +183,46 @@ async function showPopup(consultaIdentificador) {
       motivo.textContent = `Motivo da consulta: ${consulta.descricao}`;
       preco.textContent = `Preço: R$ ${consulta.preco}`;
 
-      if(!consulta.isTelemedicina) 
-        endereco.textContent = `Endereço: ${consulta.logradouro}, ${consulta.numero} - ${consulta.bairro} - ${consulta.municipio} - ${consulta.uf}, ${consulta.cep}`;
-      else 
-        endereco.textContent = `Consulta Online via Google Meet`;
-
+      !consulta.isTelemedicina ? endereco.textContent = `Endereço: ${consulta.logradouro}, ${consulta.numero} - ${consulta.bairro} - ${consulta.municipio} - ${consulta.uf}, ${consulta.cep}` : endereco.textContent = `Consulta Online via Google Meet`;
+      
       popupOverlay.style.display = "flex";
-
       popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
-    } catch (error) {
+      document.getElementById("cancelarConsulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
+    }
+    catch (error) {
       console.error(error.message);
       alert("Não foi possível carregar as informações do médico.");
     }
 }
 
-
 // Evento para fechar o pop-up
-closePopup.addEventListener("click", () => {
-popupOverlay.style.display = "none";
-});
+document.getElementById("closePopupBtn").addEventListener("click", closePopup);
 
-
-
-// Redirecionar para agendar consulta
-document.getElementById("cancelarConsulta").addEventListener("click", async () => {
-    const token = sessionStorage.getItem("token");
-
-    alert(token)
-   
-});
-
-
-
+function closePopup () {
+    popupOverlay.style.display = "none";
+}
 
 function formatarData (data) {
     return data.split('-').reverse().join('/');
+}
+
+async function cancelarConsulta (consultaIdentificador) {
+    const token = sessionStorage.getItem("token");
+
+    try {
+        const response = await fetch(`http://localhost:8080/api/Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        response.status == 204 ? alert("Consulta cancelada com sucesso.") : alert("Não foi possível cancelar a consulta.");
+        fetchItems();
+    } catch (error) {
+        console.error(error.message);
+        alert("Não foi possível processar a solicitação.");
+    } finally {
+        closePopup();
+    }
 }
