@@ -1,169 +1,174 @@
-document.addEventListener("DOMContentLoaded", fetchItems);
-profissionais = [];
 const params = new URLSearchParams(window.location.search);
+
 const especialidade = params.get('especialidade');
 const nomeDoMedico = params.get('medico');
 const numCrm = params.get('crm');
 
-// Função para buscar dados da API
+const form = document.getElementById("section-filtros");
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await fetchItems();
+    carregarEspecialidadeMedicoCrm();
+    mostrarProfissionais();
+} );
+
 async function fetchItems() {
+    await getInformacoesBasicasMedico();
+    await getEspecialidades();
+}
+
+async function getInformacoesBasicasMedico() {
     try {
         const url = "http://localhost:8080/api/Medico/ListarInformacoesBasicasMedico";
-
-        const getProfissionais = await fetch(
+        const informacoesBasicasMedico = await fetch(
             `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
-            method: 'GET', // Usar GET, pois os parâmetros estão na query string
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json' // Ainda define o tipo de conteúdo, mas o corpo não é necessário
+                'Content-Type': 'application/json'
             }
         });
 
-        const getEspecialidades = await fetch("http://localhost:8080/api/Especialidade/ListarTodos") //Lista todas as especialidades
-        if (!getProfissionais.ok || !getEspecialidades) throw new Error("Erro ao carregar os dados.");
-
-        profissionais = await getProfissionais.json(); // Assume que a resposta está no formato JSON
-        especialidades = await getEspecialidades.json();
-
-        carregarEspecialidadeMedicoCrm();
-        mostrarProfissionais();
-
+        informacoesBasicasMedicoJson = await informacoesBasicasMedico.json();
     } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error("Erro ao buscar profissionais:", error);
     }
 }
 
+async function getEspecialidades () {
+    try {
+        const especialidades = await fetch("http://localhost:8080/api/Especialidade/ListarTodos", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        especialidadesJson = await especialidades.json();
+    } catch (error) {
+        console.error("Erro ao buscar especialidades:", error);
+    }
+}
+
+
 function mostrarProfissionais() {
     const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
+    if (especialidade !== null) 
+         informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum profissional encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} profissional(is) de ${especialidade.toLowerCase()}.`;
+    else 
+        informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum profissional encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} profissional(is).`;
+    construirElementoMedico();
+}
 
-    if (especialidade !== null) {
-        if (profissionais.length === 0) {
-            numeroProfissionais.textContent = `Nenhum profissional encontrado`;
-            return;
-        }
-        else if (profissionais.length === 1) 
-            numeroProfissionais.textContent = `Encontramos 1 profissional de ${especialidade.toLowerCase()}`;
-        else 
-            numeroProfissionais.textContent = `Foram encontrados ${profissionais.length} profissionais de ${especialidade.toLowerCase()}.`;
-    }
-    else {
-        if (profissionais.length === 0) {
-            numeroProfissionais.textContent = `Nenhum profissional encontrado`;
-            return;
-        }
-        else if (profissionais.length === 1) 
-            numeroProfissionais.textContent = `Encontramos 1 profissional.`;
-        else
-            numeroProfissionais.textContent = `Encontramos ${profissionais.length} profissionais`;
-    }
-    
- 
+function construirElementoMedico() {
     const perfis = document.getElementById("profissionais-encontrados");
 
-
-    profissionais.forEach(profissional => {
-
+    informacoesBasicasMedicoJson.forEach(profissional => {
+        // Criando elementos
         const left = document.createElement("div");
-        left.className = "left";
-
         const right = document.createElement("div");
-        right.className = "right";
-
         const perfil = document.createElement("div");
-        perfil.className = "perfil";
-
-        perfil.setAttribute('medico-identificador', profissional.cpf);
-
         const foto = document.createElement("img");
-
-        foto.src = profissional.fotoPerfilUrl; //apenas teste
-        foto.className = "foto";
-
         const nomeUsuario = document.createElement("h3");
-        nomeUsuario.textContent = profissional.nomeCompleto;
-
         const agrupaParagrafo = document.createElement("div");
+        const especialidade = document.createElement("p");
+        const crm = document.createElement("p");
+        const empresa = document.createElement("p");
+
+        // Adicionando classes
+        left.className = "left";
+        right.className = "right";
+        perfil.className = "perfil";
+        foto.className = "foto";
         agrupaParagrafo.className = "agrupa-paragrafo";
 
-        const especialidade = document.createElement("p");
+        // Adicionando conteúdo
+        foto.src = profissional.fotoPerfilUrl;
+        nomeUsuario.textContent = profissional.nomeCompleto;
         especialidade.textContent = profissional.nomeTipoMedico;
-
-        const crm = document.createElement("p");
         crm.textContent = profissional.crm;
-
-        const empresa = document.createElement("p");
         empresa.textContent = profissional.nomeFantasia;
 
+        // Adicionando atributos
+        perfil.setAttribute('medico-identificador', profissional.cpf);
+
+        // Adicionando elementos ao HTML
         perfil.appendChild(left);
         perfil.appendChild(right);
-
         left.appendChild(foto);
-
         right.appendChild(nomeUsuario);
         right.appendChild(agrupaParagrafo);
-
-
         agrupaParagrafo.appendChild(especialidade);
         agrupaParagrafo.appendChild(crm);
         agrupaParagrafo.appendChild(empresa);
-
         perfis.appendChild(perfil);
         
-        perfil.style.cursor = 'pointer'
-
+        // Eventos
         perfil.addEventListener('click', function() {
             const medicoIdentificador = this.getAttribute('medico-identificador');
             showPopup(medicoIdentificador);
         });
-
-
     });
 }
-
-
-
+    
 
 async function showPopup(medicoIdentificador) {
-        const urlMedicos = `http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`;
-        const urlEspecialidades = `http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`;
+    const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
+    const especialidades = await getEspecialidadesMedico(medicoIdentificador);
 
-        try {
-          const responseMedicos = await fetch(urlMedicos);
-          const responseEspecialidades = await fetch(urlEspecialidades);
+    const fotoPerfil = document.getElementById("fotoPerfil");
+    const nomeMedico = document.getElementById("nomeMedico");
+    const dataNascimento = document.getElementById("dataNascimento");
+    const numeroConsultas = document.getElementById("numeroConsultas");
+    const crm = document.getElementById("crm");
+    const contato = document.getElementById("contato");
+    const hospital = document.getElementById("hospital");
+    const especialidadess = document.getElementById("especialidadess");
 
-          if (!responseMedicos.ok || !responseEspecialidades.ok) throw new Error("Erro ao buscar informações.");
-          
-          const medico = await responseMedicos.json();
-          const especialidadesJson = await responseEspecialidades.json();
+    // Preenchendo as informações no pop-up
+    fotoPerfil.src = medico.fotoPerfilUrl;
+    nomeMedico.textContent = medico.nomeCompleto;
+    dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
+    numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
+    crm.textContent = `CRM: ${medico.crm}`;
+    contato.textContent = `Contato: ${medico.email}`;
+    hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
+    especialidadess.textContent = `Especialidades: ${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
 
-          const fotoPerfil = document.getElementById("fotoPerfil");
-          const nomeMedico = document.getElementById("nomeMedico");
-          const dataNascimento = document.getElementById("dataNascimento");
-          const numeroConsultas = document.getElementById("numeroConsultas");
-          const crm = document.getElementById("crm");
-          const contato = document.getElementById("contato");
-          const hospital = document.getElementById("hospital");
-          const especialidadess = document.getElementById("especialidadess");
-
-          // Preenchendo as informações no pop-up
-          fotoPerfil.src = medico.fotoPerfilUrl;
-          nomeMedico.textContent = medico.nomeCompleto;
-          dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
-          numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
-          crm.textContent = `CRM: ${medico.crm}`;
-          contato.textContent = `Contato: ${medico.email}`;
-          hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
-          especialidadess.textContent = `Especialidades: ${especialidadesJson.map(especialidade => especialidade.nome).join(", ")}`;
-
-          // Exibir o pop-up
-          popupOverlay.style.display = "flex";
-
-          popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
-        } catch (error) {
-          console.error(error.message);
-          alert("Não foi possível carregar as informações do médico.");
-        }
+    // Exibir o pop-up
+    popupOverlay.style.display = "flex";
+    popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
 }
 
+async function getInformacoesMedicoEspecifico(medicoIdentificador) {
+    try {
+        const medico = await fetch(`http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return await medico.json();
+    }
+    catch (error) {
+        console.error("Erro ao buscar informações do médico:", error);
+    }
+}
+
+async function getEspecialidadesMedico(medicoIdentificador) {
+    try {
+        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        return await especialidades.json();
+    }
+    catch (error) {
+        console.error("Erro ao buscar especialidades do médico:", error);
+    }
+}
 
 // Evento para fechar o pop-up
 closePopup.addEventListener("click", () => {
@@ -190,7 +195,7 @@ agendarConsulta.addEventListener("click", async () => {
 function carregarEspecialidadeMedicoCrm() {
     const select = document.getElementById('especialidade-select');
 
-    especialidades.forEach(especialidade => {
+    especialidadesJson.forEach(especialidade => {
         const option = document.createElement('option');
         option.value = especialidade.nome;
         option.textContent = especialidade.nome;
@@ -214,32 +219,24 @@ function carregarEspecialidadeMedicoCrm() {
     }
 }
 
-const form = document.getElementById("section-filtros");
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const select = document.getElementById('especialidade-select');
-    const nomeMedicoInput = document.getElementById('nome-medico-input');
-    const crmInput = document.getElementById('numero-crm-input');
+    const especialidade = document.getElementById('especialidade-select').value;
+    const medico = document.getElementById('nome-medico-input').value;
+    const crm = document.getElementById('numero-crm-input').value;
 
-    const especialidadeSelecionada = select.value;
+    const params = {
+        ...( especialidade != "0" && { especialidade }),
+        ...( medico && { medico }),
+        ...( crm && { crm })
+    }
 
-    if (especialidadeSelecionada === "0" && nomeMedicoInput.value === "" && crmInput.value === "") // todos os campos vazios
-        window.location.href = `profissionais.html`;
-    else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value === "" && crmInput.value === "") // apenas o primeiro campo marcado
-        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}`;
-    else if (especialidadeSelecionada === "0" && nomeMedicoInput.value !== "" && crmInput.value === "") // apenas o segundo campo marcado
-        window.location.href = `profissionais.html?medico=${nomeMedicoInput.value}`;
-    else if (especialidadeSelecionada === "0" && nomeMedicoInput.value === "" && crmInput.value !== "") // apenas o terceiro campo marcado
-        window.location.href = `profissionais.html?crm=${crmInput.value}`;
-    else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value !== "" && crmInput.value === "") // o primeiro e o segundo campo marcados
-        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}`;
-    else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value === "" && crmInput.value !== "") // o primeiro e o terceiro campo marcados
-        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&crm=${crmInput.value}`;
-    else if (especialidadeSelecionada === "0" && nomeMedicoInput.value !== "" && crmInput.value !== "") // o segundo e o terceiro campo marcados
-        window.location.href = `profissionais.html?medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
-    else if (especialidadeSelecionada !== "0" && nomeMedicoInput.value !== "" && crmInput.value !== "") // todos os campos marcados
-        window.location.href = `profissionais.html?especialidade=${especialidadeSelecionada}&medico=${nomeMedicoInput.value}&crm=${crmInput.value}`;
+    const queryString = Object.entries(params)
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`) // Substitui null/undefined por string vazia
+    .join('&')
+
+     window.location.href = `profissionais.html?${queryString}`
 });
 
