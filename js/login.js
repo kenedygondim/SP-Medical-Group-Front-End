@@ -23,9 +23,14 @@ formElement.addEventListener('submit', async (e) => {
         if (response.ok) {
             const data = await response.json();
             const token = data.token;
+            if (!token) {
+                alert('Token ausente na resposta');
+                return;
+            }
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('role', parseJwt(token).role);
             sessionStorage.setItem('email', email);
+
             await realizarLogin();
         } else 
              document.getElementById("login-falhou").classList.remove('hidden'); 
@@ -38,7 +43,6 @@ async function realizarLogin() {
     const token = sessionStorage.getItem("token");
     const role = sessionStorage.getItem("role");
     if (token) {
-        console.log("5")
         await redirecionaUsuario(role, token);
     }
 }
