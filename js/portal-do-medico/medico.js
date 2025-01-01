@@ -18,11 +18,11 @@ document.addEventListener("DOMContentLoaded", async ( )=>  {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "http://127.0.0.1:5500/index.html";
+        window.location.href = "../../index.html";
     });
 
     viewProfileOption.addEventListener("click", () => {
-        window.location.href = "./perfil.html";
+        window.location.href = "./meu-perfil.html";
     });
 });
 
