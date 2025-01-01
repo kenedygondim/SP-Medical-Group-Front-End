@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal do médico</title>
+    <link rel="stylesheet" href="../../css/portal-do-medico/meu-perfil.css" />
+    <link rel="shortcut icon" href="../../assets/logo_spmedgroup_v2.png" type="image/x-icon"/>
+  </head>
+<body>
+    <header>
+      <a href="../portal-do-medico/medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
+      <a>Consultas realizadas</a>
+      <a href="./consultas-agendadas.html">Consultas agendadas</a>
+      <a href="./meu-perfil.html">Meu perfil</a>
+      <div id="profile-container">
+        <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
+        <div id="profile-menu">
+          <ul>
+            <li id="view-profile">Ver Perfil</li>
+            <li id="logout">Logout</li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    
+    <div class="container">
+        <div class="profile-header">
+            <img src="" alt="Foto de Perfil" id="profile-image">
+            <h1 id="nome-completo"></h1>
+        </div>
+
+
+        <!-- <h3 style="text-align: center;">Informações pessoais</h3> -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="data-nascimento">Data de Nascimento</label>
+                <input type="text" id="data-nascimento" disabled>
+            </div>
+    
+            <div class="form-group">
+                <label for="rg">RG</label>
+                <input type="text" id="rg" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" disabled>
+            </div>
+        </div>
+        
+        <!-- <h3>Contato</h3> -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" disabled>
+            </div>
+        </div>
+        
+        <!-- <h3>Informações profissionais</h3> -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="telefone">CRM</label>
+                <input type="text" id="crm" disabled>
+            </div>
+    
+            <div class="form-group">
+                <label for="telefone">Hospital</label >
+                <input type="text" id="hospital" disabled>
+            </div>
+        </div>
+
+        <!-- <h3>Endereço</h3> -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="text" id="cep">
+            </div>
+
+            <div class="form-group">
+                <label for="numero">Número</label>
+                <input type="text" id="numero">
+            </div>
+        </div>
+
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" id="bairro" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="municipio">Município</label>
+                <input type="text" id="municipio" disabled>
+            </div>
+        </div>
+
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="uf">UF</label>
+                <input type="text" id="uf" disabled>
+            </div>
+
+            <div class="form-group">
+                <label for="complemento">Complemento</label>
+                <input type="text" id="complemento">
+            </div>
+        </div>
+
+        <!-- <h3>Alterar senha</h3> -->
+        <div class="form-group-inline">
+            <div class="form-group">
+                <label for="senha-antiga">Digite a senha antiga</label>
+                <input type="password" id="senha-antiga">
+                <div class="error-message" id="senha-antiga-error" style="display: none;">Senha incorreta.</div>
+            </div>
+    
+            <div class="form-group">
+                <label for="nova-senha">Digite a nova senha</label>
+                <input type="password" id="nova-senha">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button id="salvar">Salvar Alterações</button>
+        </div>
+    </div>
+
+    <script src="../../js/portal-do-medico/meu-perfil.js"></script>
+</body>
+</html>
