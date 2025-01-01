@@ -11,6 +11,10 @@
     font-family: "Poppins", sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
 a:visited {
     text-decoration: none; /* Remove o sublinhado do link após ser clicado */
     color: inherit; /* Mantém a cor do texto após ser clicado */
