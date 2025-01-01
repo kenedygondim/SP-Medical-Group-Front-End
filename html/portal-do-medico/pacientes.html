@@ -3,9 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Portal do médico</title>
+    <link rel="stylesheet" href="../../css/portal-do-medico/pacientes.css">
 </head>
 <body>
-    
+    <header>
+        <a href="./medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
+        <a>Consultas realizadas</a>
+        <a href="./consultas-agendadas.html">Consultas agendadas</a>
+        <a>Meu perfil</a>
+        <div id="profile-container">
+          <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
+          <div id="profile-menu">
+            <ul>
+              <li id="view-profile">Ver Perfil</li>
+              <li id="logout">Logout</li>
+            </ul>
+          </div>
+        </div>
+      </header>
+
+    <form id="section-filtros">
+        <div id="filtros">
+            <div id="especialidade" class="filtro">
+                <label for="especialidade-select">Especialidade da consulta</label>
+                <select name="especialidade" id="especialidade-select">
+                    <option id="none" value="">Qualquer</option>
+                </select>
+            </div>
+            <div id="nome-medico" class="filtro">
+                <label for="nome-medico-input">Nome do paciente</label>
+                <input type="text" id="nome-medico-input" name="medico">
+            </div>
+            <div id="numero-crm" class="filtro">
+                <label for="numero-crm-input">Data do atendimento</label>
+                <input type="date" id="numero-crm-input" name="crm">
+            </div>
+        </div>
+        <div id="div-btn-filtro">
+            <button type="submit" id="buscar-btn">Buscar</button>
+        </div>
+    </form>
+
+    <main>
+        <div id="popupOverlay" class="popup-overlay">
+            <div class="popup">
+              <button class="close-btn" id="closePopup">x</button>
+              <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
+              <div>
+                  <div id="texts">
+                      <h2 id="nomeMedico">Nome do Médico</h2>
+                      <p id="crm">CRM: </p>
+                      <p id="dataNascimento">Data de Nascimento: </p>
+                      <p id="numeroConsultas">Número de Consultas: </p>
+                      <p id="especialidadess">Especialidades: </p>
+                      <p id="contato">Contato: </p>
+                      <p id="hospital">Hospital: </p>
+                  </div>
+                  <div id="div-button-agendar"><button class="agendar-btn" id="agendarConsulta">Agendar Consulta</button></div>
+              </div>
+            </div>
+          </div>
+        <h1 id="profissionais-encontrados-ou-nao"></h1>
+        <div id="profissionais-encontrados">    
+        </div>
+    </main>
+
+
+    <script src="../../js/portal-do-medico/pacientes.js"></script>
 </body>
 </html>
