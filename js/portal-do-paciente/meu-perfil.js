@@ -1,6 +1,17 @@
-document.addEventListener("DOMContentLoaded", async () => {
-    await fetchItems();
+const token = sessionStorage.getItem("token");
+const email = sessionStorage.getItem("email");
 
+let perfilCompletoPacienteJson = {};
+
+const loadingScreen = document.getElementById("loading-screen");
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await GetPerfil();
+    carregarFotoPerfilOptions();
+    loadingScreen.style.display = "none";
+});
+
+function carregarFotoPerfilOptions() {
     const profileContainer = document.getElementById("profile-container");
     const profileMenu = document.getElementById("profile-menu");
     const logoutOption = document.getElementById("logout");
@@ -18,23 +29,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "../index.html";
+        window.location.href = "../../index.html";
     });
 
     viewProfileOption.addEventListener("click", () => {
         window.location.href = "./meu-perfil.html";
     });
-});
+};
 
-async function fetchItems() {
-    const token = sessionStorage.getItem("token");
-    const email = sessionStorage.getItem("email");
-
-    if (!email) {
-        console.error("Erro: Email não encontrado no sessionStorage.");
-        return;
-    }
-
+async function GetPerfil() {
     try {
         const perfilCompletoPaciente = await fetch(`http://localhost:8080/api/Paciente/PerfilCompletoPaciente?email=${email}`, {
             method: 'GET',
@@ -49,29 +52,28 @@ async function fetchItems() {
             throw new Error(`Erro na requisição: ${errorMessage}`);
         }
 
-        const perfilCompletoPacienteJson = await perfilCompletoPaciente.json();
-
-        document.getElementById("nome-completo").textContent = perfilCompletoPacienteJson.nomeCompleto;
-        document.getElementById("data-nascimento").value = perfilCompletoPacienteJson.dataNascimento;
-        document.getElementById("rg").value = perfilCompletoPacienteJson.rg;
-        document.getElementById("cpf").value = perfilCompletoPacienteJson.cpf;
-        document.getElementById("email").value = perfilCompletoPacienteJson.email;
-        document.getElementById("cep").value = perfilCompletoPacienteJson.cep;
-        // document.getElementById("logradouro").value = perfilCompletoPacienteJson.logradouro;
-        document.getElementById("numero").value = perfilCompletoPacienteJson.numero;
-        document.getElementById("bairro").value = perfilCompletoPacienteJson.bairro;
-        document.getElementById("municipio").value = perfilCompletoPacienteJson.municipio;
-        document.getElementById("uf").value = perfilCompletoPacienteJson.uf;
-        document.getElementById("complemento").value = perfilCompletoPacienteJson.complemento;
-
-
-        document.getElementById("foto-perfil-options").src = perfilCompletoPacienteJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : perfilCompletoPacienteJson.fotoPerfilUrl;
-
-        const profileImage = document.getElementById("profile-image");
-        profileImage.src = perfilCompletoPacienteJson.fotoPerfilUrl || "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp";
+        perfilCompletoPacienteJson = await perfilCompletoPaciente.json();
     } catch (error) {
         console.error(error);
     }
+}
+
+function montarPerfilCompletoPaciente() {
+    document.getElementById("nome-completo").textContent = perfilCompletoPacienteJson.nomeCompleto;
+    document.getElementById("data-nascimento").value = perfilCompletoPacienteJson.dataNascimento;
+    document.getElementById("rg").value = perfilCompletoPacienteJson.rg;
+    document.getElementById("cpf").value = perfilCompletoPacienteJson.cpf;
+    document.getElementById("email").value = perfilCompletoPacienteJson.email;
+    document.getElementById("cep").value = perfilCompletoPacienteJson.cep;
+    document.getElementById("numero").value = perfilCompletoPacienteJson.numero;
+    document.getElementById("bairro").value = perfilCompletoPacienteJson.bairro;
+    document.getElementById("municipio").value = perfilCompletoPacienteJson.municipio;
+    document.getElementById("uf").value = perfilCompletoPacienteJson.uf;
+    document.getElementById("complemento").value = perfilCompletoPacienteJson.complemento;
+    document.getElementById("foto-perfil-options").src = perfilCompletoPacienteJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : perfilCompletoPacienteJson.fotoPerfilUrl;
+
+    const profileImage = document.getElementById("profile-image");
+    profileImage.src = perfilCompletoPacienteJson.fotoPerfilUrl || "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp";
 }
 
 document.getElementById('salvar').addEventListener('click', () => {
@@ -85,6 +87,4 @@ document.getElementById('salvar').addEventListener('click', () => {
         senhaAntigaInput.classList.remove('error');
         senhaAntigaError.style.display = 'none';
     }
-
-    // Adicionar lógica de salvamento aqui
 });

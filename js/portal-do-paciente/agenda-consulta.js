@@ -7,72 +7,107 @@ const medicoSelect = document.getElementById('medico');
 const resumoConsulta = document.getElementById('resumo-consulta');
 const descricaoInput = document.getElementById('descricao');
 const isConsultaOnline = document.getElementById('online');
+const loadingScreen = document.getElementById("loading-screen");
+
+const urlParams = new URLSearchParams(window.location.search);
+const medicoQuery = urlParams.get('medico');
+
+const token = sessionStorage.getItem("token");
+const email = sessionStorage.getItem("email");
+
+let InfoBasicasUsuario = {};
+let medicos = [];
+
+const hoje = new Date();
+dataInput.min = retornaDataFormatada(hoje);
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
-
-    const profileContainer = document.getElementById("profile-container");
-    const profileMenu = document.getElementById("profile-menu");
-    const logoutOption = document.getElementById("logout");
-    const viewProfileOption = document.getElementById("view-profile");
-  
-    document.getElementById("foto-perfil-options").addEventListener("click", () => {
-        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-    });
-  
-    document.addEventListener("click", (event) => {
-        if (!profileContainer.contains(event.target)) {
-            profileMenu.style.display = "none";
-        }
-    });
-  
-    logoutOption.addEventListener("click", () => {
-        sessionStorage.clear();
-        window.location.href = "../index.html";
-    });
-  
-    viewProfileOption.addEventListener("click", () => {
-        window.location.href = "./meu-perfil.html";
-    });
-
-
+    carregarFotoPerfilOptions();
+    loadingScreen.style.display = "none";
 });
 
 async function fetchItems() {
-  const token = sessionStorage.getItem("token")
-  const email = sessionStorage.getItem("email");
+    await Acessar();
+    await GetInfoBasicasUsuario();
+    await ListarTodosMedicos();
+}
 
-  const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-  }});
+async function Acessar() {
+  try {
+    const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`
+    }});
+  
+    if (acesso.status == 401) window.location.href = "http://127.0.0.1:5500/html/login.html"
 
-  if (acesso.status == 401) 
-      window.location.href = "http://127.0.0.1:5500/html/login.html"
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  const response = await fetch('http://localhost:8080/api/Medico/ListarTodos');
-  const medicos = await response.json();
-
-  const hoje = new Date();
-  dataInput.min = retornaDataFormatada(hoje);
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const medicoQuery = urlParams.get('medico');
-
-
-
-  const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
-    method: 'GET',
-    headers: {
+async function ListarTodosMedicos() {
+  try {
+    const response = await fetch('http://localhost:8080/api/Medico/ListarTodos', {
+      method: 'GET',
+      headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
-    }
-});
+      }
+    });
+    medicos = await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-  const InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
-  document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+async function GetInfoBasicasUsuario() {
+  try {
+    const response = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
 
+    InfoBasicasUsuario = await response.json();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function carregarFotoPerfilOptions() {
+  const profileContainer = document.getElementById("profile-container");
+  const profileMenu = document.getElementById("profile-menu");
+  const logoutOption = document.getElementById("logout");
+  const viewProfileOption = document.getElementById("view-profile");
+  const fotoPerfilOptions = document.getElementById("foto-perfil-options");
+
+  fotoPerfilOptions.src = InfoBasicasUsuario.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuario.fotoPerfilUrl;
+  fotoPerfilOptions.addEventListener("click", () => {
+      profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
+  });
+
+  document.addEventListener("click", (event) => {
+      if (!profileContainer.contains(event.target)) {
+          profileMenu.style.display = "none";
+      }
+  });
+
+  logoutOption.addEventListener("click", () => {
+      sessionStorage.clear();
+      window.location.href = "../index.html";
+  });
+
+  viewProfileOption.addEventListener("click", () => {
+      window.location.href = "./meu-perfil.html";
+  });
+}
+
+function carregarMedicosOptions() {
   medicoSelect.innerHTML = '<option value="">Selecione um médico</option>';
   medicos.forEach(medico => {
     const option = document.createElement('option');
@@ -84,8 +119,8 @@ async function fetchItems() {
       option.selected = true;
       carregarEspecialidades(medico.cpf);
     }
-
-})}
+})
+};
 
 document.getElementById('avancar').addEventListener('click', () => {
   if(!especialidadeSelect.value || !medicoSelect.value || !dataInput.value || !horarioSelect.value){
@@ -114,7 +149,6 @@ medicoSelect.addEventListener('change', () => {
 });
 
 async function carregarEspecialidades(cpf) {
-  
   dataInput.value = '';
 
   const response = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${cpf}`);
