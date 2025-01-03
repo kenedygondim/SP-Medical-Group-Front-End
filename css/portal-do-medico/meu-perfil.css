@@ -144,6 +144,7 @@ header a {
 .form-group-inline {
     display: flex;
     gap: 3%;
+    padding: 10px;
 }
 
 .form-group-inline .form-group {
@@ -177,4 +178,12 @@ header a {
 
 .actions button:hover {
     background-color: #45a049;
+}
+
+.title-info {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    text-align: left;
 }
