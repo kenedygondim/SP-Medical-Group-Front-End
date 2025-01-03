@@ -4,8 +4,12 @@ const overlay = document.getElementById('overlay');
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 
+const loadingScreen = document.getElementById("loading-screen");
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     await realizarLogin();
+    loadingScreen.style.display = "none";
 });
 
 formElement.addEventListener('submit', async (e) => {
@@ -146,23 +150,31 @@ document.getElementById('cep').addEventListener('blur', async () => {
 });
 
 document.getElementById('submit').addEventListener('click', async () => {
-    const payload = {
-        cpf: document.getElementById('cpf').value,
-        nomeCompleto: document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value,
-        dataNascimento: document.getElementById('dob').value,
-        rg: document.getElementById('rg').value,
-        email: document.getElementById('email-cadastro').value,
-        senha: document.getElementById('password').value,
-        cep: document.getElementById('cep').value,
-        uf: document.getElementById('uf').value,
-        municipio: document.getElementById('municipio').value,
-        bairro: document.getElementById('bairro').value,
-        logradouro: document.getElementById('logradouro').value,
-        numero: document.getElementById('numero').value,
-        complemento: document.getElementById('complemento').value,
-        }
+    
+    var formData = new FormData();
+    formData.append('cpf', document.getElementById('cpf').value);
+    formData.append('nomeCompleto', document.getElementById('first-name').value + ' ' + document.getElementById('last-name').value);
+    formData.append('dataNascimento', document.getElementById('dob').value);
+    formData.append('rg', document.getElementById('rg').value);
+    formData.append('email', document.getElementById('email-cadastro').value);
+    formData.append('senha', document.getElementById('password').value);
+    formData.append('cep', document.getElementById('cep').value);
+    formData.append('uf', document.getElementById('uf').value);
+    formData.append('municipio', document.getElementById('municipio').value);
+    formData.append('bairro', document.getElementById('bairro').value);
+    formData.append('logradouro', document.getElementById('logradouro').value);
+    formData.append('numero', document.getElementById('numero').value);
+    formData.append('complemento', document.getElementById('complemento').value);
+
+    var foto = document.getElementById('foto-perfil').files[0]
+
+    if (foto != null) {
+        formData.append('fotoPerfilFile', foto);
+    }
 
     try {
+    
+        console.log(formData)
         const response = await fetch('http://localhost:8080/api/Paciente/Cadastrar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
