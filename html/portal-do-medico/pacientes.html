@@ -11,7 +11,7 @@
         <a href="./medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
         <a>Consultas realizadas</a>
         <a href="./consultas-agendadas.html">Consultas agendadas</a>
-        <a>Meu perfil</a>
+        <a href="./meu-perfil.html">Meu perfil</a>
         <div id="profile-container">
           <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
           <div id="profile-menu">
@@ -28,16 +28,16 @@
             <div id="especialidade" class="filtro">
                 <label for="especialidade-select">Especialidade da consulta</label>
                 <select name="especialidade" id="especialidade-select">
-                    <option id="none" value="">Qualquer</option>
+                    <option id="none" value="0">Qualquer</option>
                 </select>
             </div>
-            <div id="nome-medico" class="filtro">
-                <label for="nome-medico-input">Nome do paciente</label>
-                <input type="text" id="nome-medico-input" name="medico">
+            <div id="nome-paciente" class="filtro">
+                <label for="nome-paciente-input">Nome do paciente</label>
+                <input type="text" id="nome-paciente-input" name="medico">
             </div>
-            <div id="numero-crm" class="filtro">
-                <label for="numero-crm-input">Data do atendimento</label>
-                <input type="date" id="numero-crm-input" name="crm">
+            <div id="data-atendimento" class="filtro">
+                <label for="data-atendimento-input">Data do atendimento</label>
+                <input type="date" id="data-atendimento-input" name="crm">
             </div>
         </div>
         <div id="div-btn-filtro">
@@ -49,7 +49,7 @@
         <div id="popupOverlay" class="popup-overlay">
             <div class="popup">
               <button class="close-btn" id="closePopup">x</button>
-              <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
+              <div><img id="fotoPerfil" src="" alt="Foto do Paciente"></div>
               <div>
                   <div id="texts">
                       <h2 id="nomeMedico">Nome do Médico</h2>
@@ -64,8 +64,8 @@
               </div>
             </div>
           </div>
-        <h1 id="profissionais-encontrados-ou-nao"></h1>
-        <div id="profissionais-encontrados">    
+        <h1 id="pacientes-encontrados-ou-nao"></h1>
+        <div id="pacientes-encontrados">    
         </div>
     </main>
 
