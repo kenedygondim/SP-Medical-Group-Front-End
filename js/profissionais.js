@@ -1,5 +1,7 @@
 const params = new URLSearchParams(window.location.search);
 
+const loadingScreen = document.getElementById("loading-screen");
+
 const especialidade = params.get('especialidade');
 const nomeDoMedico = params.get('medico');
 const numCrm = params.get('crm');
@@ -10,6 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     carregarEspecialidadeMedicoCrm();
     mostrarProfissionais();
+    loadingScreen.style.display = "none";
 } );
 
 async function fetchItems() {

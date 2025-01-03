@@ -1,6 +1,9 @@
 const currentDateHTML = document.getElementById('current-date');
 let currentDate = new Date();
 
+const loadingScreen = document.getElementById("loading-screen");
+
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
@@ -28,6 +31,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     viewProfileOption.addEventListener("click", () => {
         window.location.href = "./meu-perfil.html";
     });
+
+    loadingScreen.style.display = "none";
 });
 
 

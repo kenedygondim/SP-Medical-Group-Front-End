@@ -1,4 +1,9 @@
-document.addEventListener("DOMContentLoaded", fetchItems);
+const loadingScreen = document.getElementById("loading-screen");
+
+document.addEventListener("DOMContentLoaded", async () => {
+    await fetchItems();
+    loadingScreen.style.display = "none";
+});
 
 async function fetchItems() {
     try {

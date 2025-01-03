@@ -64,7 +64,7 @@ header a {
     top: 110%; /* Posicione o menu abaixo da foto */
     background-color: #ffffff;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 10;
     width: 150px;
@@ -114,6 +114,8 @@ header a {
 
 .profile-header h1 {
     font-size: 24px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
     margin: 0;
 }
 
@@ -124,7 +126,7 @@ header a {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: 400;
 }
 
 .form-group input {
@@ -141,7 +143,8 @@ header a {
 
 .form-group-inline {
     display: flex;
-    gap: 10%;
+    gap: 3%;
+    padding: 10px;
 }
 
 .form-group-inline .form-group {
@@ -175,4 +178,71 @@ header a {
 
 .actions button:hover {
     background-color: #45a049;
+}
+
+.title-info {
+    font-size: 20px;
+    font-weight: 400;
+    margin-top: 1em;
+    padding-bottom: 1em;
+    text-align: left;
+}
+
+#loading-screen {
+    background-color: rgba(255, 255, 255, 0.673);
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;    
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#loading-screen > img {
+    width: 8em;
+    height: 8em;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    animation: zoom-in-out 1s linear infinite;
+    margin: 0 auto;
+}
+  
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-text {
+    margin-top: 15px;
+    font-size: 1.2em;
+    animation: fade-in-out 1.5s infinite;
+}
+
+@keyframes fade-in-out {
+    0%, 100% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoom-in-out {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
 }

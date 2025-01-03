@@ -45,9 +45,11 @@
                     <label>RG: <input type="text" id="rg"></label required><br>
                     <label>Email: <input type="text" id="email-cadastro"></label required><br>
                     <label>Senha: <input type="password" id="password"></label required><br>
+                    <label>Confirmar Senha: <input type="password" id="confirm-password"></label required><br>
+                    <label> Foto de Perfil: <input type="file" id="foto-perfil"></label>
                     <button id="to-step-2">Próximo</button>
                 </div>
-                <div id="step-2" class="form-section hidden">
+                <div id="step-2" class="form-section hidden">       
                     <label>CEP: <input type="text" id="cep" required></label><br>
                     <label>UF: <input type="text" id="uf" disabled placeholder="Campo com preenchimento automárico. Insira seu CEP."></label><br>
                     <label>Município: <input type="text" id="municipio" disabled placeholder="Campo com preenchimento automárico. Insira seu CEP."></label><br>
@@ -64,6 +66,10 @@
     </section>
     <section id="section-right"></section>
 
+    <div id="loading-screen">
+        <img src="../assets/logo_spmedgroup_v2.png" class="spinner"></img>
+    </div>
+    
     <script src="../js/login.js"></script>
 </body>
 </html>
