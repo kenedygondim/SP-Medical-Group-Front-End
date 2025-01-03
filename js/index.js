@@ -1,29 +1,31 @@
-document.addEventListener("DOMContentLoaded", fetchItems);
 especialidades = [];
 
-token = sessionStorage.getItem("token");
-role = sessionStorage.getItem("role");
+const token = sessionStorage.getItem("token");
+const role = sessionStorage.getItem("role");
+const loadingScreen = document.getElementById("loading-screen");
 
-// Função para buscar dados da API
+document.addEventListener("DOMContentLoaded", async function () {
+    await fetchItems();
+    loadingScreen.style.display = "none";
+});
+
 async function fetchItems() {
-    const token = sessionStorage.getItem("token"); // Recupera o token salvo
+    const token = sessionStorage.getItem("token"); 
     try {
         const response = await fetch('http://localhost:8080/api/Especialidade/ListarTodos');
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
-        items = await response.json(); // Assume que a resposta está no formato JSON
-        especialidades = items.map(item => item.nome);
+        items = await response.json(); 
+        especialidades = items.map(item => item.nome);        
     } catch (error) {
         console.error("Erro ao buscar dados:", error);
     }
 }
 
-// Função para buscar sugestões
 function buscarSugestoes() {
     const input = document.getElementById("pesquisa-input");
     const listaSugestoes = document.getElementById("sugestoes-list");
     const termo = input.value.toLowerCase();
 
-    // Limpar sugestões anteriores
     listaSugestoes.innerHTML = "";
 
     if (termo) {

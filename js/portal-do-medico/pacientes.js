@@ -1,8 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 
 const especialidade = params.get('especialidade');
-const nomeDoMedico = params.get('paciente');
-const numCrm = params.get('Data de atendimento');
+const nomeDoPaciente = params.get('paciente');
+const dataAtendimento = params.get('dataAtendimento');
 
 const form = document.getElementById("section-filtros");
 const token = sessionStorage.getItem("token");
@@ -11,16 +11,17 @@ const email = sessionStorage.getItem("email");
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     createProfilePictureActions();
-    carregarEspecialidadeMedicoCrm();
-    // mostrarProfissionais();
+    carregarEspecialidadeMedicoSelect();
+    mostrarPacientes();
 } );
 
 async function fetchItems() {
     await getInfoBasicasUsuario();
-    // await getInformacoesBasicasMedico();
+    await getInformacoesBasicasPacientes();
     await getEspecialidadesMedico();
 }
 
+// Função que busca informações básicas do usuário logado no sistema como Foto de perfil, nome completo e CPF
 async function getInfoBasicasUsuario() {
     const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
@@ -33,10 +34,9 @@ async function getInfoBasicasUsuario() {
     }
 
     InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
-
-    console.log(InfoBasicasUsuarioJson);
 }
 
+// Função que cria as ações do menu de foto de perfil
 function createProfilePictureActions() {
     const profileContainer = document.getElementById("profile-container");
     const profileMenu = document.getElementById("profile-menu");
@@ -66,52 +66,44 @@ function createProfilePictureActions() {
 }
 
 
+// Função que busca informações básicas dos pacientes com base nos parâmetros buscados para exibição 
+async function getInformacoesBasicasPacientes() {
+    try {
+        const url = "http://localhost:8080/api/Paciente/InformacoesBasicasPaciente";
 
-// async function getInformacoesBasicasMedico() {
-//     try {
-//         const url = "http://localhost:8080/api/Medico/ListarInformacoesBasicasMedico";
-//         const informacoesBasicasMedico = await fetch(
-//             `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
+        const informacoesBasicasPaciente = await fetch(
+            `${url}?emailMedico=${email}&${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoPaciente == null ? "" : `nomePaciente=${nomeDoPaciente}&`}${dataAtendimento == null ? "" : `dataAtendimento=${dataAtendimento}&`}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-//         informacoesBasicasMedicoJson = await informacoesBasicasMedico.json();
-//     } catch (error) {
-//         console.error("Erro ao buscar profissionais:", error);
-//     }
-// }
+        informacoesBasicasPacienteJson = await informacoesBasicasPaciente.json();
 
-// async function getEspecialidades () {
-//     try {
-//         const especialidades = await fetch("http://localhost:8080/api/Especialidade/ListarTodos", {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
-//         especialidadesJson = await especialidades.json();
-//     } catch (error) {
-//         console.error("Erro ao buscar especialidades:", error);
-//     }
-// }
+        console.log(informacoesBasicasPacienteJson);    
+    } catch (error) {
+        console.error("Erro ao buscar pacientes:", error);
+    }
+}
 
 
-// function mostrarProfissionais() {
-//     const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
-//     if (especialidade !== null) 
-//          informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum paciente encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} paciente(s) de ${especialidade.toLowerCase()}.`;
-//     else 
-//         informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum paciente encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} paciente(s).`;
-//     construirElementoMedico();
-// }
+function mostrarPacientes() {
 
-function construirElementoMedico() {
-    const perfis = document.getElementById("profissionais-encontrados");
+    const pacientesUnicos = [...new Set(informacoesBasicasPacienteJson.map(paciente => paciente.cpf))].map(cpf => informacoesBasicasPacienteJson.find(paciente => paciente.cpf === cpf));
+    const numeroPacientes = document.getElementById("pacientes-encontrados-ou-nao");
+    if (especialidade !== null) 
+        pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s) de ${especialidade.toLowerCase()}.`;
+    else 
+        pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s).`;
+    
+    construirElementoMedico(pacientesUnicos);
+}
 
-    informacoesBasicasMedicoJson.forEach(profissional => {
+function construirElementoMedico(pacientesUnicos) {
+    const perfis = document.getElementById("pacientes-encontrados");
+
+    pacientesUnicos.forEach(profissional => {
         // Criando elementos
         const left = document.createElement("div");
         const right = document.createElement("div");
@@ -119,9 +111,6 @@ function construirElementoMedico() {
         const foto = document.createElement("img");
         const nomeUsuario = document.createElement("h3");
         const agrupaParagrafo = document.createElement("div");
-        const especialidade = document.createElement("p");
-        const crm = document.createElement("p");
-        const empresa = document.createElement("p");
 
         // Adicionando classes
         left.className = "left";
@@ -133,12 +122,9 @@ function construirElementoMedico() {
         // Adicionando conteúdo
         foto.src = profissional.fotoPerfilUrl;
         nomeUsuario.textContent = profissional.nomeCompleto;
-        especialidade.textContent = profissional.nomeTipoMedico;
-        crm.textContent = profissional.crm;
-        empresa.textContent = profissional.nomeFantasia;
 
         // Adicionando atributos
-        perfil.setAttribute('medico-identificador', profissional.cpf);
+        perfil.setAttribute('paciente-identificador', profissional.cpf);
 
         // Adicionando elementos ao HTML
         perfil.appendChild(left);
@@ -146,63 +132,61 @@ function construirElementoMedico() {
         left.appendChild(foto);
         right.appendChild(nomeUsuario);
         right.appendChild(agrupaParagrafo);
-        agrupaParagrafo.appendChild(especialidade);
-        agrupaParagrafo.appendChild(crm);
-        agrupaParagrafo.appendChild(empresa);
+
         perfis.appendChild(perfil);
         
         // Eventos
-        perfil.addEventListener('click', function() {
-            const medicoIdentificador = this.getAttribute('medico-identificador');
-            showPopup(medicoIdentificador);
-        });
+        // perfil.addEventListener('click', function() {
+        //     const medicoIdentificador = this.getAttribute('medico-identificador');
+        //     showPopup(medicoIdentificador);
+        // });
     });
 }
     
 
-async function showPopup(medicoIdentificador) {
-    const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
-    const especialidades = await getEspecialidadesMedico(medicoIdentificador);
+// async function showPopup(medicoIdentificador) {
+//     const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
+//     const especialidades = await getEspecialidadesMedico(medicoIdentificador);
 
-    const fotoPerfil = document.getElementById("fotoPerfil");
-    const nomeMedico = document.getElementById("nomeMedico");
-    const dataNascimento = document.getElementById("dataNascimento");
-    const numeroConsultas = document.getElementById("numeroConsultas");
-    const crm = document.getElementById("crm");
-    const contato = document.getElementById("contato");
-    const hospital = document.getElementById("hospital");
-    const especialidadess = document.getElementById("especialidadess");
+//     const fotoPerfil = document.getElementById("fotoPerfil");
+//     const nomeMedico = document.getElementById("nomeMedico");
+//     const dataNascimento = document.getElementById("dataNascimento");
+//     const numeroConsultas = document.getElementById("numeroConsultas");
+//     const crm = document.getElementById("crm");
+//     const contato = document.getElementById("contato");
+//     const hospital = document.getElementById("hospital");
+//     const especialidadess = document.getElementById("especialidadess");
 
-    // Preenchendo as informações no pop-up
-    fotoPerfil.src = medico.fotoPerfilUrl;
-    nomeMedico.textContent = medico.nomeCompleto;
-    dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
-    numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
-    crm.textContent = `CRM: ${medico.crm}`;
-    contato.textContent = `Contato: ${medico.email}`;
-    hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
-    especialidadess.textContent = `Especialidades: ${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
+//     // Preenchendo as informações no pop-up
+//     fotoPerfil.src = medico.fotoPerfilUrl;
+//     nomeMedico.textContent = medico.nomeCompleto;
+//     dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
+//     numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
+//     crm.textContent = `CRM: ${medico.crm}`;
+//     contato.textContent = `Contato: ${medico.email}`;
+//     hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
+//     especialidadess.textContent = `Especialidades: ${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
 
-    // Exibir o pop-up
-    popupOverlay.style.display = "flex";
-    popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
-}
+//     // Exibir o pop-up
+//     popupOverlay.style.display = "flex";
+//     popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
+// }
 
-async function getInformacoesMedicoEspecifico(medicoIdentificador) {
-    try {
-        const medico = await fetch(`http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+// async function getInformacoesMedicoEspecifico(medicoIdentificador) {
+//     try {
+//         const medico = await fetch(`http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
+//             method: 'GET',
+//             headers: {
+//                 'Content-Type': 'application/json'
+//             }
+//         });
 
-        return await medico.json();
-    }
-    catch (error) {
-        console.error("Erro ao buscar informações do médico:", error);
-    }
-}
+//         return await medico.json();
+//     }
+//     catch (error) {
+//         console.error("Erro ao buscar informações do médico:", error);
+//     }
+// }
 
 async function getEspecialidadesMedico() {
     try {
@@ -225,24 +209,24 @@ closePopup.addEventListener("click", () => {
     popupOverlay.style.display = "none";
 });
 
-// Redirecionar para agendar consulta
-agendarConsulta.addEventListener("click", async () => {
-    const token = sessionStorage.getItem("token");
-    const response = await fetch("http://localhost:8080/api/Consulta/Acessar", {
-        method: 'GET',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        } 
-    });
+// // Redirecionar para agendar consulta
+// agendarConsulta.addEventListener("click", async () => {
+//     const token = sessionStorage.getItem("token");
+//     const response = await fetch("http://localhost:8080/api/Consulta/Acessar", {
+//         method: 'GET',
+//         headers: {
+//             'Authorization': `Bearer ${token}`
+//         } 
+//     });
 
-    if(response.status != 200) 
-        window.location.href = "http://127.0.0.1:5500/html/login.html"
-    else 
-        window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=" + popupOverlay.getAttribute('medico-identificador');
-});
+//     if(response.status != 200) 
+//         window.location.href = "http://127.0.0.1:5500/html/login.html"
+//     else 
+//         window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=" + popupOverlay.getAttribute('medico-identificador');
+// });
 
 
-function carregarEspecialidadeMedicoCrm() {
+function carregarEspecialidadeMedicoSelect() {
     const select = document.getElementById('especialidade-select');
 
     especaliadadesJson.forEach(especialidade => {
@@ -258,14 +242,14 @@ function carregarEspecialidadeMedicoCrm() {
             optionToSelect.selected = true;
     }
 
-    if (nomeDoMedico) {
-        const inputa = document.getElementById('nome-medico-input');
-        inputa.value = nomeDoMedico;
+    if (nomeDoPaciente) {
+        const inputa = document.getElementById('nome-paciente-input');
+        inputa.value = nomeDoPaciente;
     }
 
-    if (numCrm) {
-        const inputg = document.getElementById('numero-crm-input');
-        inputg.value = numCrm;
+    if (dataAtendimento) {
+        const inputg = document.getElementById('data-atendimento-input');
+        inputg.value = dataAtendimento;
     }
 }
 
@@ -274,19 +258,19 @@ form.addEventListener("submit", function (event) {
     event.preventDefault();
 
     const especialidade = document.getElementById('especialidade-select').value;
-    const medico = document.getElementById('nome-medico-input').value;
-    const crm = document.getElementById('numero-crm-input').value;
+    const paciente = document.getElementById('nome-paciente-input').value;
+    const dataAtendimento = document.getElementById('data-atendimento-input').value;
 
     const params = {
         ...( especialidade != "0" && { especialidade }),
-        ...( medico && { medico }),
-        ...( crm && { crm })
+        ...( paciente && { paciente }),
+        ...( dataAtendimento && { dataAtendimento })
     }
 
     const queryString = Object.entries(params)
-    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`) // Substitui null/undefined por string vazia
+    .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&')
 
-     window.location.href = `profissionais.html?${queryString}`
+     window.location.href = `pacientes.html?${queryString}`
 });
 

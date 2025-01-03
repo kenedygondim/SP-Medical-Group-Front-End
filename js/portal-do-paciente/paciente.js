@@ -1,12 +1,84 @@
+const email = sessionStorage.getItem("email"); // Recupera o email salvo
+const token = sessionStorage.getItem("token"); // Recupera o token salvo
+const loadingScreen = document.getElementById("loading-screen");
+
+let especialidadesJson = [];
+let infoBasicasUsuarioJson = {};
+let consultasPacienteJson = [];
+
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
+    carregarFotoPerfilOptions();
+    mostrarConsultas();
+    document.getElementById("nome-paciente-h2").textContent = `${saudacao()}, ${infoBasicasUsuarioJson.nomeCompleto}!`;
+    loadingScreen.style.display = "none";
+});
 
+async function fetchItems() {
+    await GetEspecialidades();
+    await GetInfoBasicasUsuario();
+    await GetConsultasPaciente();
+}
+
+async function GetEspecialidades() {
+    try {
+        const response = await fetch(`http://localhost:8080/api/Especialidade/ListarTodos`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        });
+
+        especialidadesJson = await response.json();
+
+    } catch (error) {
+        console.error("Erro ao buscar especialidades:", error);
+    }
+}
+
+async function GetInfoBasicasUsuario() {
+    try {
+        const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        infoBasicasUsuarioJson = await InfoBasicasUsuario.json();
+    } catch (error) {
+        console.error("Erro ao buscar informações básicas do usuário:", error);
+    }
+}
+
+async function GetConsultasPaciente() {
+    try {
+        const consultasPaciente = await fetch(`http://localhost:8080/api/Consulta/ListarTodasConsultasPaciente?email=${email}`, {
+            method: 'GET',
+            headers: {
+            'Authorization': `Bearer ${token}`
+            }
+        });
+
+        consultasPacienteJson = await consultasPaciente.json();
+    } catch (error) {
+        console.error("Erro ao buscar consultas do paciente:", error);
+    }
+}
+
+
+function carregarFotoPerfilOptions() {
     const profileContainer = document.getElementById("profile-container");
     const profileMenu = document.getElementById("profile-menu");
     const logoutOption = document.getElementById("logout");
     const viewProfileOption = document.getElementById("view-profile");
+    const fotoPerfilOptions = document.getElementById("foto-perfil-options");
 
-    document.getElementById("foto-perfil-options").addEventListener("click", () => {
+    fotoPerfilOptions.src = infoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : infoBasicasUsuarioJson.fotoPerfilUrl;
+
+
+    fotoPerfilOptions.addEventListener("click", () => {
         profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
     });
 
@@ -24,65 +96,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     viewProfileOption.addEventListener("click", () => {
         window.location.href = "./meu-perfil.html";
     });
-});
-
-// Função para buscar dados da API
-async function fetchItems() {
-    const email = sessionStorage.getItem("email"); // Recupera o email salvo
-    const token = sessionStorage.getItem("token"); // Recupera o token salvo
-
-
-    try {
-        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/ListarTodos`, { 
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-         });
-
-        const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        });
-
-        const consultasPaciente = await fetch(`http://localhost:8080/api/Consulta/ListarTodasConsultasPaciente?email=${email}`, {
-            method: 'GET',
-            headers: {
-            'Authorization': `Bearer ${token}`
-            }
-        });
-        
-        if (!especialidades.ok) {
-            const errorMessage = await especialidades.text();
-            throw new Error(`Erro na requisição: ${errorMessage}`);
-        }
-        if (!consultasPaciente.ok) {
-            const errorMessage = await consultasPaciente.text();
-            throw new Error(`Erro na requisição: ${errorMessage}`);
-        }
-        if (!InfoBasicasUsuario.ok) {
-            const errorMessage = await nomePaciente.text();
-            throw new Error(`Erro na requisição: ${errorMessage}`);
-        }
-
-
-        especialidadesJson = await especialidades.json(); 
-        consultasPacienteJson = await consultasPaciente.json();
-        const InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
-
-
-        document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
-        document.getElementById("nome-paciente-h2").textContent = `${saudacao()}, ${InfoBasicasUsuarioJson.nomeCompleto}!`;
-
-        mostrarConsultas();
-    } catch (error) {
-        console.error("Erro ao buscar dados:", error);
-    }
 }
- 
+
 // Função para buscar sugestões
 function buscarSugestoes() {
     const input = document.getElementById("pesquisa-input");
@@ -125,7 +140,7 @@ document.getElementById("pesquisa-input").addEventListener("input", buscarSugest
 function saudacao() {
     const agora = new Date();
     const hora = agora.getHours();
-
+    
     if (hora >= 6 && hora < 12) {
         return "Bom dia";
     } else if (hora >= 12 && hora < 18) {
@@ -133,6 +148,7 @@ function saudacao() {
     } else {
         return "Boa noite";
     }
+
 }
 
 function mostrarConsultas() {
@@ -141,8 +157,6 @@ function mostrarConsultas() {
     // Adiciona efeito de saída
     consultas.classList.add('fade-out');
     
-    // Aguarda o efeito de saída antes de atualizar o conteúdo
-    setTimeout(() => {
 
         const consultasDoDia = consultasPacienteJson.filter(consulta => {
             return formatarData(consulta.dataConsulta) == new Date().toLocaleDateString()
@@ -194,7 +208,6 @@ function mostrarConsultas() {
         consultas.classList.remove('fade-out');
         consultas.classList.add('fade-in');
 
-    }, 200); // Tempo do efeito de saída
 }
 
 function formatarData (data) {
