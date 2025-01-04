@@ -24,6 +24,7 @@ dataInput.min = retornaDataFormatada(hoje);
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
     carregarFotoPerfilOptions();
+    carregarMedicosOptions();
     loadingScreen.style.display = "none";
 });
 
@@ -40,11 +41,13 @@ async function Acessar() {
       headers: {
         Authorization: `Bearer ${token}`
     }});
-  
+    
     if (acesso.status == 401) window.location.href = "http://127.0.0.1:5500/html/login.html"
 
   } catch (error) {
-    console.log(error);
+      console.error(error)
+      alert("Servidor não está respondendo. Tente novamente mais tarde!")
+      window.location.href = "../../index.html"
   }
 }
 

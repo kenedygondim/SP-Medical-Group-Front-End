@@ -8,7 +8,10 @@ const loadingScreen = document.getElementById("loading-screen");
 document.addEventListener("DOMContentLoaded", async () => {
     await GetPerfil();
     carregarFotoPerfilOptions();
+    montarPerfilCompletoPaciente();
     loadingScreen.style.display = "none";
+
+    console.log(perfilCompletoPacienteJson);
 });
 
 function carregarFotoPerfilOptions() {
@@ -39,6 +42,10 @@ function carregarFotoPerfilOptions() {
 
 async function GetPerfil() {
     try {
+        console.log(token)
+        console.log(email)
+
+
         const perfilCompletoPaciente = await fetch(`http://localhost:8080/api/Paciente/PerfilCompletoPaciente?email=${email}`, {
             method: 'GET',
             headers: {
@@ -53,6 +60,9 @@ async function GetPerfil() {
         }
 
         perfilCompletoPacienteJson = await perfilCompletoPaciente.json();
+
+
+        console.log(perfilCompletoPacienteJson);
     } catch (error) {
         console.error(error);
     }
