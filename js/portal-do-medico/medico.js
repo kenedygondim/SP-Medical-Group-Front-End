@@ -1,3 +1,6 @@
+const loadingScreen = document.getElementById("loading-screen");
+
+
 document.addEventListener("DOMContentLoaded", async ( )=>  {
     await fetchItems();
 
@@ -24,6 +27,8 @@ document.addEventListener("DOMContentLoaded", async ( )=>  {
     viewProfileOption.addEventListener("click", () => {
         window.location.href = "./meu-perfil.html";
     });
+
+    loadingScreen.style.display = "none";
 });
 
 // Função para buscar dados da API
@@ -91,7 +96,6 @@ function buscarSugestoes() {
         new Map(consultasMedicoJson.map(item => [item.cpfPaciente, item])).values()
     )
 
-    console.log(items);
 
     if (termo) {
         const resultados = items.filter(paciente =>
@@ -138,12 +142,10 @@ function mostrarConsultas() {
     consultas.classList.add('fade-out');
     
     // Aguarda o efeito de saída antes de atualizar o conteúdo
-    setTimeout(() => {
 
         const consultasDoDia = consultasMedicoJson.filter(consulta => {
-            return formatarData(consulta.dataConsulta) == new Date().toLocaleDateString()
+            return formatarData(consulta.dataConsulta) == new Date().toLocaleDateString() && consulta.situacao == "Agendada";
         });
-
 
         if (consultasDoDia.length > 0) {
             consultasDoDia.forEach(consulta => {    
@@ -191,7 +193,6 @@ function mostrarConsultas() {
         consultas.classList.remove('fade-out');
         consultas.classList.add('fade-in');
 
-    }, 200); // Tempo do efeito de saída
 }
 
 function saudacao() {

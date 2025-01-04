@@ -1,9 +1,12 @@
 const token = sessionStorage.getItem("token");
 const email = sessionStorage.getItem("email");
 
+const loadingScreen = document.getElementById("loading-screen");
+
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchInfoBasicasUsuario();
-    await createProfilePictureActions();
+    createProfilePictureActions();
+    loadingScreen.style.display = "none";
 });
 
 

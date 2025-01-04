@@ -1,5 +1,8 @@
 const params = new URLSearchParams(window.location.search);
 
+const loadingScreen = document.getElementById("loading-screen");
+
+
 const especialidade = params.get('especialidade');
 const nomeDoPaciente = params.get('paciente');
 const dataAtendimento = params.get('dataAtendimento');
@@ -13,6 +16,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     createProfilePictureActions();
     carregarEspecialidadeMedicoSelect();
     mostrarPacientes();
+    loadingScreen.style.display = "none";
 } );
 
 async function fetchItems() {
