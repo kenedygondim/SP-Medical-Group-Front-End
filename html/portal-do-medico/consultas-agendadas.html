@@ -13,7 +13,7 @@
       <a>Consultas realizadas</a>
       <a href="./consultas-agendadas.html">Consultas agendadas</a>
       <a href="./meu-perfil.html">Meu perfil</a>
-      
+       
       <div id="profile-container">
         <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
         <div id="profile-menu">
@@ -36,6 +36,43 @@
         </ul>
       </main>
     </div>
+
+
+
+<!--  -->
+    <div id="popupOverlay" class="popup-overlay">
+      <div class="popup">
+        <button class="close-btn" id="closePopupBtn">x</button>
+        <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
+        <div>
+            <div id="texts">
+                <h2 id="nomeMedico">Nome do Médico</h2>
+                <p>Data da consulta: <span id="dataConsulta"></span></p>
+                <p>Horário da consulta: <span id="horario"></span></p>
+                <p>Especialidade: <span id="especialidade"></span></p>
+                <p>Preço da consulta: <span id="preco"></span></p>
+                <p>Motivo da consulta: <span id="motivo"></span></p>
+                <p>Endereço: <span id="endereco"></span></p>
+            </div>
+
+            <div id="actions">
+              <div class="div-button-actions"><button class="actions-btn" id="cancelar-consulta">Cancelar</button></div>
+              <div class="div-button-actions"><button class="actions-btn" id="reagendar-consulta">Reagendar</button></div>
+              <div class="div-button-actions"><button class="actions-btn" id="marcar-concluida">Concluída</button></div>
+            </div>
+
+            <div id="div-consulta-concluida">
+              <span class="consulta-concluida">Consulta concluída!</span>
+            </div>
+
+        </div>
+      </div>
+    </div>
+<!--  -->
+
+<div id="loading-screen">
+  <img src="../../assets/logo_spmedgroup_v2.png" class="spinner"></img>
+</div>
 
     <script src="../../js/portal-do-medico/consultas-agendadas.js"></script>
 </body>
