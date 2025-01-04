@@ -16,6 +16,7 @@ formElement.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
+    
     try {
         const response = await fetch('http://localhost:8080/api/Login', {
             method: 'POST',
@@ -31,6 +32,7 @@ formElement.addEventListener('submit', async (e) => {
                 alert('Token ausente na resposta');
                 return;
             }
+
             sessionStorage.setItem('token', token);
             sessionStorage.setItem('role', parseJwt(token).role);
             sessionStorage.setItem('email', email);
@@ -57,9 +59,12 @@ async function redirecionaUsuario(role, token) {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         }).then((response) => {
-            console.log("8")
+            console.log(sessionStorage.getItem('token'))
+            console.log(sessionStorage.getItem("email"))
+            console.log(sessionStorage.getItem("role"))
+
             if (response.status == 200) 
-                window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole}/${nomeRole}.html`;
+                window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`;
         });
 }
 
