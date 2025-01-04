@@ -1,16 +1,28 @@
+// Referência a elementos HTML
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
+const logoutOption = document.getElementById("logout");
+const viewProfileOption = document.getElementById("view-profile");
+const loadingScreen = document.getElementById("loading-screen");
+const fotoPerfilOptions = document.getElementById("foto-perfil-options");
+const availabilityForm = document.getElementById('availabilityForm');
+
+// Recuperação de informações de sessão
 const token = sessionStorage.getItem("token");
 const email = sessionStorage.getItem("email");
 
-const loadingScreen = document.getElementById("loading-screen");
+// Declaração de variáveis globais
+let InfoBasicasUsuarioJson = {};
 
+// Evento de inicialização
 document.addEventListener('DOMContentLoaded', async () => {
-    await fetchInfoBasicasUsuario();
+    await getDadosBasicosUsuario();
     createProfilePictureActions();
     loadingScreen.style.display = "none";
 });
 
-
-async function fetchInfoBasicasUsuario() {
+// Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
+async function getDadosBasicosUsuario() {
     const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
@@ -20,41 +32,20 @@ async function fetchInfoBasicasUsuario() {
         const errorMessage = await InfoBasicasUsuario.text();
         throw new Error(`Erro na requisição: ${errorMessage}`);
     }
-
     InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
 }
 
+// Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
 function createProfilePictureActions() {
-    const profileContainer = document.getElementById("profile-container");
-    const profileMenu = document.getElementById("profile-menu");
-    const logoutOption = document.getElementById("logout");
-    const viewProfileOption = document.getElementById("view-profile");
-
-    document.getElementById("foto-perfil-options").addEventListener("click", () => {
-        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", (event) => {
-        if (!profileContainer.contains(event.target)) {
-            profileMenu.style.display = "none";
-        }
-    });
-
-    logoutOption.addEventListener("click", () => {
-        sessionStorage.clear();
-        window.location.href = "http://127.0.0.1:5500/index.html";
-    });
-
-    viewProfileOption.addEventListener("click", () => {
-        window.location.href = "./meu-perfil.html";
-    });
-
-    document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+    fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
+    logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "../../index.html"; });
+    viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
+    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+    document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
 }
 
-
-
-document.getElementById('availabilityForm').addEventListener('submit', async function(event) {
+// Evento de submissão do formulário de disponibilidade
+availabilityForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
     const date = document.getElementById('date').value;
@@ -68,17 +59,25 @@ document.getElementById('availabilityForm').addEventListener('submit', async fun
         horaFim: endTime
     };
 
-    await fetch('http://localhost:8080/api/Disponibilidade/adicionar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-    }).then((response) => {
-        if (response.ok) {
-            alert('Disponibilidade cadastrada com sucesso!');
-        } else {
-            alert('Erro ao cadastrar disponibilidade!');
-        }
-    });
+    postDisponibilidade(body);
 });
+
+// Função que envia uma requisição POST para cadastrar uma disponibilidade
+async function postDisponibilidade(body) {
+    try {
+        const response = await fetch('http://localhost:8080/api/Disponibilidade/adicionar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        })
+
+        if (response.ok) 
+            alert('Disponibilidade cadastrada com sucesso!');
+
+    } catch (error) {
+        console.error(error);
+        alert('Erro ao cadastrar disponibilidade');
+    }
+}

@@ -1,16 +1,29 @@
-const params = new URLSearchParams(window.location.search);
-
+// Referência a elementos HTML
 const loadingScreen = document.getElementById("loading-screen");
-
-
-const especialidade = params.get('especialidade');
-const nomeDoPaciente = params.get('paciente');
-const dataAtendimento = params.get('dataAtendimento');
-
 const form = document.getElementById("section-filtros");
+const profileContainer = document.getElementById("profile-container");
+const profileMenu = document.getElementById("profile-menu");
+const logoutOption = document.getElementById("logout");
+const viewProfileOption = document.getElementById("view-profile");
+const fotoPerfilOptions = document.getElementById("foto-perfil-options")
+const numeroPacientes = document.getElementById("pacientes-encontrados-ou-nao");
+const perfis = document.getElementById("pacientes-encontrados");
+const select = document.getElementById('especialidade-select');
+
+// Recuperação de informações de sessão
 const token = sessionStorage.getItem("token");
 const email = sessionStorage.getItem("email");
 
+//Declaração de variáveis globais
+const params = new URLSearchParams(window.location.search);
+const especialidade = params.get('especialidade');
+const nomeDoPaciente = params.get('paciente');
+const dataAtendimento = params.get('dataAtendimento');
+let InfoBasicasUsuarioJson = {};
+let informacoesBasicasPacienteJson = [];
+let especialidadesMedicoJson = [];
+
+// Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     createProfilePictureActions();
@@ -19,6 +32,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     loadingScreen.style.display = "none";
 } );
 
+// Função para buscar dados da API
 async function fetchItems() {
     await getInfoBasicasUsuario();
     await getInformacoesBasicasPacientes();
@@ -40,41 +54,10 @@ async function getInfoBasicasUsuario() {
     InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
 }
 
-// Função que cria as ações do menu de foto de perfil
-function createProfilePictureActions() {
-    const profileContainer = document.getElementById("profile-container");
-    const profileMenu = document.getElementById("profile-menu");
-    const logoutOption = document.getElementById("logout");
-    const viewProfileOption = document.getElementById("view-profile");
-
-    document.getElementById("foto-perfil-options").addEventListener("click", () => {
-        profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
-    });
-
-    document.addEventListener("click", (event) => {
-        if (!profileContainer.contains(event.target)) {
-            profileMenu.style.display = "none";
-        }
-    });
-
-    logoutOption.addEventListener("click", () => {
-        sessionStorage.clear();
-        window.location.href = "http://127.0.0.1:5500/index.html";
-    });
-
-    viewProfileOption.addEventListener("click", () => {
-        window.location.href = "./meu-perfil.html";
-    });
-
-    document.getElementById("foto-perfil-options").src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
-}
-
-
 // Função que busca informações básicas dos pacientes com base nos parâmetros buscados para exibição 
 async function getInformacoesBasicasPacientes() {
     try {
         const url = "http://localhost:8080/api/Paciente/InformacoesBasicasPaciente";
-
         const informacoesBasicasPaciente = await fetch(
             `${url}?emailMedico=${email}&${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoPaciente == null ? "" : `nomePaciente=${nomeDoPaciente}&`}${dataAtendimento == null ? "" : `dataAtendimento=${dataAtendimento}&`}`, {
             method: 'GET',
@@ -84,29 +67,50 @@ async function getInformacoesBasicasPacientes() {
         });
 
         informacoesBasicasPacienteJson = await informacoesBasicasPaciente.json();
-
-        console.log(informacoesBasicasPacienteJson);    
     } catch (error) {
         console.error("Erro ao buscar pacientes:", error);
     }
 }
 
+// Função que busca as especialidades que o médico logado atende
+async function getEspecialidadesMedico() {
+    try {
+        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${InfoBasicasUsuarioJson.cpf}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
+        especialidadesMedicoJson = await especialidades.json();
+    }
+    catch (error) {
+        console.error("Erro ao buscar especialidades do médico:", error);
+    }
+}
+
+// Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
+function createProfilePictureActions() {
+    fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
+    logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "../../index.html"; });
+    viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
+    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+    document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
+}
+
+// Função que mostra na tela o resultado dos pacientes
 function mostrarPacientes() {
-
     const pacientesUnicos = [...new Set(informacoesBasicasPacienteJson.map(paciente => paciente.cpf))].map(cpf => informacoesBasicasPacienteJson.find(paciente => paciente.cpf === cpf));
-    const numeroPacientes = document.getElementById("pacientes-encontrados-ou-nao");
     if (especialidade !== null) 
         pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s) de ${especialidade.toLowerCase()}.`;
     else 
         pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s).`;
     
-    construirElementoMedico(pacientesUnicos);
+    construirElementoPacientes(pacientesUnicos);
 }
 
-function construirElementoMedico(pacientesUnicos) {
-    const perfis = document.getElementById("pacientes-encontrados");
-
+// Função que constroi a div do perfil do paciente
+function construirElementoPacientes(pacientesUnicos) {
     pacientesUnicos.forEach(profissional => {
         // Criando elementos
         const left = document.createElement("div");
@@ -138,102 +142,12 @@ function construirElementoMedico(pacientesUnicos) {
         right.appendChild(agrupaParagrafo);
 
         perfis.appendChild(perfil);
-        
-        // Eventos
-        // perfil.addEventListener('click', function() {
-        //     const medicoIdentificador = this.getAttribute('medico-identificador');
-        //     showPopup(medicoIdentificador);
-        // });
     });
 }
-    
 
-// async function showPopup(medicoIdentificador) {
-//     const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
-//     const especialidades = await getEspecialidadesMedico(medicoIdentificador);
-
-//     const fotoPerfil = document.getElementById("fotoPerfil");
-//     const nomeMedico = document.getElementById("nomeMedico");
-//     const dataNascimento = document.getElementById("dataNascimento");
-//     const numeroConsultas = document.getElementById("numeroConsultas");
-//     const crm = document.getElementById("crm");
-//     const contato = document.getElementById("contato");
-//     const hospital = document.getElementById("hospital");
-//     const especialidadess = document.getElementById("especialidadess");
-
-//     // Preenchendo as informações no pop-up
-//     fotoPerfil.src = medico.fotoPerfilUrl;
-//     nomeMedico.textContent = medico.nomeCompleto;
-//     dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
-//     numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
-//     crm.textContent = `CRM: ${medico.crm}`;
-//     contato.textContent = `Contato: ${medico.email}`;
-//     hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
-//     especialidadess.textContent = `Especialidades: ${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
-
-//     // Exibir o pop-up
-//     popupOverlay.style.display = "flex";
-//     popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
-// }
-
-// async function getInformacoesMedicoEspecifico(medicoIdentificador) {
-//     try {
-//         const medico = await fetch(`http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
-//             method: 'GET',
-//             headers: {
-//                 'Content-Type': 'application/json'
-//             }
-//         });
-
-//         return await medico.json();
-//     }
-//     catch (error) {
-//         console.error("Erro ao buscar informações do médico:", error);
-//     }
-// }
-
-async function getEspecialidadesMedico() {
-    try {
-        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${InfoBasicasUsuarioJson.cpf}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        especaliadadesJson = await especialidades.json();
-    }
-    catch (error) {
-        console.error("Erro ao buscar especialidades do médico:", error);
-    }
-}
-
-// Evento para fechar o pop-up
-closePopup.addEventListener("click", () => {
-    popupOverlay.style.display = "none";
-});
-
-// // Redirecionar para agendar consulta
-// agendarConsulta.addEventListener("click", async () => {
-//     const token = sessionStorage.getItem("token");
-//     const response = await fetch("http://localhost:8080/api/Consulta/Acessar", {
-//         method: 'GET',
-//         headers: {
-//             'Authorization': `Bearer ${token}`
-//         } 
-//     });
-
-//     if(response.status != 200) 
-//         window.location.href = "http://127.0.0.1:5500/html/login.html"
-//     else 
-//         window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=" + popupOverlay.getAttribute('medico-identificador');
-// });
-
-
+// Função que carega as options do select com as especialidades do médico
 function carregarEspecialidadeMedicoSelect() {
-    const select = document.getElementById('especialidade-select');
-
-    especaliadadesJson.forEach(especialidade => {
+    especialidadesMedicoJson.forEach(especialidade => {
         const option = document.createElement('option');
         option.value = especialidade.nome;
         option.textContent = especialidade.nome;
@@ -257,7 +171,7 @@ function carregarEspecialidadeMedicoSelect() {
     }
 }
 
-
+// Função de submissão e recarregamento da pagina com os novos resultados
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
