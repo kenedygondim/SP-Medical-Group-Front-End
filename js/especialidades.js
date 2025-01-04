@@ -12,7 +12,9 @@ async function fetchItems() {
         items = await response.json(); // Assume que a resposta está no formato JSON
         mostrarProfissionais(items);
     } catch (error) {
-        console.error("Erro ao buscar dados:", error);
+        console.error(error)
+        alert("Servidor não está respondendo. Tente novamente mais tarde!")
+        window.location.href = "../../index.html"
     }
 }
 
