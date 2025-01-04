@@ -8,6 +8,8 @@ const numCrm = params.get('crm');
 
 const form = document.getElementById("section-filtros");
 
+let informacoesBasicasMedicoJson = [];
+
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     carregarEspecialidadeMedicoCrm();
@@ -33,7 +35,9 @@ async function getInformacoesBasicasMedico() {
 
         informacoesBasicasMedicoJson = await informacoesBasicasMedico.json();
     } catch (error) {
-        console.error("Erro ao buscar profissionais:", error);
+        console.error(error)
+        alert("Servidor não está respondendo. Tente novamente mais tarde!")
+        window.location.href = "../../index.html"
     }
 }
 
