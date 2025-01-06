@@ -8,8 +8,8 @@ const loadingScreen = document.getElementById("loading-screen");
 
 
 document.addEventListener("DOMContentLoaded", async () => {
-    await realizarLogin();
     loadingScreen.style.display = "none";
+    await realizarLogin();
 });
 
 formElement.addEventListener('submit', async (e) => {
@@ -54,18 +54,35 @@ async function realizarLogin() {
 }
 
 async function redirecionaUsuario(role, token) {
-    const nomeRole = retornaNomeDaRole(role)
-    await fetch(`http://localhost:8080/api/${nomeRole}/Acessar`, {
-            method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` }
-        }).then((response) => {
-            console.log(sessionStorage.getItem('token'))
-            console.log(sessionStorage.getItem("email"))
-            console.log(sessionStorage.getItem("role"))
+    
+    try {
+        const nomeRole = retornaNomeDaRole(role)
 
-            if (response.status == 200) 
-                window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`;
-        });
+        console.log(nomeRole)
+
+        const response = await fetch(`http://localhost:8080/api/${nomeRole}/Acessar`, {
+                method: 'GET',
+                headers: { 
+                     contentType: 'application/json; charset=utf-8',
+                    'Authorization': `Bearer ${token}` 
+                }
+            })
+            
+            console.log(response)
+
+            
+
+        if (response.status == 200) 
+            window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`
+        
+        }  
+        
+        catch (error) {
+                alert('Erro ao acessar o portal');
+                console.error(error);
+            }
+
+    
 }
 
 function retornaNomeDaRole (role) {
@@ -178,12 +195,10 @@ document.getElementById('submit').addEventListener('click', async () => {
     }
 
     try {
-    
-        console.log(formData)
-        const response = await fetch('http://localhost:8080/api/Paciente/Cadastrar', {
+            const response = await fetch('http://localhost:8080/api/Paciente/Cadastrar', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: JSON.stringify(formData)
         });
 
         if (response.ok) {
