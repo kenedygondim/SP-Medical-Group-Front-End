@@ -48,6 +48,8 @@ function createProfilePictureActions() {
 availabilityForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
+    loadingScreen.style.display = "flex";
+
     const date = document.getElementById('date').value;
     const startTime = document.getElementById('startTime').value;
     const endTime = document.getElementById('endTime').value;
@@ -59,7 +61,9 @@ availabilityForm.addEventListener('submit', async (event) => {
         horaFim: endTime
     };
 
-    postDisponibilidade(body);
+    await postDisponibilidade(body);
+
+    loadingScreen.style.display = "none";
 });
 
 // Função que envia uma requisição POST para cadastrar uma disponibilidade
@@ -70,14 +74,30 @@ async function postDisponibilidade(body) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(body)
-        })
+            body: JSON.stringify(body),
+        });
 
-        if (response.ok) 
+        // Processar a resposta do servidor
+        const responseJson = await response.json();
+
+        if (response.ok) {
+            // Cadastro bem-sucedido
             alert('Disponibilidade cadastrada com sucesso!');
-
+        } else if (response.status === 400) {
+            // Erro de validação (exemplo: conflito de horários)
+            if (responseJson.detalhes) {
+                alert(`Erro: ${responseJson.detalhes}`);
+            } else {
+                alert(`Erro: ${responseJson.mensagem || 'Ocorreu um erro ao cadastrar a disponibilidade.'}`);
+            }
+        } else {
+            // Outros erros (exemplo: erro no servidor)
+            alert(`Erro inesperado: ${responseJson.mensagem || 'Algo deu errado.'}`);
+        }
     } catch (error) {
-        console.error(error);
-        alert('Erro ao cadastrar disponibilidade');
+        // Erros de rede ou outras exceções
+        console.error('Erro na requisição:', error);
+        alert('Falha ao comunicar com o servidor. Por favor, tente novamente mais tarde.');
     }
 }
+
