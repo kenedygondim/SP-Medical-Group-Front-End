@@ -62,7 +62,8 @@ async function getInformacoesBasicasPacientes() {
             `${url}?emailMedico=${email}&${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoPaciente == null ? "" : `nomePaciente=${nomeDoPaciente}&`}${dataAtendimento == null ? "" : `dataAtendimento=${dataAtendimento}&`}`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
 
