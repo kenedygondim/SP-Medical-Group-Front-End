@@ -83,8 +83,38 @@ function montarPerfilCompletoPaciente() {
     document.getElementById("foto-perfil-options").src = perfilCompletoPacienteJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : perfilCompletoPacienteJson.fotoPerfilUrl;
 
     const profileImage = document.getElementById("profile-image");
+
+    const fileInput = document.getElementById("file-input");
+
+    const profileImageDiv = document.getElementById("profile-image-div");
+
     profileImage.src = perfilCompletoPacienteJson.fotoPerfilUrl || "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp";
+
+    const overlay = document.getElementById("overlay");
+
+    profileImage.addEventListener("mouseover", () => {
+        profileImage.style.opacity = "0.7";
+        profileImage.style.cursor = "pointer";
+        overlay.style.opacity = "1";  // Exibe a sobreposição
+    });
+
+    profileImage.addEventListener("mouseout", () => {
+        profileImage.style.opacity = "1";  // Restaura a opacidade da imagem
+        overlay.style.opacity = "0";  // Esconde a sobreposição
+    });
+
+    profileImageDiv.addEventListener("click", () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener("change", async (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            await atualizarFotoPerfil(file);
+        }
+    });
 }
+
 
 document.getElementById('salvar').addEventListener('click', () => {
     const senhaAntigaInput = document.getElementById('senha-antiga');
@@ -98,3 +128,37 @@ document.getElementById('salvar').addEventListener('click', () => {
         senhaAntigaError.style.display = 'none';
     }
 });
+
+
+async function atualizarFotoPerfil(file) {
+    try {
+        const formData = new FormData();
+        formData.append('FotoPerfil', file);
+        formData.append('Email', email);
+    
+        console.log(formData.get('fotoPerfil'));
+
+
+        const response = await fetch(`http://localhost:8080/api/FotoPerfil/AlterarFotoPerfil`, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            body: formData
+        });
+
+        console.log(await response.json());
+
+        if (response.status == 400) {
+            throw new Error("Erro ao atualizar foto de perfil");
+        }
+
+        const responseJson = await response.json();
+
+        console.log(responseJson);
+    } catch (error) {
+        alert('Erro ao atualizar foto de perfil');
+        console.error(error);   
+    }
+
+}
