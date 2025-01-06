@@ -4,21 +4,21 @@ let especialidadesJson = [];
 let infoBasicasUsuarioJson = {};
 let consultasPacienteJson = [];
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const email = sessionStorage.getItem("email"); // Recupera o email salvo
-    const token = sessionStorage.getItem("token"); // Recupera o token salvo
+const email = sessionStorage.getItem("email"); // Recupera o email salvo
+const token = sessionStorage.getItem("token"); // Recupera o token salvo
 
-    await fetchItems(email, token);
+document.addEventListener("DOMContentLoaded", async () => {
+    await fetchItems();
     carregarFotoPerfilOptions();
     mostrarConsultas();
     document.getElementById("nome-paciente-h2").textContent = `${saudacao()}, ${infoBasicasUsuarioJson.nomeCompleto}!`;
     loadingScreen.style.display = "none";
 });
 
-async function fetchItems(email, token) {
+async function fetchItems() {
     await GetEspecialidades();
-    await GetInfoBasicasUsuario(email, token);
-    await GetConsultasPaciente(email, token);
+    await GetInfoBasicasUsuario();
+    await GetConsultasPaciente();
 }
 
 async function GetEspecialidades() {
@@ -37,7 +37,7 @@ async function GetEspecialidades() {
     }
 }
 
-async function GetInfoBasicasUsuario(email, token) {
+async function GetInfoBasicasUsuario() {
     try {
         const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
             method: 'GET',
@@ -53,7 +53,7 @@ async function GetInfoBasicasUsuario(email, token) {
     }
 }
 
-async function GetConsultasPaciente(email, token) {
+async function GetConsultasPaciente() {
     try {
         const consultasPaciente = await fetch(`http://localhost:8080/api/Consulta/ListarTodasConsultasPaciente?email=${email}`, {
             method: 'GET',
