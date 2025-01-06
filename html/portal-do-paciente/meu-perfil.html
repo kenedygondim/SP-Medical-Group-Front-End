@@ -26,9 +26,15 @@
     
     <div class="container">
         <div class="profile-header">
-            <img src="" alt="Foto de Perfil" id="profile-image">
+            <div id="profile-image-div">
+                <img src="" alt="Foto de Perfil" id="profile-image">
+                <div id="overlay" class="overlay">Alterar Foto</div>
+                <input type="file" id="file-input" style="display: none;" accept="image/*">
+            </div>
             <h1 id="nome-completo"></h1>
         </div>
+        
+        
 
         <h3 class="title-info">Informações pessoais</h3>
         <div class="form-group-inline">
