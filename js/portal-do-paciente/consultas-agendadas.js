@@ -1,3 +1,11 @@
+const fotoPerfil = document.getElementById("fotoPerfil");
+const nomeMedico = document.getElementById("nomeMedico");
+const dataConsulta = document.getElementById("dataConsulta");
+const horario = document.getElementById("horario");
+const preco = document.getElementById("preco");
+const endereco = document.getElementById("endereco");
+const especialidade = document.getElementById("especialidade");
+
 const currentDateHTML = document.getElementById('current-date');
 let currentDate = new Date();
 
@@ -168,36 +176,32 @@ function mostrarConsultas() {
 
 
 async function showPopup(consultaIdentificador) {
-    try {
-
       const consulta = consultasPaciente.find(consulta => consulta.consultaId == consultaIdentificador);
-
-      const fotoPerfil = document.getElementById("fotoPerfil");
-      const nomeMedico = document.getElementById("nomeMedico");
-      const dataConsulta = document.getElementById("dataConsulta");
-      const horario = document.getElementById("horario");
-      const preco = document.getElementById("preco");
-      const endereco = document.getElementById("endereco");
-      const especialidade = document.getElementById("especialidade");
 
       fotoPerfil.src = consulta.fotoPerfilUrl;
       nomeMedico.textContent = consulta.nomeMedico
-      dataConsulta.textContent = `Data da consulta: ${formatarData(consulta.dataConsulta)}`;
-      horario.textContent = `Horário: ${consulta.horaInicio} - ${consulta.horaFim}`;
-      especialidade.textContent = `Especialidade: ${consulta.especialidade}`;
-      motivo.textContent = `Motivo da consulta: ${consulta.descricao}`;
-      preco.textContent = `Preço: R$ ${consulta.preco}`;
+      dataConsulta.textContent = `${formatarData(consulta.dataConsulta)}`;
+      horario.textContent = `${consulta.horaInicio} - ${consulta.horaFim}`;
+      especialidade.textContent = `${consulta.especialidade}`;
+      motivo.textContent = `${consulta.descricao}`;
+      preco.textContent = `${consulta.preco}`; 
 
       !consulta.isTelemedicina ? endereco.textContent = `Endereço: ${consulta.logradouro}, ${consulta.numero} - ${consulta.bairro} - ${consulta.municipio} - ${consulta.uf}, ${consulta.cep}` : endereco.textContent = `Consulta Online via Google Meet`;
       
+      if (consulta.situacao == "Concluída") {
+        document.getElementById("actions").style.display = "none";
+        document.getElementById("div-consulta-concluida").style.display = "flex";
+      }
+      else {
+        document.getElementById("actions").style.display = "flex";
+        document.getElementById("div-consulta-concluida").style.display = "none";
+      }
+
       popupOverlay.style.display = "flex";
+
+      
       popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
       document.getElementById("cancelarConsulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
-    }
-    catch (error) {
-      console.error(error.message);
-      alert("Não foi possível carregar as informações do médico.");
-    }
 }
 
 // Evento para fechar o pop-up
