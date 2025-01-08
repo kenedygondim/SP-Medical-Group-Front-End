@@ -3,6 +3,7 @@ const popup = document.getElementById('popup');
 const overlay = document.getElementById('overlay');
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
+const step3 = document.getElementById('step-3');
 
 const loadingScreen = document.getElementById("loading-screen");
 
@@ -67,22 +68,15 @@ async function redirecionaUsuario(role, token) {
                     'Authorization': `Bearer ${token}` 
                 }
             })
-            
-            console.log(response)
-
-            
 
         if (response.status == 200) 
-            window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`
-        
+            window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`    
         }  
         
         catch (error) {
                 alert('Erro ao acessar o portal');
                 console.error(error);
             }
-
-    
 }
 
 function retornaNomeDaRole (role) {
@@ -142,6 +136,17 @@ document.getElementById('close-popup').addEventListener('click', () => {
 document.getElementById('to-step-2').addEventListener('click', () => {
     step1.classList.add('hidden');
     step2.classList.remove('hidden');
+});
+
+
+document.getElementById('back-to-step-2').addEventListener('click', () => {
+    step3.classList.add('hidden');
+    step2.classList.remove('hidden');
+});
+
+document.getElementById('to-step-3').addEventListener('click', () => {
+    step2.classList.add('hidden');
+    step3.classList.remove('hidden');
 });
 
 document.getElementById('back-to-step-1').addEventListener('click', () => {
