@@ -108,10 +108,16 @@ function montarPerfilCompletoPaciente() {
     });
 
     fileInput.addEventListener("change", async (event) => {
+
+        loadingScreen.style.display = "flex";
+
         const file = event.target.files[0];
         if (file) {
             await atualizarFotoPerfil(file);
         }
+
+        loadingScreen.style.display = "none";
+
     });
 }
 
@@ -133,13 +139,12 @@ document.getElementById('salvar').addEventListener('click', () => {
 async function atualizarFotoPerfil(file) {
     try {
         const formData = new FormData();
-        formData.append('FotoPerfil', file);
-        formData.append('Email', email);
-    
-        console.log(formData.get('fotoPerfil'));
+        formData.append('novaFotoPerfil', file);
 
+        console.log([...formData.entries()]);
+        
 
-        const response = await fetch(`http://localhost:8080/api/FotoPerfil/AlterarFotoPerfil`, {
+        const response = await fetch(`http://localhost:8080/api/FotoPerfil/AlterarFotoPerfil?email=${email}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -147,15 +152,16 @@ async function atualizarFotoPerfil(file) {
             body: formData
         });
 
-        console.log(await response.json());
-
         if (response.status == 400) {
             throw new Error("Erro ao atualizar foto de perfil");
         }
 
         const responseJson = await response.json();
 
-        console.log(responseJson);
+        alert("Foto de perfil atualizada com sucesso");
+
+        window.location.reload();
+
     } catch (error) {
         alert('Erro ao atualizar foto de perfil');
         console.error(error);   
