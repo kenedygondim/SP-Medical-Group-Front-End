@@ -168,7 +168,13 @@ async function carregarEspecialidades(cpf) {
 }
 
 async function carregarDisponibilidades(cpf, data) {
-  const response = await fetch(`http://localhost:8080/api/Disponibilidade/listarDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`);
+  const response = await fetch(`http://localhost:8080/api/Disponibilidade/listarDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
+    method: 'GET',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+  }});
+  
   const disponibilidades = await response.json();
   
   if(disponibilidades.length == 0){
