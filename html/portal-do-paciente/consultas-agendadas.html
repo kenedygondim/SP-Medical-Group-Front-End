@@ -44,17 +44,25 @@
         <button class="close-btn" id="closePopupBtn">x</button>
         <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
         <div>
-            <div id="texts">
-                <h2 id="nomeMedico">Nome do Médico</h2>
-                <p id="dataConsulta">Data da consulta: </p>
-                <p id="horario">Horário da consulta: </p>
-                <p id="especialidade">Especialidade: </p>
-                <p id="preco">Preço da consulta: </p>
-                <p id="motivo">Motivo da consulta: </p>
-                <p id="endereco"></p>
-            </div>
-            <div id="div-button-cancelar"><button class="cancelar-btn" id="cancelarConsulta">Cancelar Consulta</button></div>
+          <div id="texts">
+            <h2 id="nomeMedico">Nome do Médico</h2>
+            <p>Data da consulta: <span id="dataConsulta"></span></p>
+            <p>Horário da consulta: <span id="horario"></span></p>
+            <p>Especialidade: <span id="especialidade"></span></p>
+            <p>Preço da consulta: <span id="preco"></span></p>
+            <p>Motivo da consulta: <span id="motivo"></span></p>
+            <p>Endereço: <span id="endereco"></span></p>
         </div>
+
+            <div id="actions">
+              <div class="div-button-actions"><button class="actions-btn" id="cancelar-consulta">Cancelar</button></div>
+            </div>
+
+            <div id="div-consulta-concluida">
+              <span class="consulta-concluida">Consulta concluída!</span>
+            </div>
+
+          </div>
       </div>
     </div>
 
