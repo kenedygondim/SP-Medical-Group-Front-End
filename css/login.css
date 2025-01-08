@@ -176,16 +176,18 @@ p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: auto;
+    min-height: 20em;
     width: 50%;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     padding: 20px;
     z-index: 1000;
+    border: 1px solid black;
 }
 #popup.active {
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 #overlay {
@@ -207,6 +209,19 @@ p {
 .form-section {
     margin-bottom: 20px;
 }
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-group-inline {
+    display: flex;
+    gap: 3%;
+    padding: 10px;
+}
+
 .form-section > button {
     background-color: #003A56;
     color: #ffffff;
@@ -221,13 +236,24 @@ button:disabled {
     cursor: not-allowed;
 }
 
+.title-info {
+    font-size: 20px;
+    font-weight: 400;
+    padding-bottom: 1em;
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
 input {
-    width: 80%;
-    height: 40px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 #close-popup {
