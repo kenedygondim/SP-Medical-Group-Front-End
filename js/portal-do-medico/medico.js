@@ -20,6 +20,9 @@ const email = sessionStorage.getItem("email");
 let consultasMedicoJson = [];
 let InfoBasicasUsuarioJson = {};
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Evento de inicialização
 document.addEventListener("DOMContentLoaded", async ( )=>  {
     await fetchItems();
@@ -39,7 +42,7 @@ async function fetchItems() {
 // Função de busca de todas as consultas do médico (Realizadas ou não)
 async function getConsultasMedico() {
     try {
-        const consultasMedico = await fetch(`http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
+        const consultasMedico = await fetch(`${apiPrefix}Consulta/ListarTodosConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -60,7 +63,7 @@ async function getConsultasMedico() {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

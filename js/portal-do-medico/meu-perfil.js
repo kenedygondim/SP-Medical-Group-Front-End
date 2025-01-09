@@ -14,6 +14,9 @@ const email = sessionStorage.getItem("email");
 // Declaração de variáveis globais
 let perfilCompletoMedicoJson = {};
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
     await getPerfilCompletoMedico();
@@ -25,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Função que busca todas as informações do médico no BD
 async function getPerfilCompletoMedico() {
     try {
-        const perfilCompletoMedico= await fetch(`http://localhost:8080/api/Medico/PerfilCompletoMedico?email=${email}`, {
+        const perfilCompletoMedico= await fetch(`${apiPrefix}Medico/PerfilCompletoMedico?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

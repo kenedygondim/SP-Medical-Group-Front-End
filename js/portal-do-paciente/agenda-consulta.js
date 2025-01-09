@@ -21,6 +21,9 @@ let medicos = [];
 const hoje = new Date();
 dataInput.min = retornaDataFormatada(hoje);
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
     carregarFotoPerfilOptions();
@@ -36,7 +39,7 @@ async function fetchItems() {
 
 async function Acessar() {
   try {
-    const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
+    const acesso = await fetch(`${apiPrefix}Consulta/Acessar`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`
@@ -53,7 +56,7 @@ async function Acessar() {
 
 async function ListarTodosMedicos() {
   try {
-    const response = await fetch('http://localhost:8080/api/Medico/ListarTodos', {
+    const response = await fetch(`${apiPrefix}Medico/ListarTodos`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -68,7 +71,7 @@ async function ListarTodosMedicos() {
 
 async function GetInfoBasicasUsuario() {
   try {
-    const response = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+    const response = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +157,7 @@ medicoSelect.addEventListener('change', () => {
 async function carregarEspecialidades(cpf) {
   dataInput.value = '';
 
-  const response = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${cpf}`);
+  const response = await fetch(`${apiPrefix}Especialidade/obterEspecialidadesMedico?cpf=${cpf}`);
   const especialidades = await response.json();
 
   especialidadeSelect.innerHTML = '<option value="">Selecione uma especialidade</option>';
@@ -168,7 +171,7 @@ async function carregarEspecialidades(cpf) {
 }
 
 async function carregarDisponibilidades(cpf, data) {
-  const response = await fetch(`http://localhost:8080/api/Disponibilidade/listarDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
+  const response = await fetch(`${apiPrefix}Disponibilidade/listarDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -195,7 +198,7 @@ async function carregarDisponibilidades(cpf, data) {
 async function carregarResumo(cpf) {
   const token = sessionStorage.getItem("token")
 
-  const response = await fetch(`http://localhost:8080/api/Consulta/ConfirmarConsultaDetalhes?cpf=${cpf}&nomeEspecialidade=${especialidadeSelect.value}`, {
+  const response = await fetch(`${apiPrefix}Consulta/ConfirmarConsultaDetalhes?cpf=${cpf}&nomeEspecialidade=${especialidadeSelect.value}`, {
     method: "GET",
     headers: {
       'Authorization': `Bearer ${token}`
@@ -239,7 +242,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
     isTelemedicina: isConsultaOnline.options[isConsultaOnline.selectedIndex].value == 1 ? true : false
   }
 
-  const response = await fetch("http://localhost:8080/api/Consulta/Agendar", {
+  const response = await fetch(`${apiPrefix}Consulta/Agendar`, {
     method: "POST",
     headers: {
       'Authorization': `Bearer ${token}`,

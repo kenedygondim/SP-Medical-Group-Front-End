@@ -1,5 +1,8 @@
 const loadingScreen = document.getElementById("loading-screen");
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     loadingScreen.style.display = "none";
@@ -7,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function fetchItems() {
     try {
-        const response = await fetch('http://localhost:8080/paginaEspecialidades', {
+        const response = await fetch(`${apiPrefix}paginaEspecialidades`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

@@ -7,6 +7,10 @@ let consultasPacienteJson = [];
 const email = sessionStorage.getItem("email"); // Recupera o email salvo
 const token = sessionStorage.getItem("token"); // Recupera o token salvo
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
+
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     carregarFotoPerfilOptions();
@@ -14,6 +18,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("nome-paciente-h2").textContent = `${saudacao()}, ${infoBasicasUsuarioJson.nomeCompleto}!`;
     loadingScreen.style.display = "none";
 });
+
+
 
 async function fetchItems() {
     await GetEspecialidades();
@@ -23,7 +29,7 @@ async function fetchItems() {
 
 async function GetEspecialidades() {
     try {
-        const response = await fetch(`http://localhost:8080/api/Especialidade/ListarTodos`, {
+        const response = await fetch(`${apiPrefix}Especialidade/ListarTodos`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,7 +45,7 @@ async function GetEspecialidades() {
 
 async function GetInfoBasicasUsuario() {
     try {
-        const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -55,7 +61,7 @@ async function GetInfoBasicasUsuario() {
 
 async function GetConsultasPaciente() {
     try {
-        const consultasPaciente = await fetch(`http://localhost:8080/api/Consulta/ListarTodasConsultasPaciente?email=${email}`, {
+        const consultasPaciente = await fetch(`${apiPrefix}Consulta/ListarTodasConsultasPaciente?email=${email}`, {
             method: 'GET',
             headers: {
             'Authorization': `Bearer ${token}`

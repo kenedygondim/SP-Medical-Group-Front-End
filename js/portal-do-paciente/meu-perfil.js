@@ -5,6 +5,9 @@ let perfilCompletoPacienteJson = {};
 
 const loadingScreen = document.getElementById("loading-screen");
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 document.addEventListener("DOMContentLoaded", async () => {
     await GetPerfil();
     carregarFotoPerfilOptions();
@@ -46,7 +49,7 @@ async function GetPerfil() {
         console.log(email)
 
 
-        const perfilCompletoPaciente = await fetch(`http://localhost:8080/api/Paciente/PerfilCompletoPaciente?email=${email}`, {
+        const perfilCompletoPaciente = await fetch(`${apiPrefix}Paciente/PerfilCompletoPaciente?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -144,7 +147,7 @@ async function atualizarFotoPerfil(file) {
         console.log([...formData.entries()]);
         
 
-        const response = await fetch(`http://localhost:8080/api/FotoPerfil/AlterarFotoPerfil?email=${email}`, {
+        const response = await fetch(`${apiPrefix}FotoPerfil/AlterarFotoPerfil?email=${email}`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`

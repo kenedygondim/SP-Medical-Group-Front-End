@@ -11,7 +11,8 @@ let currentDate = new Date();
 
 const loadingScreen = document.getElementById("loading-screen");
 
-
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
@@ -48,7 +49,7 @@ async function fetchItems() {
     const token = sessionStorage.getItem("token")
     const email = sessionStorage.getItem("email")
     
-    const acesso = await fetch('http://localhost:8080/api/Consulta/Acessar', {
+    const acesso = await fetch(`${apiPrefix}Consulta/Acessar`, {
         method: 'GET',
         headers: {
         Authorization: `Bearer ${token}`
@@ -57,14 +58,14 @@ async function fetchItems() {
     if (acesso.status == 401) 
         window.location.href = "http://127.0.0.1:5500/html/login.html"
   
-    const response = await fetch('http://localhost:8080/api/Consulta/ListarTodasConsultasPaciente?email=' + sessionStorage.getItem("email"), {
+    const response = await fetch(`${apiPrefix}Consulta/ListarTodasConsultasPaciente?email=${email}`, {
         method: 'GET',
         headers: {
         Authorization: `Bearer ${token}`
         }
     });
 
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Paciente/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -219,7 +220,7 @@ async function cancelarConsulta (consultaIdentificador) {
     const token = sessionStorage.getItem("token");
 
     try {
-        const response = await fetch(`http://localhost:8080/api/Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
+        const response = await fetch(`${apiPrefix}Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

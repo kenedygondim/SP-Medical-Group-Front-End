@@ -48,6 +48,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     await realizarLogin();
 });
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Função para realizar login manual
 formElement.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -55,7 +58,7 @@ formElement.addEventListener('submit', async (e) => {
     const senha = document.getElementById("senha").value;
     
     try {
-        const response = await fetch('http://localhost:8080/api/Login', {
+        const response = await fetch(`${apiPrefix}Login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +98,7 @@ async function redirecionaUsuario(role, token) {
         if (nomeRole == null) 
             throw new Error('Não foi possível identificar as credenciais do usuário.');
 
-        const response = await fetch(`http://localhost:8080/api/${nomeRole}/Acessar`, {
+        const response = await fetch(`${apiPrefix}${nomeRole}/Acessar`, {
             method: 'GET',
             headers: { 
                 'contentType': 'application/json;',
@@ -384,7 +387,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/Paciente/Cadastrar', {
+        const response = await fetch(`${apiPrefix}Paciente/Cadastrar`, {
         method: 'POST',
         body: formData
         });

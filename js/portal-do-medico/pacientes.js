@@ -23,6 +23,9 @@ let InfoBasicasUsuarioJson = {};
 let informacoesBasicasPacienteJson = [];
 let especialidadesMedicoJson = [];
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
@@ -41,7 +44,7 @@ async function fetchItems() {
 
 // Função que busca informações básicas do usuário logado no sistema como Foto de perfil, nome completo e CPF
 async function getInfoBasicasUsuario() {
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -57,7 +60,7 @@ async function getInfoBasicasUsuario() {
 // Função que busca informações básicas dos pacientes com base nos parâmetros buscados para exibição 
 async function getInformacoesBasicasPacientes() {
     try {
-        const url = "http://localhost:8080/api/Paciente/InformacoesBasicasPaciente";
+        const url = `${apiPrefix}Paciente/InformacoesBasicasPaciente`;
         const informacoesBasicasPaciente = await fetch(
             `${url}?emailMedico=${email}&${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoPaciente == null ? "" : `nomePaciente=${nomeDoPaciente}&`}${dataAtendimento == null ? "" : `dataAtendimento=${dataAtendimento}&`}`, {
             method: 'GET',
@@ -76,7 +79,7 @@ async function getInformacoesBasicasPacientes() {
 // Função que busca as especialidades que o médico logado atende
 async function getEspecialidadesMedico() {
     try {
-        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${InfoBasicasUsuarioJson.cpf}`, {
+        const especialidades = await fetch(`${apiPrefix}Especialidade/obterEspecialidadesMedico?cpf=${InfoBasicasUsuarioJson.cpf}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

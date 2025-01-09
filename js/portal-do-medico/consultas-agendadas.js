@@ -29,6 +29,9 @@ let consultasMedicoJson = [];
 let InfoBasicasUsuarioJson = [];
 let disponibilidadesMedicoJson = [];
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Evento de inicialização
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();
@@ -48,7 +51,7 @@ async function fetchItems() {
 
 // Função de acesso à pagina
 async function acessar() {
-    const response = await fetch('http://localhost:8080/api/Consulta/Acessar', {
+    const response = await fetch(`${apiPrefix}Consulta/Acessar`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     });
@@ -61,7 +64,7 @@ async function acessar() {
 
 // Função de busca de todas as consultas do médico (Realizadas ou não)
 async function getConsultasMedico() {
-    const consultasMedico = await fetch('http://localhost:8080/api/Consulta/ListarTodosConsultasMedico?email=' + email, {
+    const consultasMedico = await fetch(`${apiPrefix}Consulta/ListarTodosConsultasMedico?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     });
@@ -76,7 +79,7 @@ async function getConsultasMedico() {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -91,7 +94,7 @@ async function getDadosBasicosUsuario() {
 
 // Função que busca as disponibilidades do médico na data atual
 async function  getDisponibilidadesPelaData() {
-    const disponibilidadesMedico = await fetch(`http://localhost:8080/api/Disponibilidade/ListarDisponibilidadesMedicoPorData?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
+    const disponibilidadesMedico = await fetch(`${apiPrefix}Disponibilidade/ListarDisponibilidadesMedicoPorData?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -296,7 +299,7 @@ function closePopup() {
 // Função para cancelar a consulta
 async function cancelarConsulta (consultaIdentificador) {
     try {
-        const response = await fetch(`http://localhost:8080/api/Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
+        const response = await fetch(`${apiPrefix}Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -317,7 +320,7 @@ async function cancelarConsulta (consultaIdentificador) {
 // Função para marcar a consulta como concluída
 async function marcarConsultaComoConcluida (consultaIdentificador) {
     try {
-        const response = await fetch(`http://localhost:8080/api/Consulta/MarcarConsultaComoConcluida?consultaId=${consultaIdentificador}`, {
+        const response = await fetch(`${apiPrefix}Consulta/MarcarConsultaComoConcluida?consultaId=${consultaIdentificador}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

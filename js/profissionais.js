@@ -10,6 +10,9 @@ const form = document.getElementById("section-filtros");
 
 let informacoesBasicasMedicoJson = [];
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     carregarEspecialidadeMedicoCrm();
@@ -24,7 +27,7 @@ async function fetchItems() {
 
 async function getInformacoesBasicasMedico() {
     try {
-        const url = "http://localhost:8080/api/Medico/ListarInformacoesBasicasMedico";
+        const url = `${apiPrefix}Medico/ListarInformacoesBasicasMedico`;
         const informacoesBasicasMedico = await fetch(
             `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
             method: 'GET',
@@ -43,7 +46,7 @@ async function getInformacoesBasicasMedico() {
 
 async function getEspecialidades () {
     try {
-        const especialidades = await fetch("http://localhost:8080/api/Especialidade/ListarTodos", {
+        const especialidades = await fetch(`${apiPrefix}Especialidade/ListarTodos`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -147,7 +150,7 @@ async function showPopup(medicoIdentificador) {
 
 async function getInformacoesMedicoEspecifico(medicoIdentificador) {
     try {
-        const medico = await fetch(`http://localhost:8080/api/Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
+        const medico = await fetch(`${apiPrefix}Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -163,7 +166,7 @@ async function getInformacoesMedicoEspecifico(medicoIdentificador) {
 
 async function getEspecialidadesMedico(medicoIdentificador) {
     try {
-        const especialidades = await fetch(`http://localhost:8080/api/Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`, {
+        const especialidades = await fetch(`${apiPrefix}Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -185,7 +188,7 @@ closePopup.addEventListener("click", () => {
 // Redirecionar para agendar consulta
 agendarConsulta.addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
-    const response = await fetch("http://localhost:8080/api/Consulta/Acessar", {
+    const response = await fetch("${apiPrefix}Consulta/Acessar", {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`

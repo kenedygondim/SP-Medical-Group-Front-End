@@ -14,6 +14,9 @@ const email = sessionStorage.getItem("email");
 // Declaração de variáveis globais
 let InfoBasicasUsuarioJson = {};
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 // Evento de inicialização
 document.addEventListener('DOMContentLoaded', async () => {
     await getDadosBasicosUsuario();
@@ -23,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`http://localhost:8080/api/Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -69,7 +72,7 @@ availabilityForm.addEventListener('submit', async (event) => {
 // Função que envia uma requisição POST para cadastrar uma disponibilidade
 async function postDisponibilidade(body) {
     try {
-        const response = await fetch('http://localhost:8080/api/Disponibilidade/adicionar', {
+        const response = await fetch(`${apiPrefix}Disponibilidade/adicionar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

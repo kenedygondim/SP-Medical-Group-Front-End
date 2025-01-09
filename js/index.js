@@ -4,6 +4,9 @@ const token = sessionStorage.getItem("token");
 const role = sessionStorage.getItem("role");
 const loadingScreen = document.getElementById("loading-screen");
 
+// Prefixo de chamada de API
+const apiPrefix = "http://localhost:8080/api/";
+
 document.addEventListener("DOMContentLoaded", async function () {
     await fetchItems();
     loadingScreen.style.display = "none";
@@ -12,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function fetchItems() {
     const token = sessionStorage.getItem("token"); 
     try {
-        const response = await fetch('http://localhost:8080/api/Especialidade/ListarTodos');
+        const response = await fetch(`${apiPrefix}Especialidade/ListarTodos`);
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
         items = await response.json(); 
         especialidades = items.map(item => item.nome);        
