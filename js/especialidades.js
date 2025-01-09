@@ -7,9 +7,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function fetchItems() {
     try {
-        const response = await fetch('http://localhost:8080/paginaEspecialidades');
-        if (!response.ok) throw new Error("Erro ao carregar os dados.");
-        items = await response.json(); // Assume que a resposta está no formato JSON
+        const response = await fetch('http://localhost:8080/paginaEspecialidades', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        const items = await response.json();
         mostrarProfissionais(items);
     } catch (error) {
         console.error(error)
