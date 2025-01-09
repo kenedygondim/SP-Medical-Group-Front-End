@@ -22,7 +22,7 @@
                     prestados pela SP Medical Group.</p>
             </div>
 
-            <div  id="div-form"  class="hidden">
+            <div  id="div-form"  class="hidden escuro">
                 <form id="form" method="post">
                     <input type="text" name="email" id="email" placeholder="E-mail" required>
                     <input type="password" name="senha" id="senha" placeholder="Senha" required>
@@ -44,13 +44,15 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="first-name">Primeiro Nome: </label>
-                            <input type="text" id="first-name" required>
+                            <input type="text" id="first-name" required placeholder="John">
+                            <div class="error-message" id="first-name-error"></div>
                             <br>
                         </div>
 
                         <div class="form-group">
                             <label for="last-name">Sobrenome: </label>
-                            <input type="text" id="last-name" required>
+                            <input type="text" id="last-name" required placeholder="Doe">
+                            <div class="error-message" id="last-name-error"></div>
                             <br>
                         </div>
                     </div>
@@ -59,24 +61,30 @@
                         <div class="form-group">
                             <label for="dob">Data de Nascimento: </label>
                             <input type="date" id="dob" required>
+                            <div class="error-message" id="dob-error"></div>
                             <br>
                         </div>
 
                         <div class="form-group">
                             <label>CPF: </label>
-                            <input type="text" id="cpf" required maxlength="11">
+                            <input type="text" id="cpf" required maxlength="11" placeholder="12345678911">
+                            <div class="error-message" id="cpf-error"></div>
                             <br>
                         </div>
 
                         <div class="form-group">
                             <label for="rg">RG: </label >
-                            <input type="text" id="rg" required>
+                            <input type="text" id="rg" required maxlength="9" placeholder="123456789">
+                            <div class="error-message" id="rg-error"></div>
                             <br>
                         </div>
                     </div>
 
 
-                    <button id="to-step-2">Próximo</button>
+                    <div class="actions">
+                        <p></p>
+                        <button id="to-step-2" class="next-btn">Próximo</button>
+                    </div>
                 </div>
 
                 <div id="step-2" class="form-section hidden">
@@ -85,7 +93,8 @@
                     <div  class="form-group-inline">
                         <div class="form-group">
                             <label for="email-cadastro">Email: </label>
-                            <input type="text" id="email-cadastro" required>
+                            <input type="text" id="email-cadastro" required placeholder="johndoe@email.com">
+                            <div class="error-message" id="email-cadastro-error"></div>
                             <br>
                         </div>
                     </div>
@@ -93,13 +102,15 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="password">Senha: </label>
-                            <input type="password" id="password" required>
+                            <input type="password" id="password" required placeholder="********">
+                            <div class="error-message" id="password-error"></div>
                             <br>
                         </div>
 
                         <div class="form-group">
                             <label for="confirm-password">Confirmar Senha: </label> 
-                            <input type="password" id="confirm-password" required>
+                            <input type="password" id="confirm-password" required placeholder="********">
+                            <div class="error-message" id="confirm-password-error"></div>
                             <br> 
                         </div>
 
@@ -109,8 +120,10 @@
                     </div>
                     
 
-                    <button id="back-to-step-1">Voltar</button>
-                    <button id="to-step-3">Próximo</button>
+                    <div class="actions">
+                        <button id="back-to-step-1" class="back-btn">Voltar</button>
+                        <button id="to-step-3" class="next-btn">Próximo</button>
+                    </div>
                 </div>
 
 
@@ -120,17 +133,18 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="cep">CEP: </label>
-                            <input type="text" id="cep" required>
+                            <input type="text" id="cep" required maxlength="8" placeholder="12345678">
+                            <div class="error-message" id="cep-error"></div>
                             <br>
                         </div>
                         <div class="form-group">
                             <label for="uf">UF: </label>
-                            <input type="text" id="uf" disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
+                            <input type="text" id="uf" required disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
                             <br>
                         </div>
                         <div class="form-group">
                             <label for="municipio">Município: </label>
-                            <input type="text" id="municipio" disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
+                            <input type="text" id="municipio" required disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
                             <br>
                         </div>
                     </div>
@@ -138,12 +152,12 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="bairro">Bairro: </label>
-                            <input type="text" id="bairro" disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
+                            <input type="text" id="bairro" required disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
                             <br>
                         </div>
                         <div class="form-group">
                             <label for="logradouro">Logradouro: </label>
-                            <input type="text" id="logradouro" disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
+                            <input type="text" id="logradouro" required disabled placeholder="Campo com preenchimento automático. Insira seu CEP.">
                             <br>
                         </div>
                     </div>
@@ -151,20 +165,25 @@
                     <div class="form-group-inline">
                         <div class="form-group">
                             <label for="numero">Número: </label>
-                            <input type="text" id="numero">
+                            <input type="text" id="numero" required placeholder="123">
+                            <div class="error-message" id="numero-error"></div>
                             <br>
                         </div>
                         <div class="form-group">
                             <label for="complemento">Complemento: </label>
-                            <input type="text" id="complemento">
+                            <input type="text" id="complemento" placeholder="Casa, Apartamento, Bloco, etc.">
+                            <div class="error-message" id="complemento-error"></div>
                             <br>
                         </div>
                     </div>
                     
                    
-                    <button id="back-to-step-2">Voltar</button>
-                    <button id="submit">Registrar</button>
+                    <div class="actions">
+                        <button id="back-to-step-2" class="back-btn">Voltar</button>
+                        <button id="submit" class="register-btn">Registrar</button>
+                    </div>
                 </div>
+
             </div>
             <button id="proximo-button" onclick="toggleElements()"> Próximo</button>
         </main>
