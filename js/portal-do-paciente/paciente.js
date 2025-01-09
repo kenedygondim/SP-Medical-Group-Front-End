@@ -82,7 +82,7 @@ function carregarFotoPerfilOptions() {
     const viewProfileOption = document.getElementById("view-profile");
     const fotoPerfilOptions = document.getElementById("foto-perfil-options");
 
-    fotoPerfilOptions.src = infoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : infoBasicasUsuarioJson.fotoPerfilUrl;
+    fotoPerfilOptions.src = infoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : infoBasicasUsuarioJson.fotoPerfilUrl;
 
 
     fotoPerfilOptions.addEventListener("click", () => {
@@ -176,7 +176,7 @@ function mostrarConsultas() {
                 divCard.className = "div-card";
 
                 const fotoMedico = document.createElement("img");
-                fotoMedico.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : consulta.fotoPerfilUrl;
+                fotoMedico.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : consulta.fotoPerfilUrl;
                 fotoMedico.className = "foto-medico";
 
                 const nomeMedico = document.createElement("h3");

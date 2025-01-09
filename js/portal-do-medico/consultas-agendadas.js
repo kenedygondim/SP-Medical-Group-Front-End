@@ -112,7 +112,7 @@ function createProfilePictureActions() {
     fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
     logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "../../index.html"; });
     viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
-    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
     document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
 }
 
@@ -178,7 +178,7 @@ function criaDivConsulta(org) {
     divCard.className = "div-card";
     divCard.setAttribute('consulta-identificador', org.consultaId);
     const fotoMedico = document.createElement("img");
-    fotoMedico.src = org.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : org.fotoPerfilUrl;
+    fotoMedico.src = org.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : org.fotoPerfilUrl;
     fotoMedico.className = "foto-medico";
     const nomeMedico = document.createElement("h3");
     nomeMedico.textContent = org.nomePaciente;
@@ -260,7 +260,7 @@ async function showPopup(consultaIdentificador) {
     try {
       const consulta = consultasMedicoJson.find(consulta => consulta.consultaId == consultaIdentificador);
 
-      fotoPerfil.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : consulta.fotoPerfilUrl;
+      fotoPerfil.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : consulta.fotoPerfilUrl;
       nomePaciente.textContent = consulta.nomePaciente
       dataConsulta.textContent = `${formatarData(consulta.dataConsulta)}`;
       horario.textContent = `${consulta.horaInicio} - ${consulta.horaFim}`;

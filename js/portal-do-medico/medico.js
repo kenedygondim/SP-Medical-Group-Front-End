@@ -84,7 +84,7 @@ function createProfilePictureActions() {
     fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
     logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "../../index.html"; });
     viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
-    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
+    fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : InfoBasicasUsuarioJson.fotoPerfilUrl;
     document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
 }
 
@@ -149,7 +149,7 @@ function criaDivConsulta(consulta) {
     horario.className = "horario";
 
     //Atribuição dos valores
-    fotoPaciente.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp" : consulta.fotoPerfilUrl;
+    fotoPaciente.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : consulta.fotoPerfilUrl;
     nomePaciente.textContent =  consulta.nomePaciente.length > 10 ? consulta.nomePaciente.substring(0, 5) + "..." :  consulta.nomePaciente;
     especialidade.textContent = consulta.especialidade;
     horario.textContent = consulta.horaInicio + " - " + consulta.horaFim;
