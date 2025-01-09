@@ -1,23 +1,27 @@
+// Referência a elementos HTML
 const loadingScreen = document.getElementById("loading-screen");
 
-// Prefixo de chamada de API
-const apiPrefix = "http://localhost:8080/api/";
+// Variáveis globais
+let items = [];
 
+// Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
-    await fetchItems();
+    await getEspecialidades();
+    mostrarProfissionais();
     loadingScreen.style.display = "none";
 });
 
-async function fetchItems() {
+//Função para buscar especialidades
+async function getEspecialidades() {
     try {
-        const response = await fetch(`${apiPrefix}paginaEspecialidades`, {
+        const response = await fetch(`http://localhost:8080/paginaEspecialidades`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
             },
         });
-        const items = await response.json();
-        mostrarProfissionais(items);
+
+        items = await response.json();
     } catch (error) {
         console.error(error)
         alert("Servidor não está respondendo. Tente novamente mais tarde!")
@@ -25,44 +29,19 @@ async function fetchItems() {
     }
 }
 
-function mostrarProfissionais(items) {
+//Função para mostrar especialidades
+function mostrarProfissionais() {
     const especialidades = document.getElementById("section-id");
     items.forEach(esp => {        
-        const divCard = document.createElement("div");
-        divCard.className = "div-card";
-
-        divCard.setAttribute('data-nome-especialidade', esp.especialidade);
-
-        const nomeEspecialidade = document.createElement("h3");
-        nomeEspecialidade.textContent = esp.especialidade;
-        nomeEspecialidade.className = "nome-especialidade";
-
-        const descricaoEspecialidade = document.createElement("p");
-        descricaoEspecialidade.textContent = esp.descricao;
-        descricaoEspecialidade.className = "descricao-especialidade";
-
-        const additionalInformation = document.createElement("div");
-        additionalInformation.className = "additional-information";
-    
-        const numProfissionais = document.createElement("p");
-        numProfissionais.textContent = esp.numeroMedicos + " médico(s) disponível(is)";
-
-        const minPreco = document.createElement("p");
-        minPreco.textContent = "A partir de R$" + esp.precoMinimo.toFixed(2);
-
-
-        additionalInformation.appendChild(numProfissionais);
-        additionalInformation.appendChild(minPreco);
-
-        divCard.appendChild(nomeEspecialidade);
-        divCard.appendChild(descricaoEspecialidade);
-        divCard.appendChild(additionalInformation);
-
-        divCard.addEventListener('click', function() {
-            const especialidade = this.getAttribute('data-nome-especialidade');
-            window.location.href = `http://127.0.0.1:5500/html/profissionais.html?especialidade=${especialidade}`;
-        });
-        especialidades.appendChild(divCard);
+        especialidades.innerHTML += 
+        `<div class="div-card" data-nome-especialidade="${esp.especialidade}" onclick="window.location.href = 'http://127.0.0.1:5500/html/profissionais.html?especialidade=${esp.especialidade}'">
+            <h3 class="nome-especialidade">${esp.especialidade}</h3>
+            <p class="descricao-especialidade">${esp.descricao}</p>
+            <div class="additional-information">
+                <p>${esp.numeroMedicos} médico(s) disponível(is)</p>
+                <p>A partir de R$${esp.precoMinimo.toFixed(2)}</p>
+            </div>
+        </div>`;
     });
 }
 

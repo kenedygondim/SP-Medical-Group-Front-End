@@ -1,17 +1,28 @@
-const params = new URLSearchParams(window.location.search);
-
+// Referência a elementos HTML
 const loadingScreen = document.getElementById("loading-screen");
+const form = document.getElementById("section-filtros");
+const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
+const fotoPerfil = document.getElementById("fotoPerfil");
+const nomeMedico = document.getElementById("nomeMedico");
+const dataNascimento = document.getElementById("dataNascimento");
+const numeroConsultas = document.getElementById("numeroConsultas");
+const crm = document.getElementById("crm");
+const contato = document.getElementById("contato");
+const hospital = document.getElementById("hospital");
+const especialidadess = document.getElementById("especialidadess");
 
+// Recuperação de parâmetros da URL
+const params = new URLSearchParams(window.location.search);
 const especialidade = params.get('especialidade');
 const nomeDoMedico = params.get('medico');
 const numCrm = params.get('crm');
 
-const form = document.getElementById("section-filtros");
-
+// Variáveis globais
 let informacoesBasicasMedicoJson = [];
 
 // Prefixo de chamada de API
 const apiPrefix = "http://localhost:8080/api/";
+
 
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
@@ -60,7 +71,6 @@ async function getEspecialidades () {
 
 
 function mostrarProfissionais() {
-    const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
     if (especialidade !== null) 
          informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum profissional encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} profissional(is) de ${especialidade.toLowerCase()}.`;
     else 
@@ -72,66 +82,29 @@ function construirElementoMedico() {
     const perfis = document.getElementById("profissionais-encontrados");
 
     informacoesBasicasMedicoJson.forEach(profissional => {
-        // Criando elementos
-        const left = document.createElement("div");
-        const right = document.createElement("div");
-        const perfil = document.createElement("div");
-        const foto = document.createElement("img");
-        const nomeUsuario = document.createElement("h3");
-        const agrupaParagrafo = document.createElement("div");
-        const especialidade = document.createElement("p");
-        const crm = document.createElement("p");
-        const empresa = document.createElement("p");
-
-        // Adicionando classes
-        left.className = "left";
-        right.className = "right";
-        perfil.className = "perfil";
-        foto.className = "foto";
-        agrupaParagrafo.className = "agrupa-paragrafo";
-
-        // Adicionando conteúdo
-        foto.src = profissional.fotoPerfilUrl;
-        nomeUsuario.textContent = profissional.nomeCompleto;
-        especialidade.textContent = profissional.nomeTipoMedico;
-        crm.textContent = profissional.crm;
-        empresa.textContent = profissional.nomeFantasia;
-
-        // Adicionando atributos
-        perfil.setAttribute('medico-identificador', profissional.cpf);
-
-        // Adicionando elementos ao HTML
-        perfil.appendChild(left);
-        perfil.appendChild(right);
-        left.appendChild(foto);
-        right.appendChild(nomeUsuario);
-        right.appendChild(agrupaParagrafo);
-        agrupaParagrafo.appendChild(especialidade);
-        agrupaParagrafo.appendChild(crm);
-        agrupaParagrafo.appendChild(empresa);
-        perfis.appendChild(perfil);
-        
-        // Eventos
-        perfil.addEventListener('click', function() {
-            const medicoIdentificador = this.getAttribute('medico-identificador');
-            showPopup(medicoIdentificador);
-        });
+        perfis.innerHTML += `
+        <div class="perfil" medico-identificador="${profissional.cpf}" onclick="showPopup('${profissional.cpf}')">
+            <div class="left">
+                <img class="foto" src="${profissional.fotoPerfilUrl}" alt="Foto de ${profissional.nomeCompleto}">
+            </div>
+            <div class="right">
+                <h3>${profissional.nomeCompleto}</h3>
+                <div class="agrupa-paragrafo">
+                    <p>${profissional.crm}</p>
+                    <p>${profissional.nomeFantasia}</p>
+                </div>
+            </div>
+        </div>`;
     });
 }
+
     
 
 async function showPopup(medicoIdentificador) {
     const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
     const especialidades = await getEspecialidadesMedico(medicoIdentificador);
 
-    const fotoPerfil = document.getElementById("fotoPerfil");
-    const nomeMedico = document.getElementById("nomeMedico");
-    const dataNascimento = document.getElementById("dataNascimento");
-    const numeroConsultas = document.getElementById("numeroConsultas");
-    const crm = document.getElementById("crm");
-    const contato = document.getElementById("contato");
-    const hospital = document.getElementById("hospital");
-    const especialidadess = document.getElementById("especialidadess");
+
 
     // Preenchendo as informações no pop-up
     fotoPerfil.src = medico.fotoPerfilUrl;
@@ -188,7 +161,7 @@ closePopup.addEventListener("click", () => {
 // Redirecionar para agendar consulta
 agendarConsulta.addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
-    const response = await fetch("${apiPrefix}Consulta/Acessar", {
+    const response = await fetch(`${apiPrefix}Consulta/Acessar`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`
