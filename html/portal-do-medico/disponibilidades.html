@@ -23,20 +23,26 @@
         </div>
       </header>
 
+    <main>
+        <form id="availabilityForm">
+          <label for="date">Data:</label>
+          <input type="date" id="date" name="date" required>
 
-    <h1>Adicionar Disponibilidade Médica</h1>
-    <form id="availabilityForm">
-        <label for="date">Data:</label>
-        <input type="date" id="date" name="date" required>
+          <div id="existingAvailabilities">
+            <h2>Horários já preenchidos:</h2>
+            <ul id="availabilitiesList"></ul>
+          </div>
 
-        <label for="startTime">Hora de Início:</label>
-        <input type="time" id="startTime" name="startTime" required>
+          <label for="startTime">Hora de Início:</label>
+          <input type="time" id="startTime" name="startTime" required>
 
-        <label for="endTime">Hora de Término:</label>
-        <input type="time" id="endTime" name="endTime" required>
+          <label for="endTime">Hora de Término:</label>
+          <input type="time" id="endTime" name="endTime" required>
 
-        <button type="submit">Adicionar Disponibilidade</button>
-    </form>
+          <button type="submit">Adicionar horário na agenda</button>
+      </form>
+    </main>
+    
 
     <div id="loading-screen">
       <img src="../../assets/logo_spmedgroup_v2.png" class="spinner"></img>
