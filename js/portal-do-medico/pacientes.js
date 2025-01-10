@@ -113,39 +113,18 @@ function mostrarPacientes() {
     construirElementoPacientes(pacientesUnicos);
 }
 
-// Função que constroi a div do perfil do paciente
 function construirElementoPacientes(pacientesUnicos) {
-    pacientesUnicos.forEach(profissional => {
-        // Criando elementos
-        const left = document.createElement("div");
-        const right = document.createElement("div");
-        const perfil = document.createElement("div");
-        const foto = document.createElement("img");
-        const nomeUsuario = document.createElement("h3");
-        const agrupaParagrafo = document.createElement("div");
-
-        // Adicionando classes
-        left.className = "left";
-        right.className = "right";
-        perfil.className = "perfil";
-        foto.className = "foto";
-        agrupaParagrafo.className = "agrupa-paragrafo";
-
-        // Adicionando conteúdo
-        foto.src = profissional.fotoPerfilUrl;
-        nomeUsuario.textContent = profissional.nomeCompleto;
-
-        // Adicionando atributos
-        perfil.setAttribute('paciente-identificador', profissional.cpf);
-
-        // Adicionando elementos ao HTML
-        perfil.appendChild(left);
-        perfil.appendChild(right);
-        left.appendChild(foto);
-        right.appendChild(nomeUsuario);
-        right.appendChild(agrupaParagrafo);
-
-        perfis.appendChild(perfil);
+    pacientesUnicos.forEach(pac => {
+        perfis.innerHTML += `
+            <div class="perfil" paciente-identificador="${pac.cpf}">
+                <div class="left">
+                    <img class="foto" src="${pac.fotoPerfilUrl}" alt="Foto do paciente">
+                </div>
+                <div class="right">
+                    <h3>${pac.nomeCompleto}</h3>
+                    <div class="agrupa-paragrafo"></div>
+                </div>
+            </div>`;
     });
 }
 

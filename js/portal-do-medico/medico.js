@@ -132,53 +132,20 @@ function mostrarConsultas() {
         criaDivAgendaVazia();
 }
 
-// Funções auxiliares
 function criaDivConsulta(consulta) {
-    //Criação dos elementos html
-    const divCard = document.createElement("div");
-    const fotoPaciente = document.createElement("img");
-    const nomePaciente = document.createElement("h3");
-    const especialidade = document.createElement("p");
-    const horario = document.createElement("p");
-
-    //Atribuição das classes css
-    divCard.className = "div-card";
-    fotoPaciente.className = "foto-medico";
-    nomePaciente.className = "nome-medico";
-    especialidade.className = "especialidade";
-    horario.className = "horario";
-
-    //Atribuição dos valores
-    fotoPaciente.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : consulta.fotoPerfilUrl;
-    nomePaciente.textContent =  consulta.nomePaciente.length > 10 ? consulta.nomePaciente.substring(0, 5) + "..." :  consulta.nomePaciente;
-    especialidade.textContent = consulta.especialidade;
-    horario.textContent = consulta.horaInicio + " - " + consulta.horaFim;
-
-    //Organização hierárquica dos elementos
-    divCard.appendChild(fotoPaciente);
-    divCard.appendChild(nomePaciente);
-    divCard.appendChild(especialidade);
-    divCard.appendChild(horario);
-
-    consultas.appendChild(divCard);
+    consultas.innerHTML += `
+        <div class="div-card">
+            <img class="foto-medico" src="${consulta.fotoPerfilUrl || '../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp'}" alt="Foto do paciente">
+            <h3 class="nome-medico">${consulta.nomePaciente.length > 10 ? consulta.nomePaciente.substring(0, 5) + "..." : consulta.nomePaciente}</h3>
+            <p class="especialidade">${consulta.especialidade}</p>
+            <p class="horario">${consulta.horaInicio} - ${consulta.horaFim}</p>
+        </div>`;
 }
 
 function criaDivAgendaVazia() {
-    //Criação dos elementos html
-    const mensagem = document.createElement("p");
-
-    //Atribuição dos estilos
+    consultas.innerHTML += `<p class="mensagem">Nenhuma consulta agendada para este dia.</p>`;
     agendaMedico.style.backgroundColor = "transparent";
     agendaMedico.style.border = "1px dashed green"
-
-    //Atribuição das classe css
-    mensagem.className = "mensagem";
-
-    //Atribuição dos valores
-    mensagem.textContent = "Nenhuma consulta agendada para este dia.";
-
-    //Organização hierárquica dos elementos
-    consultas.appendChild(mensagem);
 }
 
 function saudacao() {
