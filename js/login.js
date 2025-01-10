@@ -38,9 +38,6 @@ const cepError = document.getElementById('cep-error');
 const numeroError = document.getElementById('numero-error');
 const complementoError = document.getElementById('complemento-error');
 
-// Recuperação de informações de sessão
-const token = sessionStorage.getItem("token");
-const role = sessionStorage.getItem("role");
 
 // Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
@@ -85,15 +82,27 @@ formElement.addEventListener('submit', async (e) => {
 
 // Função para verificar se há token e redirecionar o usuário
 async function realizarLogin() {
-    if (token) {
-        await redirecionaUsuario(role, token);
+    const token = sessionStorage.getItem("token");
+    const role = sessionStorage.getItem("role");
+
+    if (token && role) {
+        await redirecionaUsuario();
     }
 }
 
 // Função para redirecionar o usuário para a página correta
-async function redirecionaUsuario(role, token) {
+async function redirecionaUsuario() {
     try {
-        const nomeRole = retornaNomeDaRole(role)
+        const token = sessionStorage.getItem("token");
+        const role = sessionStorage.getItem("role");
+
+        const nomeRole = retornaNomeDaRole(role);
+
+        console.log(nomeRole);
+        console.log(token);
+        console.log(role);
+
+        console.log(`${apiPrefix}${nomeRole}/Acessar`);
 
         if (nomeRole == null) 
             throw new Error('Não foi possível identificar as credenciais do usuário.');
