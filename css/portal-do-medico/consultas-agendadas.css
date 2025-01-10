@@ -145,6 +145,8 @@ li p {
     height: auto;
     width: 100%;
     border-radius: 0.3em;
+    font-family: "Poppins", sans-serif;
+
 }
 
 .div-card:hover {
@@ -392,6 +394,7 @@ li p {
     padding: 12px 15px;
     text-align: center;
     border-bottom: 0.5px solid #0000000f;
+
 }
 
 #consultas-tabela th {
@@ -429,17 +432,14 @@ li p {
 
 #consultas-tabela td .div-card h3 {
     font-size: 14px;
-    font-weight: bold;
     margin: 0;
+    font-family: "Poppins", sans-serif;
+
 }
 
 #consultas-tabela td .div-card p {
     font-size: 12px;
     color: #555;
-}
-
-#consultas-tabela td .div-card .status {
-    font-weight: bold;
 }
 
 #consultas-tabela .mensagem {
@@ -462,5 +462,10 @@ li p {
 
 #span-agenda-vazia:hover {
     color: #60af47;
+    cursor: pointer;
+}
+
+#span-excluir-disp{
+    color: rgba(255, 0, 0, 0.644);
     cursor: pointer;
 }
