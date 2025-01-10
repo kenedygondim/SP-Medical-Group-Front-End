@@ -116,94 +116,75 @@ function createProfilePictureActions() {
     document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
 }
 
-// Função que exibe as consultas agendadas e horários disponíveis do médico no dia selecionado
+// Função que exibe as Agenda e horários disponíveis do médico no dia selecionado
 function mostrarConsultas() {
     setTimeout(() => {
-        document.querySelectorAll(".div-card").forEach(e => e.remove());
-        document.querySelectorAll(".div-card-principal").forEach(e => e.remove());
-        document.querySelectorAll(".div-card-none").forEach(e => e.remove());
+        const corpoTabela = document.getElementById("consultas-corpo");
+        corpoTabela.innerHTML = ""; // Limpa as linhas da tabela
 
-        const consultasDoDia = consultasMedicoJson.filter(consulta => formatarData(consulta.dataConsulta) == currentDateHTML.textContent);
-        const disponibilidadesConsultasMesclado = [...disponibilidadesMedicoJson, ...consultasDoDia].sort((a, b) => new Date(trasnformaEmTimestamp(a.horaInicio)) - new Date(trasnformaEmTimestamp(b.horaInicio)));
+        const consultasDoDia = consultasMedicoJson.filter(
+            consulta => formatarData(consulta.dataConsulta) === currentDateHTML.textContent
+        );
 
-        if(disponibilidadesConsultasMesclado.length == 0) {
-            criaDivAgendaVazia();
+        const disponibilidadesConsultasMesclado = [
+            ...disponibilidadesMedicoJson,
+            ...consultasDoDia
+        ].sort((a, b) => 
+            new Date(trasnformaEmTimestamp(a.horaInicio)) - new Date(trasnformaEmTimestamp(b.horaInicio))
+        );
+
+        if (disponibilidadesConsultasMesclado.length === 0) {
+            criaLinhaAgendaVazia(corpoTabela);
             return;
         }
-        
+
         disponibilidadesConsultasMesclado.forEach(org => {
-            if(org.consultaId == null) 
-                criaDivDisponibilidadeNaoPreenchida(org);
-            else
-                criaDivConsulta(org);
+            if (org.consultaId == null) {
+                criaLinhaDisponibilidadeNaoPreenchida(org, corpoTabela);
+            } else {
+                criaLinhaConsulta(org, corpoTabela);
+            }
         });
-    }, 200); 
+    }, 200);
 }
 
-
-function criaDivAgendaVazia() {
-    const divCardNone = document.createElement("div");
-    divCardNone.className = "div-card-none";
-    const mensagem = document.createElement("p");
-    mensagem.textContent = "Agenda vazia.";
-    mensagem.className = "mensagem";
-    divCardNone.appendChild(mensagem);
-    consultas.appendChild(divCardNone);
+function criaLinhaAgendaVazia(tbody) {
+    tbody.innerHTML += `
+        <tr>
+            <td colspan="3" class="mensagem">Agenda vazia. <span id="span-agenda-vazia" onclick="redirecionaPaginaDisponibilidades()">Adicione horários na agenda</span></td>
+        </tr>`;
 }
 
-function criaDivDisponibilidadeNaoPreenchida(org) {
-    const divCardPrincipal = document.createElement("div");
-    divCardPrincipal.className = "div-card-principal";
-    const horario = document.createElement("p");
-    horario.textContent = org.horaInicio + " - " + org.horaFim;
-    horario.className = "horario";
-    const divCardDashed = document.createElement("div");
-    divCardDashed.className = "div-card-dashed";
-    const divCardDashedText = document.createElement("p");
-    divCardDashedText.textContent = "Horário não preenchido";
-    divCardDashedText.className = "div-card-dashed-text";
-    divCardDashed.appendChild(divCardDashedText);
-    divCardPrincipal.appendChild(horario);
-    divCardPrincipal.appendChild(divCardDashed);
-    consultas.appendChild(divCardPrincipal);
+function criaLinhaDisponibilidadeNaoPreenchida(org, tbody) {
+    tbody.innerHTML += `
+        <tr>
+            <td>${org.horaInicio}</td>
+            <td>${org.horaFim}</td>
+            <td>
+                <p class="div-card-dashed-text">Horário não preenchido</p>
+            </td>
+        </tr>`;
 }
 
-function criaDivConsulta(org) {
-    const divCardPrincipal = document.createElement("div");
-    divCardPrincipal.className = "div-card-principal";
-    const horario = document.createElement("p");
-    horario.textContent = org.horaInicio + " - " + org.horaFim;
-    horario.className = "horario";
-    const divCard = document.createElement("div");
-    divCard.className = "div-card";
-    divCard.setAttribute('consulta-identificador', org.consultaId);
-    const fotoMedico = document.createElement("img");
-    fotoMedico.src = org.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : org.fotoPerfilUrl;
-    fotoMedico.className = "foto-medico";
-    const nomeMedico = document.createElement("h3");
-    nomeMedico.textContent = org.nomePaciente;
-    nomeMedico.className = "nome-medico";
-    const especialidade = document.createElement("p");
-    especialidade.textContent = org.especialidade;
-    especialidade.className = "especialidade";
-    const status = document.createElement("p");
-    status.textContent = org.situacao;
-    status.className = "status";
-    const horarioConsulta = document.createElement("p");
-    horarioConsulta.textContent = org.horaInicio + " - " + org.horaFim;
-    horarioConsulta.className = "horario";
-    divCard.appendChild(fotoMedico);
-    divCard.appendChild(nomeMedico);
-    divCard.appendChild(especialidade);
-    divCard.appendChild(status);
-    divCard.appendChild(horarioConsulta);
-    divCardPrincipal.appendChild(horario);
-    divCardPrincipal.appendChild(divCard);
-    divCard.addEventListener('click', () => {
-        const consultaIdentificador = divCard.getAttribute('consulta-identificador');
-        showPopup(consultaIdentificador);
-    });
-    consultas.appendChild(divCardPrincipal);
+function criaLinhaConsulta(org, tbody) {
+    tbody.innerHTML += `
+        <tr>
+            <td>${org.horaInicio}</td>
+            <td>${org.horaFim}</td>
+            <td>
+                <div class="div-card" consulta-identificador="${org.consultaId}" onclick="showPopup('${org.consultaId}')">
+                    <img class="foto-medico" src="${org.fotoPerfilUrl || '../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp'}" alt="Foto do médico">
+                    <h3 class="nome-medico">${org.nomePaciente}</h3>
+                    <p class="especialidade">${org.especialidade}</p>
+                    <p class="status">${org.situacao}</p>
+                </div>
+            </td>
+        </tr>`;
+}
+
+function redirecionaPaginaDisponibilidades() {
+
+    window.location.href = "./disponibilidades.html";
 }
 
 // Função para retroceder um dia na agenda

@@ -118,10 +118,7 @@ color: black;
 }
 
 
-ul {
-list-style: none;
-padding: 0;
-}
+
 
 li {
 background-color: #ffffff;
@@ -141,25 +138,17 @@ li p {
     font-size: 14px;
 }
 
-#appointments {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-
 .div-card {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 5em;
+    height: auto;
     width: 100%;
-    background-color: #ffffff;
     border-radius: 0.3em;
-    border: 1px solid #1b4449;
+}
+
+.div-card:hover {
+    background-color: #00000050;
 }
 
 .div-card-none p {
@@ -171,7 +160,7 @@ li p {
     font-weight: 500;
 }
 
-.div-card-principal {
+/* .div-card-principal {
     display: flex;
     flex-direction: column;
     height: 7em;
@@ -180,7 +169,7 @@ li p {
     text-align: center;
     gap: 0.5em;
     margin-bottom: 3em;
-}
+} */
 
 .div-card-dashed {
     display: flex;
@@ -379,30 +368,6 @@ li p {
     animation: zoom-in-out 1s linear infinite;
     margin: 0 auto;
 }
-  
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.loading-text {
-    margin-top: 15px;
-    font-size: 1.2em;
-    animation: fade-in-out 1.5s infinite;
-}
-
-@keyframes fade-in-out {
-    0%, 100% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 1;
-    }
-}
 
 @keyframes zoom-in-out {
     0%, 100% {
@@ -411,4 +376,91 @@ li p {
     50% {
         transform: scale(1.1);
     }
+}
+
+/* Estilos para a tabela */
+#consultas-tabela {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
+}
+
+#consultas-tabela th, #consultas-tabela td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 0.5px solid #0000000f;
+}
+
+#consultas-tabela th {
+    background-color: #0059ff;
+    color: white;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+}
+
+#consultas-tabela td {
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 14px;
+    border-right: 1px solid rgba(0, 0, 0, 0.148);
+}
+
+#consultas-tabela tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+#consultas-tabela td img.foto-medico {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+#consultas-tabela td .div-card {
+    display: flex;
+    align-items: center;
+}
+
+#consultas-tabela td .div-card h3 {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+
+#consultas-tabela td .div-card p {
+    font-size: 12px;
+    color: #555;
+}
+
+#consultas-tabela td .div-card .status {
+    font-weight: bold;
+}
+
+#consultas-tabela .mensagem {
+    text-align: center;
+    color: #777;
+    font-size: 16px;
+    padding: 20px;
+    font-style: italic;
+    background-color: #f9f9f9;
+    border: 1px dashed #ddd;
+}
+
+#consultas-tabela .div-card-dashed-text {
+    color: #888;
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+    padding: 10px;
+}
+
+#span-agenda-vazia:hover {
+    color: #60af47;
+    cursor: pointer;
 }

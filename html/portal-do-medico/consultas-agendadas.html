@@ -10,8 +10,8 @@
 <body>
     <header>
       <a href="../portal-do-medico/medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
-      <a>Consultas realizadas</a>
-      <a href="./consultas-agendadas.html">Consultas agendadas</a>
+      <a>Minhas consultas</a>
+      <a href="./consultas-agendadas.html">Agenda</a>
       <a href="./meu-perfil.html">Meu perfil</a>
        
       <div id="profile-container">
@@ -32,8 +32,20 @@
         <button id="next-day">Próximo &rarr;</button>
       </section>
       <main>
-        <ul id="appointments">
-        </ul>
+        <main>
+          <table id="consultas-tabela">
+            <thead>
+              <tr>
+                <th>Horário de Início</th>
+                <th>Horário de Término</th>
+                <th>Detalhes da Consulta</th>
+              </tr>
+            </thead>
+            <tbody id="consultas-corpo">
+              <!-- As linhas serão inseridas aqui dinamicamente -->
+            </tbody>
+          </table>
+        </main>        
       </main>
     </div>
 
