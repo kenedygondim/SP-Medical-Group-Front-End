@@ -13,8 +13,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     carregarFotoPerfilOptions();
     montarPerfilCompletoPaciente();
     loadingScreen.style.display = "none";
-
-    console.log(perfilCompletoPacienteJson);
 });
 
 function carregarFotoPerfilOptions() {
@@ -45,10 +43,6 @@ function carregarFotoPerfilOptions() {
 
 async function GetPerfil() {
     try {
-        console.log(token)
-        console.log(email)
-
-
         const perfilCompletoPaciente = await fetch(`${apiPrefix}Paciente/PerfilCompletoPaciente?email=${email}`, {
             method: 'GET',
             headers: {
@@ -61,11 +55,7 @@ async function GetPerfil() {
             const errorMessage = await perfilCompletoPaciente.text();
             throw new Error(`Erro na requisição: ${errorMessage}`);
         }
-
         perfilCompletoPacienteJson = await perfilCompletoPaciente.json();
-
-
-        console.log(perfilCompletoPacienteJson);
     } catch (error) {
         console.error(error);
     }
