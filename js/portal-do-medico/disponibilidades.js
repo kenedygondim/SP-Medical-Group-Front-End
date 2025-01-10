@@ -6,6 +6,8 @@ const viewProfileOption = document.getElementById("view-profile");
 const loadingScreen = document.getElementById("loading-screen");
 const fotoPerfilOptions = document.getElementById("foto-perfil-options");
 const availabilityForm = document.getElementById('availabilityForm');
+const dateInput = document.getElementById('date');
+const availabilitiesList = document.getElementById('availabilitiesList');
 
 // Recuperação de informações de sessão
 const token = sessionStorage.getItem("token");
@@ -37,6 +39,70 @@ async function getDadosBasicosUsuario() {
     }
     InfoBasicasUsuarioJson = await InfoBasicasUsuario.json();
 }
+
+// Função para buscar as disponibilidades existentes para uma data específica
+async function getDisponibilidadesPorData(cpf, data) {
+    try {
+        const response = await fetch(`${apiPrefix}Disponibilidade/listarTodasDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Erro ao buscar disponibilidades: ${response.statusText}`);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error('Erro ao buscar disponibilidades:', error);
+        alert('Não foi possível buscar os horários. Tente novamente mais tarde.');
+        return [];
+    }
+}
+
+// Função para exibir as disponibilidades existentes
+function exibirDisponibilidades(disponibilidades) {
+    // Limpa a lista atual
+    availabilitiesList.innerHTML = '';
+
+    if (disponibilidades.length === 0) {
+        availabilitiesList.innerHTML = '<li>Nenhuma disponibilidade encontrada para esta data.</li>';
+        return;
+    }
+
+    // Adiciona cada disponibilidade como um item da lista
+    disponibilidades.forEach(({ horaInicio, horaFim }) => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${horaInicio} - ${horaFim}`;
+        availabilitiesList.appendChild(listItem);
+    });
+}
+
+// Evento para detectar mudanças na data e buscar disponibilidades
+dateInput.addEventListener('change', async () => {
+    const data = dateInput.value;
+    const cpf = InfoBasicasUsuarioJson.cpf; // Certifique-se de que o CPF esteja carregado
+
+    if (!data || !cpf) {
+        alert('Por favor, insira uma data válida e tenha certeza de estar logado.');
+        return;
+    }
+
+    // Mostra um indicador de carregamento (opcional)
+    loadingScreen.style.display = 'flex';
+
+    // Busca as disponibilidades
+    const disponibilidades = await getDisponibilidadesPorData(cpf, data);
+
+    // Exibe as disponibilidades
+    exibirDisponibilidades(disponibilidades);
+
+    // Oculta o indicador de carregamento
+    loadingScreen.style.display = 'none';
+});
 
 // Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
 function createProfilePictureActions() {
