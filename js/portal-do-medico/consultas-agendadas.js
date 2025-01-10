@@ -105,6 +105,8 @@ async function  getDisponibilidadesPelaData() {
     }
 
     disponibilidadesMedicoJson = await disponibilidadesMedico.json();
+
+    console.log(disponibilidadesMedicoJson);
 }
 
 // Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
@@ -161,12 +163,15 @@ function criaLinhaDisponibilidadeNaoPreenchida(org, tbody) {
             <td>${org.horaInicio}</td>
             <td>${org.horaFim}</td>
             <td>
-                <p class="div-card-dashed-text">Horário não preenchido</p>
+                <p class="div-card-dashed-text">Horário não preenchido. Clique <span id="span-excluir-disp" onclick="excluirDisponibilidade(${org.disponibilidadeId})">aqui</span> para excluir</p>
             </td>
         </tr>`;
 }
 
 function criaLinhaConsulta(org, tbody) {
+
+    console.log(org)
+
     tbody.innerHTML += `
         <tr>
             <td>${org.horaInicio}</td>
@@ -263,6 +268,8 @@ async function showPopup(consultaIdentificador) {
       popupOverlay.style.display = "flex";
       popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
       document.getElementById("cancelar-consulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
+
+
       document.getElementById("marcar-concluida").addEventListener("click", async () => { await marcarConsultaComoConcluida(consultaIdentificador) });
     }
     catch (error) {
@@ -309,7 +316,35 @@ async function marcarConsultaComoConcluida (consultaIdentificador) {
             }
         });
         response.status == 204 ? alert("Consulta marcada como concluída com sucesso.") : alert("Não foi possível marcar a consulta como concluída.");
-        fetchItems();
+        await fetchItems();
+    } catch (error) {
+        console.error(error.message);
+        alert("Não foi possível processar a solicitação.");
+    } finally {
+        closePopup();
+        location.reload();
+    }
+}
+
+async function excluirDisponibilidade(disponibilidadeId) {
+
+    const confirmacaoExclusaoDisp = confirm("Deseja realmente excluir a disponibilidade?") 
+    if (!confirmacaoExclusaoDisp) 
+        return
+
+    try {
+        const response = await fetch(`${apiPrefix}Disponibilidade/Excluir?disponibilidadeId=${disponibilidadeId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        console.log(response);
+
+        response.status == 204 ? alert("Disponibilidade excluída com sucesso.") : alert("Não foi possível excluir a disponibilidade.");
+        await fetchItems();
     } catch (error) {
         console.error(error.message);
         alert("Não foi possível processar a solicitação.");
