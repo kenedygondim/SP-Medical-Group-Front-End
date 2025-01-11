@@ -171,14 +171,16 @@ async function carregarEspecialidades(cpf) {
 }
 
 async function carregarDisponibilidades(cpf, data) {
-  const response = await fetch(`${apiPrefix}Disponibilidade/listarDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
+  const response = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidadesNaoPreenchidas?cpf=${cpf}&data=${data}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
   }});
   
-  const disponibilidades = await response.json();
+  const  disponibilidades = await response.json();
+
+  const disponibilidadesMaioresQueHoraAtual = retornaDisponibiliadesMaioresQueHoraAtual(disponibilidades);
   
   if(disponibilidades.length == 0){
       horarioSelect.innerHTML = '<option value="">Nenhum horário disponível</option>';
@@ -186,7 +188,7 @@ async function carregarDisponibilidades(cpf, data) {
   }
 
   horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
-  disponibilidades.forEach(disponibilidade => {
+  disponibilidadesMaioresQueHoraAtual.forEach(disponibilidade => {
     const option = document.createElement('option');
     option.id = disponibilidade.disponibilidadeId
     option.value = `${disponibilidade.horaInicio} - ${disponibilidade.horaFim}`;
@@ -271,3 +273,29 @@ function retornaDataFormatada(data) {
   const dia = String(data.getDate()).padStart(2, '0');
   return `${ano}-${mes}-${dia}`;
 }
+
+function retornaDisponibiliadesMaioresQueHoraAtual (disponibilidades) {
+  let disponibiliadesMaioresQueHoraAtual = [];
+  disponibilidades.forEach(disponibilidade => {
+
+    const dataAtual = new Date().toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" }).split('/').reverse().join('-');
+    const horaAtual = new Date().toLocaleTimeString("pt-BR", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false, 
+      });
+
+    const horaDisp = disponibilidade.horaInicio;
+
+    console.log(dataAtual)
+    console.log(horaAtual)
+    console.log(horaDisp)
+
+    if (horaDisp > horaAtual) {
+      disponibiliadesMaioresQueHoraAtual.push(disponibilidade);
+    }
+  });
+
+  return disponibiliadesMaioresQueHoraAtual;
+}
+
