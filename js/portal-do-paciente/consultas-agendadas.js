@@ -94,86 +94,51 @@ document.getElementById("next-day").addEventListener('click', () => {
     mostrarConsultas();
 }); 
 
-function mostrarConsultas() {
-    const consultas = document.getElementById("appointments");
-
-    // Adiciona efeito de saída
-    consultas.classList.add('fade-out');
-    
-    // Aguarda o efeito de saída antes de atualizar o conteúdo
+function mostrarConsultas() {    
     setTimeout(() => {
-        document.querySelectorAll(".div-card").forEach(e => e.remove());
-        document.querySelectorAll(".div-card-none").forEach(e => e.remove());
-
-
-        console.log(consultasPaciente);
-
+        const corpoTabela = document.getElementById("consultas-corpo");
+        corpoTabela.innerHTML = ""; 
+    
         const consultasDoDia = consultasPaciente.filter(consulta => {
             return formatarData(consulta.dataConsulta) == currentDateHTML.textContent;
         });
 
-        if (consultasDoDia.length > 0) {
-            consultasDoDia.forEach(consulta => {    
-
-                const divCard = document.createElement("div");
-                divCard.className = "div-card";
-
-                divCard.setAttribute('consulta-identificador', consulta.consultaId);
-
-
-                const fotoMedico = document.createElement("img");
-                fotoMedico.src = consulta.fotoPerfilUrl;
-                fotoMedico.className = "foto-medico";
-
-                const nomeMedico = document.createElement("h3");
-                nomeMedico.textContent = "Dr(a). " + consulta.nomeMedico;
-                nomeMedico.className = "nome-medico";
-
-
-                const especialidade = document.createElement("p");
-                especialidade.textContent = consulta.especialidade;
-                especialidade.className = "especialidade";
-
-                const status = document.createElement("p");
-                status.textContent = consulta.situacao;
-                status.className = "status";
-
-                const horario = document.createElement("p");
-                horario.textContent = consulta.horaInicio + " - " + consulta.horaFim;
-                horario.className = "horario";
-
-                divCard.appendChild(fotoMedico);
-                divCard.appendChild(nomeMedico);
-                divCard.appendChild(especialidade);
-                divCard.appendChild(status);
-                divCard.appendChild(horario);
-
-                divCard.addEventListener('click', () => {
-                    const consultaIdentificador = divCard.getAttribute('consulta-identificador');
-                    showPopup(consultaIdentificador);
-                });
-
-                consultas.appendChild(divCard);
-            });
-        } else {
-            const divCardNone = document.createElement("div");
-            divCardNone.className = "div-card-none";
-
-            const mensagem = document.createElement("p");
-            mensagem.textContent = "Nenhuma consulta agendada para este dia.";
-            mensagem.className = "mensagem";
-
-            divCardNone.appendChild(mensagem);
-
-            consultas.appendChild(divCardNone);
+        if (consultasDoDia.length === 0) {
+            criaLinhaAgendaVazia(corpoTabela);
+            return;
         }
 
-        // Adiciona efeito de entrada
-        consultas.classList.remove('fade-out');
-        consultas.classList.add('fade-in');
-
-    }, 200); // Tempo do efeito de saída
+        consultasDoDia.forEach(consulta => {    
+            criaLinhaConsulta(consulta, corpoTabela);
+            });
+    }, 200); 
 }
+
+function criaLinhaAgendaVazia(tbody) {
+    tbody.innerHTML += `
+        <tr>
+            <td colspan="3" class="mensagem">Nenhuma consulta agendada para este dia. <span id="span-agenda-vazia" onclick="redirecionaPaginaAgendarConsultas()">Agendar consulta agora</span></td>
+        </tr>`;
+}
+
+function criaLinhaConsulta(consulta, tbody) {
+    tbody.innerHTML +=  `
+    <tr>
+        <td>${consulta.horaInicio}</td>
+        <td>${consulta.horaFim}</td>
+        <td>
+            <div class="div-card" consulta-identificador="${consulta.consultaId}" onclick="showPopup('${consulta.consultaId}')">
+                <img class="foto-medico" src="${consulta.fotoPerfilUrl}" alt="Foto do médico">
+                <h3 class="nome-medico">Dr(a). ${consulta.nomeMedico}</h3>
+                <p class="especialidade">${consulta.especialidade}</p>
+                <p class="status">${consulta.situacao}</p>
+            </div>
+        </td>
+    </tr>
+    `;
+}
+
+
 
 
 async function showPopup(consultaIdentificador) {
@@ -235,4 +200,8 @@ async function cancelarConsulta (consultaIdentificador) {
     } finally {
         closePopup();
     }
+}
+
+function redirecionaPaginaAgendarConsultas() {
+    window.location.href = "./agendar-consulta.html";
 }
