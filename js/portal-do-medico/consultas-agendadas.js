@@ -94,7 +94,7 @@ async function getDadosBasicosUsuario() {
 
 // Função que busca as disponibilidades do médico na data atual
 async function  getDisponibilidadesPelaData() {
-    const disponibilidadesMedico = await fetch(`${apiPrefix}Disponibilidade/ListarDisponibilidadesMedicoPorData?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
+    const disponibilidadesMedico = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidadesNaoPreenchidas?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -169,9 +169,6 @@ function criaLinhaDisponibilidadeNaoPreenchida(org, tbody) {
 }
 
 function criaLinhaConsulta(org, tbody) {
-
-    console.log(org)
-
     tbody.innerHTML += `
         <tr>
             <td>${org.horaInicio}</td>
@@ -188,7 +185,6 @@ function criaLinhaConsulta(org, tbody) {
 }
 
 function redirecionaPaginaDisponibilidades() {
-
     window.location.href = "./disponibilidades.html";
 }
 
@@ -333,7 +329,7 @@ async function excluirDisponibilidade(disponibilidadeId) {
         return
 
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/Excluir?disponibilidadeId=${disponibilidadeId}`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/deleteDisponibilidade?disponibilidadeId=${disponibilidadeId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

@@ -43,7 +43,7 @@ async function getDadosBasicosUsuario() {
 // Função para buscar as disponibilidades existentes para uma data específica
 async function getDisponibilidadesPorData(cpf, data) {
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/listarTodasDisponibilidadesMedicoPorData?cpf=${cpf}&data=${data}`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidades?cpf=${cpf}&data=${data}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ availabilityForm.addEventListener('submit', async (event) => {
 // Função que envia uma requisição POST para cadastrar uma disponibilidade
 async function postDisponibilidade(body) {
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/adicionar`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/postDisponibilidade`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
