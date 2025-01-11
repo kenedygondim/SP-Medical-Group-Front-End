@@ -35,6 +35,11 @@ document.addEventListener("DOMContentLoaded", async ( )=>  {
 
 // Função para buscar dados da API
 async function fetchItems() {
+    if (!token || !email) {
+        alert("Ocorreu um erro ao tentar recuperar as informações de sessão. Por favor, faça login novamente.");
+        window.location.href = "../../index.html";
+    }
+
     await getConsultasMedico();
     await getDadosBasicosUsuario();
 }
@@ -72,6 +77,10 @@ async function getDadosBasicosUsuario() {
     });
 
     if (InfoBasicasUsuario.status !== 200) {
+        if (InfoBasicasUsuario.status === 401) {
+            alert("Sua sessão expirou. Faça login novamente.");
+            window.location.href = "../../index.html";
+        }
         const errorMessage = await InfoBasicasUsuario.text(); // Aguarda o texto da resposta
         throw new Error(`Erro na requisição: ${errorMessage}`);
     }
@@ -125,11 +134,8 @@ function selecionarSugestao(sugestao) {
 // Função para mostrar as consultas do dia
 function mostrarConsultas() {
     const consultasDoDia = consultasMedicoJson.filter(consulta => formatarData(consulta.dataConsulta) == new Date().toLocaleDateString() && consulta.situacao == "Agendada");
-
-    if (consultasDoDia.length > 0) 
-        consultasDoDia.forEach(consulta => criaDivConsulta(consulta));
-    else 
-        criaDivAgendaVazia();
+    const consultasDoDiaDepoisDaHoraAtual = retornaConsultasMaioresQueHoraAtual(consultasDoDia);
+    consultasDoDiaDepoisDaHoraAtual.length === 0 ? criaDivAgendaVazia() : consultasDoDiaDepoisDaHoraAtual.forEach(consulta => criaDivConsulta(consulta));
 }
 
 function criaDivConsulta(consulta) {
@@ -143,9 +149,7 @@ function criaDivConsulta(consulta) {
 }
 
 function criaDivAgendaVazia() {
-    consultas.innerHTML += `<p class="mensagem">Nenhuma consulta agendada para este dia.</p>`;
-    agendaMedico.style.backgroundColor = "transparent";
-    agendaMedico.style.border = "1px dashed green"
+    consultas.innerHTML += `<p class="mensagem">Por enquanto, nenhuma consulta até o final do dia.</p>`;
 }
 
 function saudacao() {
@@ -164,3 +168,20 @@ function saudacao() {
 function formatarData (data) {
     return data.split('-').reverse().join('/');
 }
+
+function retornaConsultasMaioresQueHoraAtual (consultas) {
+    let consultasMaioresQueHoraAtual = [];
+
+    consultas.forEach(consulta => {
+      const horaAtual = new Date().toLocaleTimeString("pt-BR", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: false, 
+        });
+      const horaFimConsulta = consulta.horaFim;
+      if (horaFimConsulta > horaAtual) 
+        consultasMaioresQueHoraAtual.push(consulta);
+    });
+  
+    return consultasMaioresQueHoraAtual;
+  }
