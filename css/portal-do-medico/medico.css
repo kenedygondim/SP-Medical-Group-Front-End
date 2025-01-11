@@ -225,10 +225,12 @@ svg {
 }
 
 #right-section h6 {
-    color: #000000b1;
-    font-size: 1.5em;
-    font-family: 'Poppins', sans-serif;
+    color: #000000;
+    font-size: 1.7em;
+    font-family: "Inter", sans-serif;
     text-align: center;
+    font-weight: 200;
+    margin-bottom: 0.5em;
 }
 
 #agenda-medico {
@@ -250,13 +252,14 @@ svg {
 }
 
 #right-section h6 {
-    color: #000000b1;
-    font-size: 1.5em;
+    color: #000000;
+    font-size: 1.7em;
     font-family: "Inter", sans-serif;
     text-align: center;
-    font-weight: 500;
+    font-weight: 200;
     margin-bottom: 0.5em;
 }
+
 #agenda-medico {
     width: 100%;
     height: auto;
@@ -296,10 +299,11 @@ svg {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 5em;
     width: 95%;
+    padding: 0.5em;
     background-color: #ffffff;
-    box-shadow: 5px 5px 10px rgba(150, 165, 144, 0.582);
+    border-radius: 0.3em;
+    border: 0.2px solid #00000025;
 }
 
 .div-card-none p {
@@ -376,28 +380,11 @@ svg {
     margin: 0 auto;
 }
   
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
-}
 
 .loading-text {
     margin-top: 15px;
     font-size: 1.2em;
     animation: fade-in-out 1.5s infinite;
-}
-
-@keyframes fade-in-out {
-    0%, 100% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 1;
-    }
 }
 
 @keyframes zoom-in-out {
@@ -407,4 +394,14 @@ svg {
     50% {
         transform: scale(1.1);
     }
+}
+
+#agenda-medico {
+    background-color: #e1f7d9;
+    border: 1px dashed green;
+}
+
+.mensagem {
+    font-size: 0.8em;
+    font-family: 'Inter', sans-serif;
 }
