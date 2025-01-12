@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portal do paciente</title>
+    <link rel="stylesheet" href="../../css/utils/globals.css" />
+    <link rel="stylesheet" href="../../css/utils/header-portais.css" />
+    <link rel="stylesheet" href="../../css/utils/loading.css">
     <link rel="stylesheet" href="../../css/portal-do-paciente/minhas-consultas.css" />
     <link
       rel="shortcut icon"
@@ -14,7 +17,7 @@
     <body>
         <header>
         <a href="./paciente.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
-        <a>Minhas consultas</a>
+        <a href="./minhas-consultas.html">Minhas consultas</a>
         <a href="./consultas-agendadas.html">Agenda</a>
         <a href="./meu-perfil.html">Meu perfil</a>
         <div id="profile-container">
@@ -27,6 +30,24 @@
             </div>
         </div>
         </header>
+
+        <main>
+            <form id="form-selecao" class="form-active">
+                <h2 id="agendar-consulta-h2">Minhas consultas</h2>
+                <label for="medico">Selecione o médico:</label>
+                <select required id="medico" name="medico">
+                  <option value="">Carregando...</option>
+                </select>
+                <label for="especialidade">Selecione a especialidade:</label>
+                <select required id="especialidade" name="especialidade">
+                  <option value="">Selecione um médico primeiro</option>
+                </select>
+                <label for="data">Escolha a data:</label>
+                <input required type="date" id="data" name="data" />
+                <button type="button" id="avancar">Buscar</button>
+              </form>
+        </main>
+
 
         <div id="loading-screen">
             <img src="../../assets/logo_spmedgroup_v2.png" class="spinner"></img>

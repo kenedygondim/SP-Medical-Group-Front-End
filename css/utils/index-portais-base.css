@@ -1,0 +1,223 @@
+main {
+    height: 90%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+#left-section {
+    width: 70%;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}   
+
+#div-pesquisa-input{
+    background-color: rgb(255, 255, 255);
+    width: 90%;
+    height: 4em;
+    border-radius: 5px 0px 5 0px;
+    display: flex;
+    align-items: center;
+}
+
+#pesquisa-input {
+    width: 90%;
+    height: 100%;
+    border-radius: 5px;
+    margin-left: 2em;
+    border: none;
+    outline: none;
+    color: #000000b2;
+    font-size: 1.0em;
+}
+
+#div-pesquisa-input svg {
+    width: 2em;
+    height: 2em;
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+#pesquisa-input::placeholder {
+    color: #999; /* Muda a cor do placeholder */
+    padding-left: 15px; /* Adiciona padding à esquerda */
+}
+
+#sugestoes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%; /* Coloca o menu exatamente abaixo do input */
+    left: 0;   /* Alinha à esquerda do input */
+    width: 100%; /* Igual à largura do input */
+    background: white;
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none; /* Inicialmente oculto */
+    max-height: 200px; /* Altura máxima com rolagem */
+    overflow-y: auto;
+}
+
+#sugestoes-list li {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+#sugestoes-list li:hover {
+    background-color: #f0f0f0;
+}
+
+#div-pesquisa-input {
+    position: relative; /* Garante que o menu suspenso seja posicionado em relação a esse contêiner */
+}
+
+.div-squares {
+    display: grid;
+    grid-template-rows: 2fr 2fr;
+    grid-template-columns: 2fr 2fr;
+    width: 90%;
+    flex-wrap: wrap; /* Permite que os elementos quebrem para uma nova linha */
+    gap: 1px; /* Espaçamento entre as divs */
+}
+
+.div-square {
+    height: 11em;
+    display: flex  ;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    background: linear-gradient(to right, #167CAD 0%, #0C5980 100%);
+    gap: 1em;
+}
+
+svg {
+    width: 3em;
+    height: 3em;
+}	
+
+.div-square p {
+    color: white;
+    width: 30%;
+    font-size: 1em;
+    text-align: center;
+}
+
+.pacientes, .disponibilidade {
+    background: linear-gradient(to left, #167CAD 0%, #0C5980 100%);
+}
+
+.alterar-consulta,  .agenda {
+    background: linear-gradient(to right, #167CAD 0%, #0C5980 100%);
+}
+
+.div-card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    padding: 0.5em;
+    background-color: #ffffff;
+    border-radius: 0.3em;
+    border: 0.2px solid #00000025;
+}
+
+
+#right-section {
+    width: 35%;
+    height: 73%;
+    background-color: transparent;
+    display: flex;
+    justify-content: top;
+    flex-direction: column;
+
+}
+
+#right-section h6 {
+    color: #000000;
+    font-size: 1.7em;
+    font-family: "Inter", sans-serif;
+    text-align: center;
+    font-weight: 200;
+    margin-bottom: 0.5em;
+}
+
+#agenda-medico {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    border-radius: 0.5em;
+    background-color: #e1f7d9;
+    border: 1px dashed green;
+}
+
+.div-card-none p {
+    font-size: 1.0em;
+}
+
+.nome-medico, .div-card p {
+    font-size: 0.8em;
+    font-weight: 500;
+}
+
+
+#next-day, #prev-day {
+    background-color: transparent;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.foto-medico {
+    width: 3em;
+    height: 3em;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.div-subs {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 65%;
+    height: 2.5em; 
+}
+
+.div-subs p {
+    font-size: 0.8em;
+    text-align: center;
+}
+
+
+.mensagem {
+    font-size: 0.8em;
+    font-family: 'Inter', sans-serif;
+}
+
+#appointments {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+
+#nome-paciente-span{
+    font-family: "Inter", sans-serif;
+}

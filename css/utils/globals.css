@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:visited {
+    text-decoration: none; /* Remove o sublinhado do link após ser clicado */
+    color: inherit; /* Mantém a cor do texto após ser clicado */
+}
+
+body {
+    height: 100vh;
+    background-color: #f5f4f4;    
+}
