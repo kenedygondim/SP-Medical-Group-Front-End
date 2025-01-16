@@ -32,21 +32,83 @@
         </header>
 
         <main>
-            <form id="form-selecao" class="form-active">
-                <h2 id="agendar-consulta-h2">Minhas consultas</h2>
-                <label for="medico">Selecione o médico:</label>
-                <select required id="medico" name="medico">
-                  <option value="">Carregando...</option>
-                </select>
-                <label for="especialidade">Selecione a especialidade:</label>
-                <select required id="especialidade" name="especialidade">
-                  <option value="">Selecione um médico primeiro</option>
-                </select>
-                <label for="data">Escolha a data:</label>
-                <input required type="date" id="data" name="data" />
-                <button type="button" id="avancar">Buscar</button>
+          <div id="div-search">
+              <form>
+                  <input id="campoPesquisa" type="text" name="query" placeholder="Digite sua pesquisa...">
               </form>
-        </main>
+          </div>
+          <div id="div-header">
+              <div id="div-filtros">
+                  <div id="div-numero-elementos">
+                      <p>Mostrando</p>
+                      <select name="items-per-page" id="items-per-page">
+                          <option value="5">5</option>
+                          <option value="10" selected>10</option>
+                          <option value="20">20</option>
+                          <option value="50">50</option>
+                      </select>    
+                  </div>
+  
+                  <div id="div-ordenacao">
+                      <p>Ordenar por</p>
+                      <select name="sort-by" id="sort-by">
+                          <option value="date">Data</option>
+                          <option value="price">Preço</option>
+                          <option value="name">Nome</option>
+                      </select>
+                  </div>    
+              </div>
+          </div>
+          <div id="div-table-container">
+          <table id="table">
+              <thead id="thead">
+                  <tr>
+                      <th>Data da consulta</th>
+                      <th>Valor pago</th>
+                      <th>Horário</th>
+                      <th>Nome do médico</th>
+                      <th>Ações</th>
+                  </tr>
+              </thead>
+              <tbody id="tbody">
+                  <!-- Aqui ficam os dados vindos do back-end -->
+              </tbody>
+          </table>
+          </div>
+          <div id="pagination-controls">
+              <img id="prev" onclick="prevPage()" src="../../assets/anterior-seta.png" alt="Botão para página anterior"></button>
+              <span id="page-info"></span>
+              <img id="next" onclick="nextPage()" src="../../assets/proximo-seta.png" alt="Botão para próxima página"></button>
+          </div>
+      </main>
+
+      <div id="popupOverlay" class="popup-overlay">
+        <div class="popup">
+          <button class="close-btn" id="closePopupBtn">x</button>
+          <div><img id="fotoPerfil" src="" alt="Foto do Médico"></div>
+          <div>
+            <div id="texts">
+              <h2 id="nomeMedico">Nome do Médico</h2>
+              <p>Data da consulta: <span id="dataConsulta"></span></p>
+              <p>Horário da consulta: <span id="horario"></span></p>
+              <p>Especialidade: <span id="especialidade"></span></p>
+              <p>Preço da consulta: <span id="preco"></span></p>
+              <p>Motivo da consulta: <span id="motivo"></span></p>
+              <p>Endereço: <span id="endereco"></span></p>
+          </div>
+  
+              <div id="actions">
+                <div class="div-button-actions"><button class="actions-btn" id="cancelar-consulta">Cancelar</button></div>
+              </div>
+  
+              <div id="div-consulta-concluida">
+                <span class="consulta-concluida">Consulta concluída!</span>
+              </div>
+  
+            </div>
+        </div>
+      </div>
+
 
 
         <div id="loading-screen">
