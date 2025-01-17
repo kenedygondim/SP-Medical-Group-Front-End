@@ -29,7 +29,7 @@
     </header>
     <main>
         <form id="form-selecao" class="form-active">
-            <h2 id="agendar-consulta-h2">Agendar Consulta</h2>
+            <h2 id="agendar-consulta-h2">Ficha de consulta</h2>
             <label for="medico">Selecione o médico:</label>
             <select required id="medico" name="medico">
               <option value="">Carregando...</option>
@@ -52,9 +52,9 @@
               <option value="0">Não</option>
               <option value="1">Sim</option>
             </select>
-            <button type="button" id="avancar">Avançar</button>
-
+            <div class="div-btn-avancar"><button type="button" id="avancar">Avançar</button></div>
           </form>
+
           <form id="resumo-consulta" action="post" class="resumo-consulta">
             <h2>Resumo da Consulta</h2>
             <p id="medico-consulta">Médico da Consulta: Carregando...</p>
@@ -63,15 +63,29 @@
             <p id="horario-consulta">Horário da Consulta: Carregando...</p>
             <p id="valor-consulta">Valor da Consulta: Carregando...</p>
             <p id="endereco-consulta">Endereço da Consulta: Carregando...</p>
-            <button type="button" id="voltar">Voltar</button>
-            <button type="submit" id="confirmar-consulta">Agendar Consulta</button>
+
+            <iframe
+              width="600"
+              height="450"
+              style="border:0"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCGdEV7nhmEXtzTSxRIvjBWusjjAsMzYzc&q=Av+Paulista,+Sao+Paulo">  
+              <!-- TODO: pegar dinamicamente o endereço da consulta/Remover Iframe em caso de consulta online -->
+            </iframe>
+
+            <div id="botoes">
+              <button type="button" id="voltar">Voltar</button>
+              <button type="submit" id="confirmar-consulta">Confirmar consulta</button>
+            </div>
           </form>
     </main>
 
     <div id="loading-screen">
       <img src="../../assets/logo_spmedgroup_v2.png" class="spinner"></img>
     </div>
-  
+    
     <script src="../../js/portal-do-paciente/agenda-consulta.js"></script>
 </body>
 </html>
