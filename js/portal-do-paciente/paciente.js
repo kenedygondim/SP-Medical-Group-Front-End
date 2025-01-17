@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 async function fetchItems() {
+    if (!token || !email) {
+        alert("Ocorreu um erro ao tentar recuperar as informações de sessão. Por favor, faça login novamente.");
+        window.location.href = "../../index.html";
+    }
+
     await getEspecialidades();
     await getInfoBasicasUsuario();
     await getConsultasPaciente();
