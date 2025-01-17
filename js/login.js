@@ -374,6 +374,8 @@ document.getElementById('cep').addEventListener('blur', async () => {
 
 document.getElementById('submit').addEventListener('click', async () => {
     
+    loadingScreen.style.display = "flex";
+
     var formData = new FormData();
     formData.append('cpf', cpfInput.value);
     formData.append('nomeCompleto', firstNameInput.value + ' ' + lastNameInput.value);
@@ -415,8 +417,12 @@ document.getElementById('submit').addEventListener('click', async () => {
             alert('Erro ao criar a conta. Verifique os dados e tente novamente.');
         }
     } catch (error) {
-        alert('Erro ao criar a conta. Verifique sua conexão.');
+        alert('Erro ao criar a conta. Verifique sua conexão.'); //TO-DO: consertar aqui
     }
+    finally {
+        loadingScreen.style.display = "none";
+    }
+
 });
 
 //Utils
