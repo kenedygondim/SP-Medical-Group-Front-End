@@ -179,8 +179,15 @@ async function carregarDisponibilidades(cpf, data) {
   }});
   
   const  disponibilidades = await response.json();
+  let disponibilidadesFiltradas;
+  
+  if (data == retornaDataFormatada(new Date())) {
+     disponibilidadesFiltradas = retornaDisponibiliadesMaioresQueHoraAtual(disponibilidades);
+  } 
+  else {
+    disponibilidadesFiltradas = disponibilidades;
+  }
 
-  const disponibilidadesMaioresQueHoraAtual = retornaDisponibiliadesMaioresQueHoraAtual(disponibilidades);
   
   if(disponibilidades.length == 0){
       horarioSelect.innerHTML = '<option value="">Nenhum horário disponível</option>';
@@ -188,7 +195,7 @@ async function carregarDisponibilidades(cpf, data) {
   }
 
   horarioSelect.innerHTML = '<option value="">Selecione um horário</option>';
-  disponibilidadesMaioresQueHoraAtual.forEach(disponibilidade => {
+  disponibilidadesFiltradas.forEach(disponibilidade => {
     const option = document.createElement('option');
     option.id = disponibilidade.disponibilidadeId
     option.value = `${disponibilidade.horaInicio} - ${disponibilidade.horaFim}`;
@@ -287,14 +294,14 @@ function retornaDisponibiliadesMaioresQueHoraAtual (disponibilidades) {
 
     const horaDisp = disponibilidade.horaInicio;
 
-    console.log(dataAtual)
-    console.log(horaAtual)
-    console.log(horaDisp)
 
     if (horaDisp > horaAtual) {
       disponibiliadesMaioresQueHoraAtual.push(disponibilidade);
     }
   });
+
+  console.log(disponibiliadesMaioresQueHoraAtual);
+
 
   return disponibiliadesMaioresQueHoraAtual;
 }
