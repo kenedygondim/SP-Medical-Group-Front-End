@@ -4,12 +4,12 @@ const form = document.getElementById("section-filtros");
 const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
 const fotoPerfil = document.getElementById("fotoPerfil");
 const nomeMedico = document.getElementById("nomeMedico");
-const dataNascimento = document.getElementById("dataNascimento");
-const numeroConsultas = document.getElementById("numeroConsultas");
-const crm = document.getElementById("crm");
-const contato = document.getElementById("contato");
-const hospital = document.getElementById("hospital");
-const especialidadess = document.getElementById("especialidadess");
+const dataNascimento = document.getElementById("span-data-nascimento");
+const numeroConsultas = document.getElementById("span-num-consultas");
+const crm = document.getElementById("span-crm");
+const contato = document.getElementById("span-contato");
+const hospital = document.getElementById("span-hospital");
+const especialidadess = document.getElementById("span-especialidades");
 
 // Recuperação de parâmetros da URL
 const params = new URLSearchParams(window.location.search);
@@ -19,6 +19,7 @@ const numCrm = params.get('crm');
 
 // Variáveis globais
 let informacoesBasicasMedicoJson = [];
+let especialidadesJson = [];
 
 // Prefixo de chamada de API
 const apiPrefix = "http://localhost:8080/api/";
@@ -109,12 +110,12 @@ async function showPopup(medicoIdentificador) {
     // Preenchendo as informações no pop-up
     fotoPerfil.src = medico.fotoPerfilUrl;
     nomeMedico.textContent = medico.nomeCompleto;
-    dataNascimento.textContent = `Data de Nascimento: ${medico.dataNascimento}`;
-    numeroConsultas.textContent = `Número de Consultas realizadas: ${medico.numeroConsultas}`;
-    crm.textContent = `CRM: ${medico.crm}`;
-    contato.textContent = `Contato: ${medico.email}`;
-    hospital.textContent = `Hospital: ${medico.nomeFantasia}`;
-    especialidadess.textContent = `Especialidades: ${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
+    dataNascimento.textContent = `${medico.dataNascimento}`;
+    numeroConsultas.textContent = `${medico.numeroConsultas}`;
+    crm.textContent = `${medico.crm}`;
+    contato.textContent = `${medico.email}`;
+    hospital.textContent = `${medico.nomeFantasia}`;
+    especialidadess.textContent = `${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
 
     // Exibir o pop-up
     popupOverlay.style.display = "flex";
