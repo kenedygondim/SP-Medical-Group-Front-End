@@ -226,10 +226,11 @@ li p {
 }
 
 #consultas-tabela th {
-    background-color: #0059ff;
+    background-color: #00b2df;
+    font-style: italic;
     color: white;
     font-size: 16px;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 300;
 }
 
