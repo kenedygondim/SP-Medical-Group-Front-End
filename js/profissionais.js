@@ -1,15 +1,5 @@
 // Referência a elementos HTML
 const loadingScreen = document.getElementById("loading-screen");
-const form = document.getElementById("section-filtros");
-const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
-const fotoPerfil = document.getElementById("fotoPerfil");
-const nomeMedico = document.getElementById("nomeMedico");
-const dataNascimento = document.getElementById("span-data-nascimento");
-const numeroConsultas = document.getElementById("span-num-consultas");
-const crm = document.getElementById("span-crm");
-const contato = document.getElementById("span-contato");
-const hospital = document.getElementById("span-hospital");
-const especialidadess = document.getElementById("span-especialidades");
 
 // Recuperação de parâmetros da URL
 const params = new URLSearchParams(window.location.search);
@@ -24,7 +14,7 @@ let especialidadesJson = [];
 // Prefixo de chamada de API
 const apiPrefix = "http://localhost:8080/api/";
 
-
+// Evento de carregamento da página
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchItems();
     carregarEspecialidadeMedicoCrm();
@@ -40,6 +30,7 @@ async function fetchItems() {
 async function getInformacoesBasicasMedico() {
     try {
         const url = `${apiPrefix}Medico/ListarInformacoesBasicasMedico`;
+
         const informacoesBasicasMedico = await fetch(
             `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
             method: 'GET',
@@ -72,6 +63,8 @@ async function getEspecialidades () {
 
 
 function mostrarProfissionais() {
+    const numeroProfissionais = document.getElementById("profissionais-encontrados-ou-nao");
+
     if (especialidade !== null) 
          informacoesBasicasMedicoJson.length === 0 ? numeroProfissionais.textContent = `Nenhum profissional encontrado` : numeroProfissionais.textContent = `Encontramos ${informacoesBasicasMedicoJson.length} profissional(is) de ${especialidade.toLowerCase()}.`;
     else 
@@ -97,29 +90,6 @@ function construirElementoMedico() {
             </div>
         </div>`;
     });
-}
-
-    
-
-async function showPopup(medicoIdentificador) {
-    const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
-    const especialidades = await getEspecialidadesMedico(medicoIdentificador);
-
-
-
-    // Preenchendo as informações no pop-up
-    fotoPerfil.src = medico.fotoPerfilUrl;
-    nomeMedico.textContent = medico.nomeCompleto;
-    dataNascimento.textContent = `${calcularIdade(medico.dataNascimento)}`;
-    numeroConsultas.textContent = `${medico.numeroConsultas}`;
-    crm.textContent = `${medico.crm}`;
-    contato.textContent = `${medico.email}`;
-    hospital.textContent = `${medico.nomeFantasia}`;
-    especialidadess.textContent = `${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
-
-    // Exibir o pop-up
-    popupOverlay.style.display = "flex";
-    popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
 }
 
 async function getInformacoesMedicoEspecifico(medicoIdentificador) {
@@ -154,13 +124,43 @@ async function getEspecialidadesMedico(medicoIdentificador) {
     }
 }
 
+async function showPopup(medicoIdentificador) {
+    const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
+    const especialidades = await getEspecialidadesMedico(medicoIdentificador);
+
+    // Referência a elementos HTML
+    const fotoPerfil = document.getElementById("fotoPerfil");
+    const nomeMedico = document.getElementById("nomeMedico");
+    const dataNascimento = document.getElementById("span-data-nascimento");
+    const numeroConsultas = document.getElementById("span-num-consultas");
+    const crm = document.getElementById("span-crm");
+    const contato = document.getElementById("span-contato");
+    const hospital = document.getElementById("span-hospital");
+    const especialidadess = document.getElementById("span-especialidades");
+
+    // Preenchendo as informações no pop-up
+    fotoPerfil.src = medico.fotoPerfilUrl;
+    nomeMedico.textContent = medico.nomeCompleto;
+    dataNascimento.textContent = `${calcularIdade(medico.dataNascimento)}`;
+    numeroConsultas.textContent = `${medico.numeroConsultas}`;
+    crm.textContent = `${medico.crm}`;
+    contato.textContent = `${medico.email}`;
+    hospital.textContent = `${medico.nomeFantasia}`;
+    especialidadess.textContent = `${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
+
+    // Exibir o pop-up
+    popupOverlay.style.display = "flex";
+    popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
+}
+
+
 // Evento para fechar o pop-up
-closePopup.addEventListener("click", () => {
+document.getElementById('closePopup').addEventListener("click", () => {
     popupOverlay.style.display = "none";
 });
 
 // Redirecionar para agendar consulta
-agendarConsulta.addEventListener("click", async () => {
+document.getElementById('agendarConsulta').addEventListener("click", async () => {
     const token = sessionStorage.getItem("token");
     const response = await fetch(`${apiPrefix}Consulta/Acessar`, {
         method: 'GET',
@@ -203,8 +203,8 @@ function carregarEspecialidadeMedicoCrm() {
     }
 }
 
-
-form.addEventListener("submit", function (event) {
+// Evento de clique para filtrar profissionais de acordo com a busca do usuário
+document.getElementById("section-filtros").addEventListener("submit", function (event) {
     event.preventDefault();
 
     const especialidade = document.getElementById('especialidade-select').value;
@@ -224,7 +224,9 @@ form.addEventListener("submit", function (event) {
      window.location.href = `profissionais.html?${queryString}`
 });
 
-
+// Função para retornar idade do usuário com base na data de nascimento. 
+// Exemplo de entrada: "2004-07-07"
+// Exemplo de saída: "20 anos e 7 meses"
 function calcularIdade(dataNascimento) {
     let nascimento = new Date(dataNascimento);
     let hoje = new Date();
@@ -232,10 +234,9 @@ function calcularIdade(dataNascimento) {
     let anos = hoje.getFullYear() - nascimento.getFullYear();
     let meses = hoje.getMonth() - nascimento.getMonth();
 
-    // Se os meses forem negativos, significa que o aniversário ainda não ocorreu este ano
     if (meses < 0) {
-        anos--; // Reduz um ano
-        meses += 12; // Ajusta os meses
+        anos--; 
+        meses += 12;
     }
 
     return `${anos} anos e ${meses} meses`;

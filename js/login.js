@@ -1,5 +1,4 @@
 // Referência a elementos HTML
-const formElement = document.getElementById('form')
 const popup = document.getElementById('popup');
 const overlay = document.getElementById('overlay');
 const step1 = document.getElementById('step-1');
@@ -9,34 +8,6 @@ const loadingScreen = document.getElementById("loading-screen");
 const textos = document.getElementById('textos');
 const form = document.getElementById('div-form');
 const button = document.getElementById('proximo-button');
-const spanCadastro = document.getElementById('span-cadastre-se');
-const closePopup = document.getElementById('close-popup');
-const toStep2 = document.getElementById('to-step-2');
-const backToStep1 = document.getElementById('back-to-step-1');
-const backToStep2 = document.getElementById('back-to-step-2');
-const toStep3 = document.getElementById('to-step-3');
-const cpfInput = document.getElementById('cpf');
-const firstNameInput = document.getElementById('first-name');
-const lastNameInput = document.getElementById('last-name');
-const rgInput = document.getElementById('rg');
-const dataNascimentoInput = document.getElementById('dob');
-const emailCadastroInput = document.getElementById('email-cadastro');
-const passwordInput = document.getElementById('password');
-const confirmPasswordInput = document.getElementById('confirm-password');
-const cepInput = document.getElementById('cep');
-const numeroInput = document.getElementById('numero');
-const complementoInput = document.getElementById('complemento');
-const cpfError = document.getElementById('cpf-error');
-const firstNameError = document.getElementById('first-name-error');
-const lastNameError = document.getElementById('last-name-error');
-const rgError = document.getElementById('rg-error');
-const dataNascimentoError = document.getElementById('dob-error');
-const emailCadastroError = document.getElementById('email-cadastro-error');
-const passwordError = document.getElementById('password-error');
-const confirmPasswordError = document.getElementById('confirm-password-error');
-const cepError = document.getElementById('cep-error');
-const numeroError = document.getElementById('numero-error');
-const complementoError = document.getElementById('complemento-error');
 
 
 // Evento de inicialização
@@ -49,7 +20,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 const apiPrefix = "http://localhost:8080/api/";
 
 // Função para realizar login manual
-formElement.addEventListener('submit', async (e) => {
+document.getElementById('form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
@@ -138,37 +109,66 @@ function toggleElements() {
 }
 
 // Evento de clique para abrir o popup de cadastro
-spanCadastro.addEventListener('click', () => {
+document.getElementById('span-cadastre-se').addEventListener('click', () => {
     popup.classList.add('active');
     overlay.classList.add('active');
 });
 
 // Evento de clique para fechar o popup de cadastro
-closePopup.addEventListener('click', () => {
+document.getElementById('close-popup').addEventListener('click', () => {
     popup.classList.remove('active');
     overlay.classList.remove('active');
 });
 
 // Eventos de clique para avançar/voltar nas etapas do cadastro
-toStep2.addEventListener('click', () => {
+document.getElementById('to-step-2').addEventListener('click', () => {
     step1.classList.add('hidden');
     step2.classList.remove('hidden');
 });
-toStep3.addEventListener('click', () => {
+
+document.getElementById('to-step-3').addEventListener('click', () => {
     step2.classList.add('hidden');
     step3.classList.remove('hidden');
 });
-backToStep1.addEventListener('click', () => {
+
+document.getElementById('back-to-step-1').addEventListener('click', () => {
     step2.classList.add('hidden');
     step1.classList.remove('hidden');
 });
-backToStep2.addEventListener('click', () => {
+
+document.getElementById('back-to-step-2').addEventListener('click', () => {
     step3.classList.add('hidden');
     step2.classList.remove('hidden');
 });
 
 
 //Validações dos campos de cadastro
+
+const cpfInput = document.getElementById('cpf');
+const firstNameInput = document.getElementById('first-name');
+const lastNameInput = document.getElementById('last-name');
+const rgInput = document.getElementById('rg');
+const dataNascimentoInput = document.getElementById('dob');
+const emailCadastroInput = document.getElementById('email-cadastro');
+const passwordInput = document.getElementById('password');
+const confirmPasswordInput = document.getElementById('confirm-password');
+const cepInput = document.getElementById('cep');
+const numeroInput = document.getElementById('numero');
+const complementoInput = document.getElementById('complemento');
+const cpfError = document.getElementById('cpf-error');
+const firstNameError = document.getElementById('first-name-error');
+const lastNameError = document.getElementById('last-name-error');
+const rgError = document.getElementById('rg-error');
+const dataNascimentoError = document.getElementById('dob-error');
+const emailCadastroError = document.getElementById('email-cadastro-error');
+const passwordError = document.getElementById('password-error');
+const confirmPasswordError = document.getElementById('confirm-password-error');
+const cepError = document.getElementById('cep-error');
+const numeroError = document.getElementById('numero-error');
+const complementoError = document.getElementById('complemento-error');
+
+
+
 cpfInput.addEventListener('input', () => {
     const cpfValue = cpfInput.value;
     if (!/^\d{11}$/.test(cpfValue)) {
