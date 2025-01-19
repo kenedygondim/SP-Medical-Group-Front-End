@@ -61,6 +61,16 @@ async function getInfoBasicasUsuario() {
             }
         });
 
+        if (InfoBasicasUsuario.status !== 200) {
+            if (InfoBasicasUsuario.status === 401) {
+                alert("Sua sessão expirou. Faça login novamente.");
+                window.location.href = "../../index.html";
+            }
+            const errorMessage = await InfoBasicasUsuario.text(); // Aguarda o texto da resposta
+            throw new Error(`Erro na requisição: ${errorMessage}`);
+        }
+
+
         infoBasicasUsuarioJson = await InfoBasicasUsuario.json();
     } catch (error) {
         console.error("Erro ao buscar informações básicas do usuário:", error);
