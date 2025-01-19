@@ -189,7 +189,7 @@ async function carregarDisponibilidades(cpf, data) {
   }
 
   
-  if(disponibilidades.length == 0){
+  if(disponibilidadesFiltradas.length == 0){
       horarioSelect.innerHTML = '<option value="">Nenhum horário disponível</option>';
       return;
   }
@@ -216,12 +216,34 @@ async function carregarResumo(cpf) {
 
   if (response.status == 200) {
     const details = await response.json();
-    document.getElementById('medico-consulta').textContent = `Médico: ${medicoSelect.options[medicoSelect.selectedIndex].text}`;
-    document.getElementById('especialidade-consulta').textContent = `Especialidade: ${especialidadeSelect.value}`;
-    document.getElementById('data-consulta').textContent = `Data: ${dataInput.value}`;
-    document.getElementById('horario-consulta').textContent = `Horário: ${horarioSelect.value}`;
-    document.getElementById('valor-consulta').textContent = `Valor da Consulta: R$ ${details.valorConsulta}`;
-    document.getElementById('endereco-consulta').textContent = isConsultaOnline.options[isConsultaOnline.selectedIndex].value == 1 ? "Consulta online via Google Meet" : `Endereço da Consulta: ${details.logradouro}, ${details.numero} ${details.complemento} - ${details.bairro}, ${details.municipio}, SP`;
+    document.getElementById('span-medico-consulta').textContent = `${medicoSelect.options[medicoSelect.selectedIndex].text}`;
+    document.getElementById('span-especialidade-consulta').textContent = `${especialidadeSelect.value}`;
+    document.getElementById('span-data-consulta').textContent = `${formatarData(dataInput.value)}`;
+    document.getElementById('span-horario-consulta').textContent = `${horarioSelect.value}`;
+    document.getElementById('span-valor-consulta').textContent = `R$ ${details.valorConsulta}`;
+
+    const enderecoConsulta = document.getElementById('span-endereco-consulta');
+
+    enderecoConsulta.textContent = isConsultaOnline.options[isConsultaOnline.selectedIndex].value == 1 ? "Consulta online via Google Meet" : `Endereço da Consulta: ${details.logradouro}, ${details.numero} ${details.complemento} - ${details.bairro}, ${details.municipio}, SP`;
+
+    if (isConsultaOnline.options[isConsultaOnline.selectedIndex].value == 0) {
+      document.getElementById('div-iframe').innerHTML = 
+      `<iframe
+              width="600"
+              height="450"
+              style="border:0"
+              loading="lazy"
+              allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"
+              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCGdEV7nhmEXtzTSxRIvjBWusjjAsMzYzc&q=${formatAddress(enderecoConsulta.textContent)}">  
+              <!-- TODO: pegar dinamicamente o endereço da consulta/Remover Iframe em caso de consulta online -->
+          </iframe>`;
+    }
+    else {
+      document.getElementById('div-iframe').innerHTML = "";
+    }
+
+
   }
   else {
       window.location.href = "http://127.0.0.1:5500/html/login.html"
@@ -306,3 +328,10 @@ function retornaDisponibiliadesMaioresQueHoraAtual (disponibilidades) {
   return disponibiliadesMaioresQueHoraAtual;
 }
 
+function formatAddress(address) {
+  return encodeURIComponent(address);
+}
+
+function formatarData (data) {
+  return data.split('-').reverse().join('/');
+}

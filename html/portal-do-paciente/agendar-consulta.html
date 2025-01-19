@@ -57,23 +57,14 @@
 
           <form id="resumo-consulta" action="post" class="resumo-consulta">
             <h2>Resumo da Consulta</h2>
-            <p id="medico-consulta">Médico da Consulta: Carregando...</p>
-            <p id="especialidade-consulta">Especialidade da Consulta: Carregando...</p>
-            <p id="data-consulta">Data da Consulta: Carregando...</p>
-            <p id="horario-consulta">Horário da Consulta: Carregando...</p>
-            <p id="valor-consulta">Valor da Consulta: Carregando...</p>
-            <p id="endereco-consulta">Endereço da Consulta: Carregando...</p>
+            <p id="medico-consulta">Médico responsável: <span id="span-medico-consulta" class="span-detalhes">Carregando...</span></p>
+            <p id="especialidade-consulta">Especialidade solicitada: <span id="span-especialidade-consulta" class="span-detalhes">Carregando...</span></p>
+            <p id="data-consulta">Data: <span id="span-data-consulta" class="span-detalhes">Carregando...</span></p>
+            <p id="horario-consulta">Horário: <span id="span-horario-consulta" class="span-detalhes">Carregando...</span></p>
+            <p id="valor-consulta">Preço: <span id="span-valor-consulta" class="span-detalhes">Carregando...</span></p>
+            <p id="endereco-consulta">Endereço: <span id="span-endereco-consulta" class="span-detalhes">Carregando...</span></p>
 
-            <iframe
-              width="600"
-              height="450"
-              style="border:0"
-              loading="lazy"
-              allowfullscreen
-              referrerpolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCGdEV7nhmEXtzTSxRIvjBWusjjAsMzYzc&q=Av+Paulista,+Sao+Paulo">  
-              <!-- TODO: pegar dinamicamente o endereço da consulta/Remover Iframe em caso de consulta online -->
-            </iframe>
+            <div id="div-iframe"></div>
 
             <div id="botoes">
               <button type="button" id="voltar">Voltar</button>
