@@ -62,15 +62,6 @@ button {
   margin-bottom: 0.5em;
 }
 
-.resumo-consulta > p {
-  font-size: 1.0em;
-  font-weight: 400;
-  font-family: 'Poppins', 'sans-serif';
-  margin-bottom: 0.5em;
-}
-/* AIzaSyCGdEV7nhmEXtzTSxRIvjBWusjjAsMzYzc */
-
-
 #botoes {
   margin-top: 2em;
   display: flex;
@@ -114,4 +105,17 @@ iframe {
   height: 12em;
   border: none;
   border-radius: 10px;
+}
+
+#resumo-consulta > p {
+  font-size: 1.0em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  padding-bottom: 0.5em;
+}
+
+.span-detalhes {
+  font-size: 1em;
+  font-family: 'Inter', sans-serif;
+  font-weight: 300;
 }
