@@ -97,6 +97,9 @@ function createProfilePictureActions() {
     document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);
 }
 
+document.getElementById("right-section").addEventListener("click", () => window.location.href = "./agenda.html");
+
+
 // Adiciona o evento de entrada no campo de pesquisa
 input.addEventListener("input", buscarSugestoes);
 

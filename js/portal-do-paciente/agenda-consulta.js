@@ -288,7 +288,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 
-    window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/consultas-agendadas.html"
+    window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agenda.html"
   } 
   else {
     alert("Não foi possível realizar o agendamento. Tente novamente mais tarde!")

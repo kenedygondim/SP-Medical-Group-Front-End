@@ -11,40 +11,55 @@
     <link rel="shortcut icon" href="../../assets/logo_spmedgroup_v2.png" type="image/x-icon">
 </head>
 <body>
-    <header>
-        <a href="./medico.html"><img id="logo-img" src="../../assets/logo_spmedgroup_v2.png" alt=""/></a>
-        <a href="./minhas-consultas.html">Minhas consultas</a>
-        <a href="./consultas-agendadas.html">Agenda</a>
-        <a href="./meu-perfil.html">Meu perfil</a>
-        <div id="profile-container">
-          <img src="" id="foto-perfil-options" alt="Foto do Perfil" />
-          <div id="profile-menu">
-            <ul>
-              <li id="view-profile">Ver Perfil</li>
-              <li id="logout">Logout</li>
-            </ul>
-          </div>
-        </div>
-      </header>
-
+  <header>
+    <a href="./medico.html"><img id="logo-img" src="../../assets/spmg-branco.png" alt=""/></a>
+    <div id="div-options-header">
+      <a href="./minhas-consultas.html">Minhas consultas</a>
+      <a href="./agenda.html">Agenda</a>
+      <a href="./meu-perfil.html">Meu perfil</a>
+    </div>
+    <div id="profile-container">
+      <div id="div-foto-perfil-options"><img src="" id="foto-perfil-options" alt="Foto do Perfil" /></div>
+      <div id="profile-menu">
+        <ul>
+          <li id="view-profile">Ver Perfil</li>
+          <li id="logout">Logout</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+ 
     <main>
+      <div id="div-descricao-pagina">
+          <img src="../../assets/schedule-not-css.svg" alt="">
+          <div id="texts">
+            <h1>Adicione horários de atendimento</h1>
+            <p>Aqui você terá controle total sobre seus horários. Adicione disponibilidades para realizar consultas de forma rápida e fácil. </p>
+          </div>
+      </div>
+
         <form id="availabilityForm">
-          <label for="date">Data:</label>
-          <input type="date" id="date" name="date" required>
+          <div id="labels-inputs">
+            <label for="date">Data:</label>
+            <input type="date" id="date" name="date" required>
+            <label for="startTime">Hora de Início:</label>
+            <input type="time" id="startTime" name="startTime" required>
+            <label for="endTime">Hora de Término:</label>
+            <input type="time" id="endTime" name="endTime" required>
+          </div>
 
           <div id="existingAvailabilities">
-            <h2>Horários já preenchidos:</h2>
+            <h2 id="h2-conflitos"></h2>
             <ul id="availabilitiesList"></ul>
           </div>
 
-          <label for="startTime">Hora de Início:</label>
-          <input type="time" id="startTime" name="startTime" required>
 
-          <label for="endTime">Hora de Término:</label>
-          <input type="time" id="endTime" name="endTime" required>
-
-          <button type="submit">Adicionar horário na agenda</button>
+          <button type="submit">Adicionar horário</button>
       </form>
+
+      
+
+      
     </main>
     
 

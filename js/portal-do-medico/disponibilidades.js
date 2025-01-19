@@ -67,11 +67,16 @@ async function getDisponibilidadesPorData(cpf, data) {
 function exibirDisponibilidades(disponibilidades) {
     // Limpa a lista atual
     availabilitiesList.innerHTML = '';
+    document.getElementById('h2-conflitos').textContent = '';
 
+    document.getElementById('existingAvailabilities').style.display = 'block';
+    
     if (disponibilidades.length === 0) {
-        availabilitiesList.innerHTML = '<li>Nenhuma disponibilidade encontrada para esta data.</li>';
+        availabilitiesList.innerHTML = '<li>Nenhum possível conflito encontrado para esta data.</li>';
         return;
     }
+
+    document.getElementById('h2-conflitos').textContent = 'Atenção! horários já preenchidos para o dia:';
 
     // Adiciona cada disponibilidade como um item da lista
     disponibilidades.forEach(({ horaInicio, horaFim }) => {
@@ -86,8 +91,10 @@ dateInput.addEventListener('change', async () => {
     const data = dateInput.value;
     const cpf = InfoBasicasUsuarioJson.cpf; // Certifique-se de que o CPF esteja carregado
 
+    setInterval(() => {}, 1000);
+
     if (!data || !cpf) {
-        alert('Por favor, insira uma data válida e tenha certeza de estar logado.');
+        alert('Por favor, insira uma data válida');
         return;
     }
 

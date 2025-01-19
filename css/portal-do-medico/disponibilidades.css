@@ -8,59 +8,95 @@ main {
     height: 90%;
     background-color: rgba(255, 255, 255, 0.096);
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
 }
 
-#availabilityForm {
-    width: 50%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+#div-descricao-pagina{
+    margin-top: 3em;
+    height: 25em;
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }
 
-#availabilityForm label {
-    margin-bottom: 5px;
-    font-weight: 500;
+#div-descricao-pagina > img {
+    height: 22em;
+    width: 22em;
+}  
+
+#texts {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2em;
+}
+
+#texts > h1 {
+    font-size: 2.0em;
+    color: #000000c9;
+    width: 90%;
+    text-align: center;
+}   
+
+#texts > p {
+    font-size: 1.5em;
+    color: #000000c9;
+    width: 90%;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+}   
+
+#availabilityForm {
+    width: 80%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: space-between;
+}
+
+#labels-inputs {
+    display: flex;
+    gap: 1em;
+}
+
+#labels-inputs label {
+    font-weight: 400;
 }
 
 #availabilityForm input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 14px;
     box-sizing: border-box;
+    padding: 0.2em;
 }
 
 #availabilityForm button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
+    padding: 10px 15px;
+    background-color: #008ddf;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 13px;
     cursor: pointer;
     transition: background-color 0.3s;
-}
-
-#availabilityForm button:hover {
-    background-color: #45a049;
+    margin-top: 3em;
 }
 
 #existingAvailabilities {
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-top: 3em;
+    display: none;
 }
 
 #existingAvailabilities h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 1.3em;
+    font-weight: 300;
 }
 
 #availabilitiesList {
@@ -70,13 +106,21 @@ main {
 }
 
 #availabilitiesList li {
-    padding: 10px;
+    width: auto;
     border-bottom: 1px solid #ddd;
-    font-size: 14px;
-    color: #555;
+    font-size: 1em;
+    color: #000000e0;
+    text-align: center;
+
 }
 
 #availabilitiesList li:last-child {
     border-bottom: none;
 }
+
+
+
+
+
+ 
 

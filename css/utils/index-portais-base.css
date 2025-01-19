@@ -18,6 +18,15 @@ main {
     gap: 2em;
 }   
 
+#nome-medico-h2{
+    width: 90%;
+    text-align: start;
+    font-family: "Inter", sans-serif;
+    font-size: 2em;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.822);
+}
+
 #div-pesquisa-input{
     background-color: rgb(255, 255, 255);
     width: 90%;
@@ -140,7 +149,7 @@ svg {
     display: flex;
     justify-content: top;
     flex-direction: column;
-
+    cursor: pointer;
 }
 
 #right-section h6 {

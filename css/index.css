@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 header {
-    height: 10%;
+    height: 9%;
     background-color: #ffffff;
     color: rgba(0, 0, 0, 0.74);
     display: flex;
@@ -12,10 +12,21 @@ header {
 header > a {
     cursor: pointer;
 }
+#div-options-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 23%;
+}
+
+#div-options-header > a {
+    color: rgba(0, 0, 0, 0.651);
+    font-weight: 500;
+}
 
 #logo-img {
-    width: 7vh;
-    height: 7vh;
+    width: 6vh;
+    height: 6vh;
 }
 
 #entrar-btn {
@@ -23,14 +34,14 @@ header > a {
     color: white;
     border-radius: 5px;
     padding: 1em 3em;
-    font-size: 0.9em;
+    font-size: 0.8em;
     cursor: pointer;
     border: none;
     text-decoration: none;
 }
 
 main {
-    height: 67%;
+    height: 68%;
     background-image: url(../assets/pexels-olly-3760279.jpg);
     background-size: cover;
 
