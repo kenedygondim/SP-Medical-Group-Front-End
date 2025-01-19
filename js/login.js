@@ -373,10 +373,10 @@ document.getElementById('cep').addEventListener('blur', async () => {
 });
 
 document.getElementById('submit').addEventListener('click', async () => {
-    
     loadingScreen.style.display = "flex";
 
-    var formData = new FormData();
+    // < ------Coleta das informações do formulário------->
+    let formData = new FormData();
     formData.append('cpf', cpfInput.value);
     formData.append('nomeCompleto', firstNameInput.value + ' ' + lastNameInput.value);
     formData.append('dataNascimento', dataNascimentoInput.value);
@@ -390,32 +390,22 @@ document.getElementById('submit').addEventListener('click', async () => {
     formData.append('logradouro', document.getElementById('logradouro').value);
     formData.append('numero', numeroInput.value);
     formData.append('complemento', complementoInput.value);
-
-    var foto = document.getElementById('foto-perfil').files[0]
-
-    if (foto != null) {
-        formData.append('fotoPerfilFile', foto);
-    }
+    document.getElementById('foto-perfil').files[0] ? formData.append('fotoPerfilFile', document.getElementById('foto-perfil').files[0]) : null;
+    // < ------------------------------------------------- >
 
     try {
         const response = await fetch(`${apiPrefix}Paciente/Cadastrar`, {
-        method: 'POST',
-        body: formData
+            method: 'POST',
+            body: formData
         });
 
-        const responseJ = await response.json();
-
-        console.log(response);
-        console.log(responseJ);
-
-
-        if (response.ok) {
-            alert('Conta criada com sucesso!');
-            popup.classList.remove('active');
-            overlay.classList.remove('active');
-        } else {
+        if (response.status == 201) {
+            alert('Conta criada com sucesso! Realize o login para acessar o portal.');
+            window.location.reload();
+        } else if (response.status == 400) {
             alert('Erro ao criar a conta. Verifique os dados e tente novamente.');
-        }
+        } 
+
     } catch (error) {
         alert('Erro ao criar a conta. Verifique sua conexão.'); //TO-DO: consertar aqui
     }
@@ -424,6 +414,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     }
 
 });
+
 
 //Utils
 function retornaNomeDaRole (role) {
