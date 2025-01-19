@@ -161,6 +161,8 @@ function selecionarSugestao(sugestao) {
 
 document.getElementById("pesquisa-input").addEventListener("input", buscarSugestoes);
 
+document.getElementById("right-section").addEventListener("click", () => window.location.href = "./agenda.html");
+
 
 function mostrarConsultas() {
     const consultasDoDia = consultasPacienteJson.filter(consulta =>  formatarData(consulta.dataConsulta) == new Date().toLocaleDateString() && consulta.situacao == "Agendada" );
