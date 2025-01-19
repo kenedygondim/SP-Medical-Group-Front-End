@@ -110,7 +110,7 @@ async function showPopup(medicoIdentificador) {
     // Preenchendo as informações no pop-up
     fotoPerfil.src = medico.fotoPerfilUrl;
     nomeMedico.textContent = medico.nomeCompleto;
-    dataNascimento.textContent = `${medico.dataNascimento}`;
+    dataNascimento.textContent = `${calcularIdade(medico.dataNascimento)}`;
     numeroConsultas.textContent = `${medico.numeroConsultas}`;
     crm.textContent = `${medico.crm}`;
     contato.textContent = `${medico.email}`;
@@ -224,3 +224,19 @@ form.addEventListener("submit", function (event) {
      window.location.href = `profissionais.html?${queryString}`
 });
 
+
+function calcularIdade(dataNascimento) {
+    let nascimento = new Date(dataNascimento);
+    let hoje = new Date();
+
+    let anos = hoje.getFullYear() - nascimento.getFullYear();
+    let meses = hoje.getMonth() - nascimento.getMonth();
+
+    // Se os meses forem negativos, significa que o aniversário ainda não ocorreu este ano
+    if (meses < 0) {
+        anos--; // Reduz um ano
+        meses += 12; // Ajusta os meses
+    }
+
+    return `${anos} anos e ${meses} meses`;
+}
