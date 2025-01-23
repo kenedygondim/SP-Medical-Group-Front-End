@@ -106,7 +106,7 @@ function createProfilePictureActions() {
 function mostrarPacientes() {
     const pacientesUnicos = [...new Set(informacoesBasicasPacienteJson.map(paciente => paciente.cpf))].map(cpf => informacoesBasicasPacienteJson.find(paciente => paciente.cpf === cpf));
     if (especialidade !== null) 
-        pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s) de ${especialidade.toLowerCase()}.`;
+        pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s) atendidos em ${especialidade.toLowerCase()}.`;
     else 
         pacientesUnicos.length === 0 ? numeroPacientes.textContent = `Nenhum paciente encontrado` : numeroPacientes.textContent = `Encontramos ${pacientesUnicos.length} paciente(s).`;
     
