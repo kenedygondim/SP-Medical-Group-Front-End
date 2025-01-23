@@ -101,15 +101,15 @@ async function getInfoBasicasUsuario() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-        }).then(response => {
-            if (response.status == 200) {
-                loadHeaderLogged();
-                infoBasicasUsuarioJson = InfoBasicasUsuario.json();
-                return;
-            }
-            
-            loadHeaderNotLogged();
         });
+
+        if (InfoBasicasUsuario.status == 200) {
+            infoBasicasUsuarioJson = await InfoBasicasUsuario.json();
+            loadHeaderLogged();
+            return;
+        }
+        
+        loadHeaderNotLogged();
     } catch (error) {
         console.error("Erro ao buscar informações básicas do usuário:", error);
     }
