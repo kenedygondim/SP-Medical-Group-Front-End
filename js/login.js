@@ -110,15 +110,20 @@ function toggleElements() {
 
 // Evento de clique para abrir o popup de cadastro
 document.getElementById('span-cadastre-se').addEventListener('click', () => {
+    document.querySelector('.fundo-escuro').style.display = 'block'
+
     popup.classList.add('active');
     overlay.classList.add('active');
 });
 
 // Evento de clique para fechar o popup de cadastro
 document.getElementById('close-popup').addEventListener('click', () => {
+    document.querySelector('.fundo-escuro').style.display = 'none'
+
     popup.classList.remove('active');
     overlay.classList.remove('active');
 });
+
 
 // Eventos de clique para avançar/voltar nas etapas do cadastro
 document.getElementById('to-step-2').addEventListener('click', () => {
@@ -167,6 +172,58 @@ const cepError = document.getElementById('cep-error');
 const numeroError = document.getElementById('numero-error');
 const complementoError = document.getElementById('complemento-error');
 
+function verificarInfPessoais() {
+    const button = document.getElementById('to-step-2');
+    const inputsInfPessoais = document.querySelectorAll('.inf-pessoais');
+
+    let teste = []
+
+    for (let i = 0; i < inputsInfPessoais.length; i++) {
+        teste.push(inputsInfPessoais[i].classList.contains('success'));
+    }
+
+    teste.includes(false) ? button.disabled = true : button.disabled = false;
+}
+
+function verificarInfConta() {
+    const button = document.getElementById('to-step-3');
+    const inputsInfConta = document.querySelectorAll('.inf-conta');
+
+    let teste = []
+
+    for (let i = 0; i < inputsInfConta.length; i++) {
+        teste.push(inputsInfConta[i].classList.contains('success'));
+    }
+
+    teste.includes(false) ? button.disabled = true : button.disabled = false;
+}
+
+
+function verificarInfPessoais() {
+    const button = document.getElementById('to-step-2');
+    const inputsInfPessoais = document.querySelectorAll('.inf-pessoais');
+
+    let teste = []
+
+    for (let i = 0; i < inputsInfPessoais.length; i++) {
+        teste.push(inputsInfPessoais[i].classList.contains('success'));
+    }
+
+    teste.includes(false) ? button.disabled = true : button.disabled = false;
+}
+
+function verificarEndereco() {
+    const button = document.getElementById('submit');
+    const inputsInfEndereco = document.querySelectorAll('.inf-endereco');
+
+    let teste = []
+
+    for (let i = 0; i < inputsInfEndereco.length; i++) {
+        teste.push(inputsInfEndereco[i].classList.contains('success'));
+    }
+
+    teste.includes(false) ? button.disabled = true : button.disabled = false;
+}
 
 
 cpfInput.addEventListener('input', () => {
@@ -179,7 +236,9 @@ cpfInput.addEventListener('input', () => {
         cpfInput.classList.add('success');
         cpfInput.classList.remove('error');
         cpfError.textContent = '';
-}
+    }
+
+    verificarInfPessoais();
 });
 
 firstNameInput.addEventListener('input', () => {
@@ -194,6 +253,9 @@ firstNameInput.addEventListener('input', () => {
         firstNameInput.classList.remove('error');
         firstNameError.textContent = '';
     }
+
+    verificarInfPessoais();
+
     }
 );
 
@@ -209,11 +271,12 @@ lastNameInput.addEventListener('input', () => {
         lastNameInput.classList.remove('error');
         lastNameError.textContent = '';
     }
+
+    verificarInfPessoais();
 });
 
 rgInput.addEventListener('input', () => {
     const rgValue = rgInput.value;
-
     if (!/^\d{9}$/.test(rgValue)) {
         rgInput.classList.add('error');
         rgInput.classList.remove('success');
@@ -223,6 +286,7 @@ rgInput.addEventListener('input', () => {
         rgInput.classList.remove('error');
         rgError.textContent = '';
 }
+    verificarInfPessoais();
 });
 
 
@@ -250,6 +314,8 @@ dataNascimentoInput.addEventListener('input', () => {
         dataNascimentoInput.classList.remove('error');
         dataNascimentoError.textContent = '';
     }
+
+    verificarInfPessoais();
 });
 
 emailCadastroInput.addEventListener('input', () => {
@@ -264,6 +330,8 @@ emailCadastroInput.addEventListener('input', () => {
         emailCadastroInput.classList.remove('error');
         emailCadastroError.textContent = '';
     }
+
+    verificarInfConta();
 });
 
 passwordInput.addEventListener('input', () => {
@@ -282,6 +350,8 @@ passwordInput.addEventListener('input', () => {
 
     // Revalida a confirmação de senha
     validateConfirmPassword();
+
+    verificarInfConta();
 });
 
 
@@ -302,6 +372,8 @@ function validateConfirmPassword() {
         confirmPasswordInput.classList.remove('error');
         confirmPasswordError.textContent = '';
     }
+
+    verificarInfConta();
 }
 
 cepInput.addEventListener('input', () => {
@@ -316,13 +388,15 @@ cepInput.addEventListener('input', () => {
         cepInput.classList.remove('error');
         cepError.textContent = '';
     }
+
+    verificarEndereco();
 });
 
 // Validação do Número
 numeroInput.addEventListener('input', () => {
     const numeroValue = numeroInput.value;
 
-    if (numeroValue.length > 10) {
+    if (numeroValue.length > 10 || numeroValue.length < 1) {
         numeroInput.classList.add('error');
         numeroInput.classList.remove('success');
         numeroError.textContent = 'O número deve conter no máximo 10 caracteres.';
@@ -331,6 +405,8 @@ numeroInput.addEventListener('input', () => {
         numeroInput.classList.remove('error');
         numeroError.textContent = '';
     }
+
+    verificarEndereco();
 });
 
 // Validação do Complemento

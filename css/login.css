@@ -27,6 +27,14 @@ main {
     height: 8em;
     width: 8em;
 }
+ 
+.fundo-escuro {
+    display: none;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: #000000be;
+}
 
 #logo img {
     height: 100%;
@@ -35,7 +43,6 @@ main {
 }
 
 #textos {
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -65,7 +72,6 @@ main {
     padding: 0.5em;
     margin-bottom: 1em;
     outline: none; /* Remove o contorno azul padrão */
-
 }
 
 .hidden {
@@ -120,7 +126,6 @@ p {
 #div-botoes {
     padding-top: 2em;
     width: 100%;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,14 +142,11 @@ p {
     padding: 0.7em 2.5em;
 }
 
-
-
 #section-right {
     width: 50%;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../assets/pexels-gustavo-fring-7446987.jpg");
-    
+    background-image: url("../assets/pexels-gustavo-fring-7446987.jpg");  
 }
 
 #p-cadastre-se {
@@ -173,8 +175,9 @@ p {
     border-radius: 8px;
     padding: 20px;
     z-index: 1000;
-    border: 2px solid rgb(187, 236, 107);
+    border: 2px solid #003A56;
 }
+
 #popup.active {
     display: flex;
     flex-direction: column;
@@ -190,12 +193,15 @@ p {
     background: rgba(0, 0, 0, 0.5);
     z-index: 999;
 }
+
 #overlay.active {
     display: block;
 }
+
 .hidden {
     display: none;
 }
+
 .form-section {
     margin-bottom: 20px;
 }
@@ -217,7 +223,6 @@ p {
     justify-content: space-between;
     margin-top: 20px;
 }
-
 
 button:disabled {
     background-color: #ccc;
@@ -255,8 +260,9 @@ button:disabled {
 }
 
 .title-info {
-    font-size: 20px;
-    font-weight: 400;
+    font-size: 1.7em;
+    font-family: 'Poppins';
+    font-weight: 300;
     padding-bottom: 1em;
     text-align: left;
 }
