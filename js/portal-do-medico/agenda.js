@@ -1,23 +1,6 @@
 // Referência a elementos HTML
 const currentDateHTML = document.getElementById('current-date');
 const loadingScreen = document.getElementById("loading-screen");
-const previewDay = document.getElementById("prev-day");
-const nextDay = document.getElementById("next-day");
-const profileContainer = document.getElementById("profile-container");
-const profileMenu = document.getElementById("profile-menu");
-const logoutOption = document.getElementById("logout");
-const viewProfileOption = document.getElementById("view-profile");
-const fotoPerfilOptions = document.getElementById("foto-perfil-options");
-const consultas = document.getElementById("appointments");
-const closePopupBtn = document.getElementById("closePopupBtn");
-const fotoPerfil = document.getElementById("fotoPerfil");
-const nomePaciente = document.getElementById("nomeMedico");
-const dataConsulta = document.getElementById("dataConsulta");
-const horario = document.getElementById("horario");
-const preco = document.getElementById("preco");
-const endereco = document.getElementById("endereco");
-const especialidade = document.getElementById("especialidade");
-const motivo = document.getElementById("motivo");
 
 // Recuperação de informações de sessão
 const token = sessionStorage.getItem("token");
@@ -111,6 +94,13 @@ async function  getDisponibilidadesPelaData() {
 
 // Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
 function createProfilePictureActions() {
+    const profileContainer = document.getElementById("profile-container");
+    const profileMenu = document.getElementById("profile-menu");
+    const logoutOption = document.getElementById("logout");
+    const viewProfileOption = document.getElementById("view-profile");
+    const fotoPerfilOptions = document.getElementById("foto-perfil-options");
+
+
     fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
     logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "../../index.html"; });
     viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
@@ -189,7 +179,7 @@ function redirecionaPaginaDisponibilidades() {
 }
 
 // Função para retroceder um dia na agenda
-previewDay.addEventListener('click', () => {
+document.getElementById("prev-day").addEventListener('click', () => {
     currentDate.setDate(currentDate.getDate() - 1);
     currentDateHTML.textContent = currentDate.toLocaleDateString();
     getDisponibilidadesPelaData();
@@ -197,7 +187,7 @@ previewDay.addEventListener('click', () => {
 });
 
 // Função para avançar um dia na agenda
-nextDay.addEventListener('click', () => {
+document.getElementById("next-day").addEventListener('click', () => {
     currentDate.setDate(currentDate.getDate() + 1);
     currentDateHTML.textContent = currentDate.toLocaleDateString();
     getDisponibilidadesPelaData();
@@ -239,8 +229,16 @@ function parseJwt(token) {
 
 // Função para mostrar o pop-up
 async function showPopup(consultaIdentificador) {
-    try {
-      const consulta = consultasMedicoJson.find(consulta => consulta.consultaId == consultaIdentificador);
+    const fotoPerfil = document.getElementById("fotoPerfil");
+    const nomePaciente = document.getElementById("nomeMedico");
+    const dataConsulta = document.getElementById("dataConsulta");
+    const horario = document.getElementById("horario");
+    const preco = document.getElementById("preco");
+    const endereco = document.getElementById("endereco");
+    const especialidade = document.getElementById("especialidade");
+    const motivo = document.getElementById("motivo");
+
+    const consulta = consultasMedicoJson.find(consulta => consulta.consultaId == consultaIdentificador);
 
       fotoPerfil.src = consulta.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : consulta.fotoPerfilUrl;
       nomePaciente.textContent = consulta.nomePaciente
@@ -264,17 +262,11 @@ async function showPopup(consultaIdentificador) {
       popupOverlay.style.display = "flex";
       popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
       document.getElementById("cancelar-consulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
-
-
       document.getElementById("marcar-concluida").addEventListener("click", async () => { await marcarConsultaComoConcluida(consultaIdentificador) });
-    }
-    catch (error) {
-      console.error(error.message);
-    }
 }
 
 // Evento para fechar o pop-up
-closePopupBtn.addEventListener("click", closePopup);
+document.getElementById("closePopupBtn").addEventListener("click", closePopup);
 
 function closePopup() {
     popupOverlay.style.display = "none";
@@ -323,10 +315,9 @@ async function marcarConsultaComoConcluida (consultaIdentificador) {
 }
 
 async function excluirDisponibilidade(disponibilidadeId) {
-
     const confirmacaoExclusaoDisp = confirm("Deseja realmente excluir a disponibilidade?") 
-    if (!confirmacaoExclusaoDisp) 
-        return
+    
+    if (!confirmacaoExclusaoDisp) return;
 
     try {
         const response = await fetch(`${apiPrefix}Disponibilidade/deleteDisponibilidade?disponibilidadeId=${disponibilidadeId}`, {
@@ -336,8 +327,6 @@ async function excluirDisponibilidade(disponibilidadeId) {
                 'Authorization': `Bearer ${token}`
             }
         });
-
-        console.log(response);
 
         response.status == 204 ? alert("Disponibilidade excluída com sucesso.") : alert("Não foi possível excluir a disponibilidade.");
         await fetchItems();
