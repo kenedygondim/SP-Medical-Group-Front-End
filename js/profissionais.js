@@ -334,5 +334,5 @@ function calcularIdade(dataNascimento) {
         meses += 12;
     }
 
-    return `${anos} anos e ${meses} meses`;
+    return `${anos} anos e ${meses} ${meses == 1 ? "mês" : "meses"}`;
 }
