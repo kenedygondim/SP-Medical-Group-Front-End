@@ -56,7 +56,7 @@ async function Acessar() {
 
 async function ListarTodosMedicos() {
   try {
-    const response = await fetch(`${apiPrefix}Medico/ListarTodos`, {
+    const response = await fetch(`${apiPrefix}Medico/GetAllMedicos`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ async function ListarTodosMedicos() {
 
 async function GetInfoBasicasUsuario() {
   try {
-    const response = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
+    const response = await fetch(`${apiPrefix}Paciente/GetInfoBasicasUsuarioPaciente?email=${email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ medicoSelect.addEventListener('change', () => {
 async function carregarEspecialidades(cpf) {
   dataInput.value = '';
 
-  const response = await fetch(`${apiPrefix}Especialidade/obterEspecialidadesMedico?cpf=${cpf}`);
+  const response = await fetch(`${apiPrefix}Especialidade/GetAllEspecialidadesMedico?cpf=${cpf}`);
   const especialidades = await response.json();
 
   especialidadeSelect.innerHTML = '<option value="">Selecione uma especialidade</option>';
@@ -171,7 +171,7 @@ async function carregarEspecialidades(cpf) {
 }
 
 async function carregarDisponibilidades(cpf, data) {
-  const response = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidadesNaoPreenchidas?cpf=${cpf}&data=${data}`, {
+  const response = await fetch(`${apiPrefix}Disponibilidade/GetDisponibilidadesMedicoNaoPreenchidas?cpf=${cpf}&data=${data}`, {
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -207,7 +207,7 @@ async function carregarDisponibilidades(cpf, data) {
 async function carregarResumo(cpf) {
   const token = sessionStorage.getItem("token")
 
-  const response = await fetch(`${apiPrefix}Consulta/ConfirmarConsultaDetalhes?cpf=${cpf}&nomeEspecialidade=${especialidadeSelect.value}`, {
+  const response = await fetch(`${apiPrefix}Consulta/GetDetalhesConsulta?cpf=${cpf}&nomeEspecialidade=${especialidadeSelect.value}`, {
     method: "GET",
     headers: {
       'Authorization': `Bearer ${token}`
@@ -273,7 +273,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
     isTelemedicina: isConsultaOnline.options[isConsultaOnline.selectedIndex].value == 1 ? true : false
   }
 
-  const response = await fetch(`${apiPrefix}Consulta/Agendar`, {
+  const response = await fetch(`${apiPrefix}Consulta/AgendarConsulta`, {
     method: "POST",
     headers: {
       'Authorization': `Bearer ${token}`,

@@ -47,7 +47,7 @@ async function fetchItems() {
 // Função de busca de todas as consultas do médico (Realizadas ou não)
 async function getConsultasMedico() {
     try {
-        const consultasMedico = await fetch(`${apiPrefix}Consulta/ListarTodosConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
+        const consultasMedico = await fetch(`${apiPrefix}Consulta/GetAllConsultasMedico?email=${email}`, { //consultas passadas ou futuras realizadas pelo médico
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ async function getConsultasMedico() {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/GetInfoBasicasUsuarioMedico?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

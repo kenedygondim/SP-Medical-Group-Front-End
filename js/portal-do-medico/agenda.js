@@ -47,7 +47,7 @@ async function acessar() {
 
 // Função de busca de todas as consultas do médico (Realizadas ou não)
 async function getConsultasMedico() {
-    const consultasMedico = await fetch(`${apiPrefix}Consulta/ListarTodosConsultasMedico?email=${email}`, {
+    const consultasMedico = await fetch(`${apiPrefix}Consulta/GetAllConsultasMedico?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
     });
@@ -62,7 +62,7 @@ async function getConsultasMedico() {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/GetInfoBasicasUsuarioMedico?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -77,7 +77,7 @@ async function getDadosBasicosUsuario() {
 
 // Função que busca as disponibilidades do médico na data atual
 async function  getDisponibilidadesPelaData() {
-    const disponibilidadesMedico = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidadesNaoPreenchidas?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
+    const disponibilidadesMedico = await fetch(`${apiPrefix}Disponibilidade/GetDisponibilidadesMedicoNaoPreenchidas?cpf=${InfoBasicasUsuarioJson.cpf}&data=${formatarDataInvertida(currentDate.toLocaleDateString())}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -320,7 +320,7 @@ async function excluirDisponibilidade(disponibilidadeId) {
     if (!confirmacaoExclusaoDisp) return;
 
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/deleteDisponibilidade?disponibilidadeId=${disponibilidadeId}`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/ExcluirDisponibilidade?disponibilidadeId=${disponibilidadeId}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

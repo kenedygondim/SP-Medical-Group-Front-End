@@ -58,14 +58,14 @@ async function fetchItems() {
     if (acesso.status == 401) 
         window.location.href = "http://127.0.0.1:5500/html/login.html"
   
-    const response = await fetch(`${apiPrefix}Consulta/ListarTodasConsultasPaciente?email=${email}`, {
+    const response = await fetch(`${apiPrefix}Consulta/GetAllConsultasPaciente?email=${email}`, {
         method: 'GET',
         headers: {
         Authorization: `Bearer ${token}`
         }
     });
 
-    const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/GetInfoBasicasUsuarioPaciente?email=${email}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

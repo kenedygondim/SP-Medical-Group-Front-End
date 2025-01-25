@@ -35,7 +35,7 @@ async function fetchItems() {
 
 async function getInformacoesBasicasMedico() {
     try {
-        const url = `${apiPrefix}Medico/ListarInformacoesBasicasMedico`;
+        const url = `${apiPrefix}Medico/GetInfoBasicasMedico`;
 
         const informacoesBasicasMedico = await fetch(
             `${url}?${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoMedico == null ? "" : `nomeMedico=${nomeDoMedico}&`}${numCrm == null ? "" : `numCrm=${numCrm}&`}`, {
@@ -55,7 +55,7 @@ async function getInformacoesBasicasMedico() {
 
 async function getEspecialidades () {
     try {
-        const especialidades = await fetch(`${apiPrefix}Especialidade/ListarTodos`, {
+        const especialidades = await fetch(`${apiPrefix}Especialidade/GetAllEspecialidades`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,7 +107,7 @@ function loadHeaderNotLogged() {
 
 async function getInfoBasicasUsuario() {
     try {
-        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
+        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/GetInfoBasicasUsuarioPaciente?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -189,7 +189,7 @@ function construirElementoMedico() {
 
 async function getInformacoesMedicoEspecifico(medicoIdentificador) {
     try {
-        const medico = await fetch(`${apiPrefix}Medico/InformacoesMedicoEspecifico?cpfMedico=${medicoIdentificador}`, {
+        const medico = await fetch(`${apiPrefix}Medico/GetDetalhesMedico?cpfMedico=${medicoIdentificador}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -205,7 +205,7 @@ async function getInformacoesMedicoEspecifico(medicoIdentificador) {
 
 async function getEspecialidadesMedico(medicoIdentificador) {
     try {
-        const especialidades = await fetch(`${apiPrefix}Especialidade/obterEspecialidadesMedico?cpf=${medicoIdentificador}`, {
+        const especialidades = await fetch(`${apiPrefix}Especialidade/GetAllEspecialidadesMedico?cpf=${medicoIdentificador}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

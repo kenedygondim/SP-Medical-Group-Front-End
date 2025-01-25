@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 //Função para buscar especialidades
 async function getEspecialidades() {
     try {
-        const response = await fetch(`http://localhost:8080/paginaEspecialidades`, {
+        const response = await fetch(`${apiPrefix}Especialidade/GetDetalhesEspecialidades`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -95,7 +95,7 @@ function loadHeaderNotLogged() {
 
 async function getInfoBasicasUsuario() {
     try {
-        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
+        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/GetInfoBasicasUsuarioPaciente?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

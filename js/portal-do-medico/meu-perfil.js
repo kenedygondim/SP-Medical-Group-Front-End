@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 // Função que busca todas as informações do médico no BD
 async function getPerfilCompletoMedico() {
     try {
-        const perfilCompletoMedico= await fetch(`${apiPrefix}Medico/PerfilCompletoMedico?email=${email}`, {
+        const perfilCompletoMedico= await fetch(`${apiPrefix}Medico/GetPerfilCompletoMedico?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

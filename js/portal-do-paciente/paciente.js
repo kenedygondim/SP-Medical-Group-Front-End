@@ -37,7 +37,7 @@ async function fetchItems() {
 
 async function getEspecialidades() {
     try {
-        const response = await fetch(`${apiPrefix}Especialidade/ListarTodos`, {
+        const response = await fetch(`${apiPrefix}Especialidade/GetAllEspecialidades`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ async function getEspecialidades() {
 
 async function getInfoBasicasUsuario() {
     try {
-        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/InfoBasicasUsuario?email=${email}`, {
+        const InfoBasicasUsuario = await fetch(`${apiPrefix}Paciente/GetInfoBasicasUsuarioPaciente?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +79,7 @@ async function getInfoBasicasUsuario() {
 
 async function getConsultasPaciente() {
     try {
-        const consultasPaciente = await fetch(`${apiPrefix}Consulta/ListarTodasConsultasPaciente?email=${email}`, {
+        const consultasPaciente = await fetch(`${apiPrefix}Consulta/GetAllConsultasPaciente?email=${email}`, {
             method: 'GET',
             headers: {
             'Authorization': `Bearer ${token}`

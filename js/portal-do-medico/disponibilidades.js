@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 // Função que busca as informações básicas do usuário (URL da foto de perfil, email, nome, CPF)
 async function getDadosBasicosUsuario() {
-    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/GetInfoBasicasUsuarioMedico?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -43,7 +43,7 @@ async function getDadosBasicosUsuario() {
 // Função para buscar as disponibilidades existentes para uma data específica
 async function getDisponibilidadesPorData(cpf, data) {
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/getDisponibilidades?cpf=${cpf}&data=${data}`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/GetAllDisponibilidadesMedico?cpf=${cpf}&data=${data}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ availabilityForm.addEventListener('submit', async (event) => {
 // Função que envia uma requisição POST para cadastrar uma disponibilidade
 async function postDisponibilidade(body) {
     try {
-        const response = await fetch(`${apiPrefix}Disponibilidade/postDisponibilidade`, {
+        const response = await fetch(`${apiPrefix}Disponibilidade/AdicionarDisponibilidade`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

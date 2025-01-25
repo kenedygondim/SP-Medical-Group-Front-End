@@ -44,7 +44,7 @@ async function fetchItems() {
 
 // Função que busca informações básicas do usuário logado no sistema como Foto de perfil, nome completo e CPF
 async function getInfoBasicasUsuario() {
-    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/InfoBasicasUsuario?email=${email}`, {
+    const InfoBasicasUsuario = await fetch(`${apiPrefix}Medico/GetInfoBasicasUsuarioMedico?email=${email}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
     });
@@ -60,7 +60,7 @@ async function getInfoBasicasUsuario() {
 // Função que busca informações básicas dos pacientes com base nos parâmetros buscados para exibição 
 async function getInformacoesBasicasPacientes() {
     try {
-        const url = `${apiPrefix}Paciente/InformacoesBasicasPaciente`;
+        const url = `${apiPrefix}Paciente/GetInfoBasicasPaciente`;
         const informacoesBasicasPaciente = await fetch(
             `${url}?emailMedico=${email}&${especialidade == null ? "" : `especialidade=${especialidade}&`}${nomeDoPaciente == null ? "" : `nomePaciente=${nomeDoPaciente}&`}${dataAtendimento == null ? "" : `dataAtendimento=${dataAtendimento}&`}`, {
             method: 'GET',

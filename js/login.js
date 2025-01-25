@@ -470,7 +470,7 @@ document.getElementById('submit').addEventListener('click', async () => {
     // < ------------------------------------------------- >
 
     try {
-        const response = await fetch(`${apiPrefix}Paciente/Cadastrar`, {
+        const response = await fetch(`${apiPrefix}Paciente/CadastrarPaciente`, {
             method: 'POST',
             body: formData
         });

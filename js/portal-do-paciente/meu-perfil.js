@@ -43,7 +43,7 @@ function carregarFotoPerfilOptions() {
 
 async function GetPerfil() {
     try {
-        const perfilCompletoPaciente = await fetch(`${apiPrefix}Paciente/PerfilCompletoPaciente?email=${email}`, {
+        const perfilCompletoPaciente = await fetch(`${apiPrefix}Paciente/GetPerfilCompletoPaciente?email=${email}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
