@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function fetchItems() {
     const token = sessionStorage.getItem("token"); 
     try {
-        const response = await fetch(`${apiPrefix}Especialidade/ListarTodos`);
+        const response = await fetch(`${apiPrefix}Especialidade/GetAllEspecialidades`);
         if (!response.ok) throw new Error("Erro ao carregar os dados.");
         items = await response.json(); 
         especialidades = items.map(item => item.nome);        
