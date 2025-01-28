@@ -167,7 +167,7 @@ async function showPopup(consultaIdentificador) {
 
       
       popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent);
-      document.getElementById("cancelarConsulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
+      document.getElementById("cancelar-consulta").addEventListener("click", async () => { await cancelarConsulta(consultaIdentificador) });
 }
 
 // Evento para fechar o pop-up
@@ -181,8 +181,14 @@ function formatarData (data) {
     return data.split('-').reverse().join('/');
 }
 
+// Função para cancelar a consulta
 async function cancelarConsulta (consultaIdentificador) {
-    const token = sessionStorage.getItem("token");
+
+    const confirmation = window.confirm("Tem certeza que deseja cancelar essa consulta?")
+
+    if (!confirmation) {
+        return;
+    }
 
     try {
         const response = await fetch(`${apiPrefix}Consulta/CancelarConsulta?consultaId=${consultaIdentificador}`, {
@@ -199,6 +205,7 @@ async function cancelarConsulta (consultaIdentificador) {
         alert("Não foi possível processar a solicitação.");
     } finally {
         closePopup();
+        location.reload();
     }
 }
 
