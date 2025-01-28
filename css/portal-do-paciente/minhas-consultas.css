@@ -214,17 +214,18 @@ svg {
 }
 
 .popup h2 {
-    font-size: 1.5em;
+    font-size: 2em;
     margin: 10px 0;
-    font-family: 'Inter', sans-serif;
-    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    color: rgba(0, 7, 19, 0.801);
 }
 
 .popup p {
-    font-size: 1.1em;
+    font-size: 1.0em;
     font-family: 'Inter', sans-serif;
     font-weight: 500;
-    padding-bottom: 0.1em;
+    padding-bottom: 0.5em;
 }
 
 .popup span {
@@ -359,5 +360,9 @@ svg {
 
 #span-agenda-vazia:hover {
     color: #60af47;
+    cursor: pointer;
+}
+
+svg:hover {
     cursor: pointer;
 }
