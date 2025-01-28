@@ -266,8 +266,13 @@ document.getElementById('agendarConsulta').addEventListener("click", async () =>
 
     if(response.status != 200) 
         window.location.href = "http://127.0.0.1:5500/html/login.html"
-    else 
-        window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=" + popupOverlay.getAttribute('medico-identificador');
+    
+    if (especialidade != null) {
+        window.location.href = `http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=${popupOverlay.getAttribute('medico-identificador')}&especialidade=${especialidade}`;
+    } 
+    else {
+        window.location.href = `http://127.0.0.1:5500/html/portal-do-paciente/agendar-consulta.html?medico=${popupOverlay.getAttribute('medico-identificador')}`;
+    }   
 });
 
 

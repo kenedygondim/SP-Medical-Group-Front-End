@@ -173,7 +173,7 @@ main {
 
 .perfil {
     background-color: rgb(255, 255, 255);
-    height: 150px; 
+    min-height: 8em; 
     box-shadow: 3px 6px 10px rgba(0, 0, 0, 0.13); 
     width: 30%;
     border-radius: 10px;
@@ -186,8 +186,7 @@ main {
     width: 60%;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-
+    justify-content: center;
 }
 
 .left {
@@ -206,14 +205,12 @@ main {
 
 .right h3{
     color: rgba(0, 0, 0, 0.719);
-    margin-top: 0.8em;
-    font-size: 1.2em;
-    width: 80%;
+    font-size: 1em;
+    width: 90%;
 }
 
 .right p {
     color: rgba(0, 0, 0, 0.719);
-    margin-bottom: 0.5em;
     font-size: 0.9em;
 }
 
