@@ -11,6 +11,7 @@ const loadingScreen = document.getElementById("loading-screen");
 
 const urlParams = new URLSearchParams(window.location.search);
 const medicoQuery = urlParams.get('medico');
+const especialidadeQuery = urlParams.get('especialidade');
 
 const token = sessionStorage.getItem("token");
 const email = sessionStorage.getItem("email");
@@ -168,6 +169,10 @@ async function carregarEspecialidades(cpf) {
     option.textContent = esp.nome;
     especialidadeSelect.appendChild(option);
   });
+
+  if (especialidadeQuery && especialidades.some(esp => esp.nome === especialidadeQuery)) {
+    especialidadeSelect.value = especialidadeQuery;
+  }
 }
 
 async function carregarDisponibilidades(cpf, data) {
@@ -184,6 +189,9 @@ async function carregarDisponibilidades(cpf, data) {
   if (data == retornaDataFormatada(new Date())) {
      disponibilidadesFiltradas = retornaDisponibiliadesMaioresQueHoraAtual(disponibilidades);
   } 
+  else if (data < retornaDataFormatada(new Date())) {
+    disponibilidadesFiltradas = [];
+  }
   else {
     disponibilidadesFiltradas = disponibilidades;
   }
