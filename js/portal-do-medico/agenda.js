@@ -165,7 +165,7 @@ function criaLinhaConsulta(org, tbody) {
             <td>${org.horaFim}</td>
             <td>
                 <div class="div-card" consulta-identificador="${org.consultaId}" onclick="showPopup('${org.consultaId}')">
-                    <img class="foto-medico" src="${org.fotoPerfilUrl || '../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp'}" alt="Foto do médico">
+                    <img class="foto-medico" src="${org.fotoPerfilUrl || 'https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT'}" alt="Foto do médico">
                     <h3 class="nome-medico">${org.nomePaciente}</h3>
                     <p class="especialidade">${org.especialidade}</p>
                     <p class="status">${org.situacao}</p>

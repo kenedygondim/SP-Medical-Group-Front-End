@@ -114,11 +114,14 @@ function mostrarPacientes() {
 }
 
 function construirElementoPacientes(pacientesUnicos) {
+
+    console.log(pacientesUnicos);
+
     pacientesUnicos.forEach(pac => {
         perfis.innerHTML += `
             <div class="perfil" paciente-identificador="${pac.cpf}">
                 <div class="left">
-                    <img class="foto" src="${pac.fotoPerfilUrl}" alt="Foto do paciente">
+                    <img class="foto" src="${pac.fotoPerfilUrl == '' ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : pac.fotoPerfilUrl}" alt="Foto do paciente">
                 </div>
                 <div class="right">
                     <h3>${pac.nomeCompleto}</h3>

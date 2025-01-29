@@ -228,7 +228,7 @@ async function carregarResumo(cpf) {
     document.getElementById('span-especialidade-consulta').textContent = `${especialidadeSelect.value}`;
     document.getElementById('span-data-consulta').textContent = `${formatarData(dataInput.value)}`;
     document.getElementById('span-horario-consulta').textContent = `${horarioSelect.value}`;
-    document.getElementById('span-valor-consulta').textContent = `R$ ${details.valorConsulta}`;
+    document.getElementById('span-valor-consulta').textContent = `R$ ${details.valorConsulta.toFixed(2)}`;
 
     const enderecoConsulta = document.getElementById('span-endereco-consulta');
 
