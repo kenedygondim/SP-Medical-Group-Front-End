@@ -73,7 +73,7 @@ function montarPerfilCompletoPaciente() {
     document.getElementById("municipio").value = perfilCompletoPacienteJson.municipio;
     document.getElementById("uf").value = perfilCompletoPacienteJson.uf;
     document.getElementById("complemento").value = perfilCompletoPacienteJson.complemento;
-    document.getElementById("foto-perfil-options").src = perfilCompletoPacienteJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : perfilCompletoPacienteJson.fotoPerfilUrl;
+    document.getElementById("foto-perfil-options").src = perfilCompletoPacienteJson.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : perfilCompletoPacienteJson.fotoPerfilUrl;
 
     const profileImage = document.getElementById("profile-image");
 
@@ -81,7 +81,7 @@ function montarPerfilCompletoPaciente() {
 
     const profileImageDiv = document.getElementById("profile-image-div");
 
-    profileImage.src = perfilCompletoPacienteJson.fotoPerfilUrl || "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp";
+    profileImage.src = perfilCompletoPacienteJson.fotoPerfilUrl || "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT";
 
     const overlay = document.getElementById("overlay");
 

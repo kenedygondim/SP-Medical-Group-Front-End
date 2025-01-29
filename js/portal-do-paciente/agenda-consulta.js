@@ -93,7 +93,7 @@ function carregarFotoPerfilOptions() {
   const viewProfileOption = document.getElementById("view-profile");
   const fotoPerfilOptions = document.getElementById("foto-perfil-options");
 
-  fotoPerfilOptions.src = InfoBasicasUsuario.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : InfoBasicasUsuario.fotoPerfilUrl;
+  fotoPerfilOptions.src = InfoBasicasUsuario.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : InfoBasicasUsuario.fotoPerfilUrl;
   fotoPerfilOptions.addEventListener("click", () => {
       profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block";
   });

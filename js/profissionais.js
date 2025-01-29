@@ -134,7 +134,7 @@ function carregarFotoPerfilOptions() {
     const viewProfileOption = document.getElementById("view-profile");
     const fotoPerfilOptions = document.getElementById("foto-perfil-options");
 
-    fotoPerfilOptions.src = infoBasicasUsuarioJson.fotoPerfilUrl == "" ? "../../assets/foto-medicos-teste/../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp" : infoBasicasUsuarioJson.fotoPerfilUrl;
+    fotoPerfilOptions.src = infoBasicasUsuarioJson.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : infoBasicasUsuarioJson.fotoPerfilUrl;
 
 
     fotoPerfilOptions.addEventListener("click", () => {
@@ -174,7 +174,7 @@ function construirElementoMedico() {
         perfis.innerHTML += `
         <div class="perfil" medico-identificador="${profissional.cpf}" onclick="showPopup('${profissional.cpf}')">
             <div class="left">
-                <img class="foto" src="${profissional.fotoPerfilUrl}" alt="Foto de ${profissional.nomeCompleto}">
+                <img class="foto" src="${profissional.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : profissional.fotoPerfilUrl}" alt="Foto de ${profissional.nomeCompleto}">
             </div>
             <div class="right">
                 <h3>${profissional.nomeCompleto}</h3>
@@ -223,6 +223,8 @@ async function showPopup(medicoIdentificador) {
     const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
     const especialidades = await getEspecialidadesMedico(medicoIdentificador);
 
+    const espec = especialidades.map(especialidade => especialidade.nome).join(", ");
+
     // Referência a elementos HTML
     const fotoPerfil = document.getElementById("fotoPerfil");
     const nomeMedico = document.getElementById("nomeMedico");
@@ -234,14 +236,14 @@ async function showPopup(medicoIdentificador) {
     const especialidadess = document.getElementById("span-especialidades");
 
     // Preenchendo as informações no pop-up
-    fotoPerfil.src = medico.fotoPerfilUrl;
+    fotoPerfil.src = medico.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : medico.fotoPerfilUrl;
     nomeMedico.textContent = medico.nomeCompleto;
     dataNascimento.textContent = `${calcularIdade(medico.dataNascimento)}`;
     numeroConsultas.textContent = `${medico.numeroConsultas}`;
     crm.textContent = `${medico.crm}`;
     contato.textContent = `${medico.email}`;
-    hospital.textContent = `${medico.nomeFantasia}`;
-    especialidadess.textContent = `${especialidades.map(especialidade => especialidade.nome).join(", ")}`;
+    hospital.textContent = `${medico.nomeFantasia == "" ? "Hospital não informado" : medico.nomeFantasia}`;
+    especialidadess.textContent = `${espec == "" ? "Especialidade(s) não informada(s)" : espec}`;
 
     // Exibir o pop-up
     popupOverlay.style.display = "flex";
