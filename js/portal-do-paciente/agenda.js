@@ -56,7 +56,7 @@ async function fetchItems() {
     }});
     
     if (acesso.status == 401) 
-        window.location.href = "./login.html"
+        window.location.href = "../login.html"
   
     const response = await fetch(`${apiPrefix}Consulta/GetAllConsultasPaciente?email=${email}`, {
         method: 'GET',

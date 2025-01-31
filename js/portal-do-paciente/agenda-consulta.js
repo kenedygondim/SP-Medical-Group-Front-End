@@ -46,7 +46,7 @@ async function Acessar() {
         Authorization: `Bearer ${token}`
     }});
     
-    if (acesso.status == 401) window.location.href = "./login.html"
+    if (acesso.status == 401) window.location.href = "../login.html"
 
   } catch (error) {
       console.error(error)
@@ -250,11 +250,9 @@ async function carregarResumo(cpf) {
     else {
       document.getElementById('div-iframe').innerHTML = "";
     }
-
-
   }
   else {
-      window.location.href = "./login.html"
+      window.location.href = "../login.html"
   }
 }
 
@@ -292,7 +290,8 @@ resumoConsulta.addEventListener('submit', async (event) => {
 
   if(response.status == 401) {
     alert("Faça login novamente!")
-    window.location.href = "./login.html"
+  
+    window.location.href = "../login.html"
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 

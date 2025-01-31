@@ -95,7 +95,7 @@ function loadHeaderNotLogged() {
     const header = document.getElementById("header");
 
     header.innerHTML = `
-        <a href="../index.html"><img id="logo-img" src="../../assets/spmg-branco.png" alt=""/></a>
+        <a href="../index.html"><img id="logo-img" src="../assets/spmg-branco.png" alt=""/></a>
         <div id="div-options-header">
           <a href="">Sobre nós</a>
           <a href="">Empresas afiliadas</a>
@@ -267,7 +267,7 @@ document.getElementById('agendarConsulta').addEventListener("click", async () =>
     });
 
     if(response.status != 200) 
-        window.location.href = "./login.html"
+        window.location.href = "../login.html"
     
     if (especialidade != null) {
         window.location.href = `./portal-do-paciente/agendar-consulta.html?medico=${popupOverlay.getAttribute('medico-identificador')}&especialidade=${especialidade}`;
