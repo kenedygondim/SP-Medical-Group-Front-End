@@ -61,7 +61,7 @@ function loadHeaderLogged () {
     const header = document.getElementById("header");
 
     header.innerHTML =  `
-        <a href="./portal-do-paciente/paciente.html"><img id="logo-img" src="../assets/spmg-branco.png" alt=""/></a>
+        <a href="https://kenedygondim.github.io/SP-Medical-Group-Front-End/portal-do-paciente/paciente.html"><img id="logo-img" src="../assets/spmg-branco.png" alt=""/></a>
         <div id="div-options-header">
           <a href="./portal-do-paciente/minhas-consultas.html">Minhas consultas</a>
           <a href="./portal-do-paciente/agenda.html">Agenda</a>
@@ -83,7 +83,7 @@ function loadHeaderNotLogged() {
     const header = document.getElementById("header");
 
     header.innerHTML = `
-        <a href="/index.html"><img id="logo-img" src="../../assets/spmg-branco.png" alt=""/></a>
+        <a href="https://kenedygondim.github.io/SP-Medical-Group-Front-End/"><img id="logo-img" src="../../assets/spmg-branco.png" alt=""/></a>
         <div id="div-options-header">
           <a href="">Sobre nós</a>
           <a href="">Empresas afiliadas</a>

@@ -106,7 +106,7 @@ function carregarFotoPerfilOptions() {
 
   logoutOption.addEventListener("click", () => {
       sessionStorage.clear();
-      window.location.href = "/index.html";
+      window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/";
   });
 
   viewProfileOption.addEventListener("click", () => {
