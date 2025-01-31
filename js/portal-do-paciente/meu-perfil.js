@@ -33,7 +33,7 @@ function carregarFotoPerfilOptions() {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "../../index.html";
+        window.location.href = "..//index.html";
     });
 
     viewProfileOption.addEventListener("click", () => {

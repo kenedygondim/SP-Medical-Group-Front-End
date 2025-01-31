@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function fetchItems() {
     if (!token || !email) {
         alert("Ocorreu um erro ao tentar recuperar as informações de sessão. Por favor, faça login novamente.");
-        window.location.href = "../../index.html";
+        window.location.href = "..//index.html";
     }
 
     await getEspecialidades();
@@ -64,7 +64,7 @@ async function getInfoBasicasUsuario() {
         if (InfoBasicasUsuario.status !== 200) {
             if (InfoBasicasUsuario.status === 401) {
                 alert("Sua sessão expirou. Faça login novamente.");
-                window.location.href = "../../index.html";
+                window.location.href = "..//index.html";
             }
             const errorMessage = await InfoBasicasUsuario.text(); // Aguarda o texto da resposta
             throw new Error(`Erro na requisição: ${errorMessage}`);
@@ -115,7 +115,7 @@ function carregarFotoPerfilOptions() {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "../../index.html";
+        window.location.href = "..//index.html";
     });
 
     viewProfileOption.addEventListener("click", () => {

@@ -46,12 +46,12 @@ async function Acessar() {
         Authorization: `Bearer ${token}`
     }});
     
-    if (acesso.status == 401) window.location.href = "../login.html"
+    if (acesso.status == 401) window.location.href = "/html/login.html"
 
   } catch (error) {
       console.error(error)
       alert("Servidor não está respondendo. Tente novamente mais tarde!")
-      window.location.href = "../../index.html"
+      window.location.href = "..//index.html"
   }
 }
 
@@ -106,7 +106,7 @@ function carregarFotoPerfilOptions() {
 
   logoutOption.addEventListener("click", () => {
       sessionStorage.clear();
-      window.location.href = "../index.html";
+      window.location.href = "/index.html";
   });
 
   viewProfileOption.addEventListener("click", () => {
@@ -252,7 +252,7 @@ async function carregarResumo(cpf) {
     }
   }
   else {
-      window.location.href = "../login.html"
+      window.location.href = "/html/login.html"
   }
 }
 
@@ -291,7 +291,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
   if(response.status == 401) {
     alert("Faça login novamente!")
   
-    window.location.href = "../login.html"
+    window.location.href = "/html/login.html"
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 
