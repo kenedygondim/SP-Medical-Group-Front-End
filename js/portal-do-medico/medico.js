@@ -144,7 +144,7 @@ function mostrarConsultas() {
 function criaDivConsulta(consulta) {
     consultas.innerHTML += `
         <div class="div-card">
-            <img class="foto-medico" src="${consulta.fotoPerfilUrl || '../../assets/vetor-de-ícone-foto-do-avatar-padrão-símbolo-perfil-mídia-social-sinal-259530250.webp.webp'}" alt="Foto do paciente">
+            <img class="foto-medico" src="${consulta.fotoPerfilUrl || 'https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT'}" alt="Foto do paciente">
             <h3 class="nome-medico">${consulta.nomePaciente.length > 10 ? consulta.nomePaciente.substring(0, 5) + "..." : consulta.nomePaciente}</h3>
             <p class="especialidade">${consulta.especialidade}</p>
             <p class="horario">${consulta.horaInicio} - ${consulta.horaFim}</p>

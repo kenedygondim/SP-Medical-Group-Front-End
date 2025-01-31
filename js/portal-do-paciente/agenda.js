@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "http://127.0.0.1:5500/index.html";
+        window.location.href = "./index.html";
     });
 
     viewProfileOption.addEventListener("click", () => {
@@ -56,7 +56,7 @@ async function fetchItems() {
     }});
     
     if (acesso.status == 401) 
-        window.location.href = "http://127.0.0.1:5500/html/login.html"
+        window.location.href = "./login.html"
   
     const response = await fetch(`${apiPrefix}Consulta/GetAllConsultasPaciente?email=${email}`, {
         method: 'GET',

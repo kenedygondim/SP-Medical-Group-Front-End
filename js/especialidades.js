@@ -45,7 +45,7 @@ function mostrarProfissionais() {
     const especialidades = document.getElementById("section-id");
     items.forEach(esp => {        
         especialidades.innerHTML += 
-        `<div class="div-card" data-nome-especialidade="${esp.especialidade}" onclick="window.location.href = 'http://127.0.0.1:5500/html/profissionais.html?especialidade=${esp.especialidade}'">
+        `<div class="div-card" data-nome-especialidade="${esp.especialidade}" onclick="window.location.href = './profissionais.html?especialidade=${esp.especialidade}'">
             <h3 class="nome-especialidade">${esp.especialidade}</h3>
             <p class="descricao-especialidade">${esp.descricao}</p>
             <div class="additional-information">

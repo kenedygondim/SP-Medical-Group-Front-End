@@ -46,7 +46,7 @@ async function Acessar() {
         Authorization: `Bearer ${token}`
     }});
     
-    if (acesso.status == 401) window.location.href = "http://127.0.0.1:5500/html/login.html"
+    if (acesso.status == 401) window.location.href = "./login.html"
 
   } catch (error) {
       console.error(error)
@@ -254,7 +254,7 @@ async function carregarResumo(cpf) {
 
   }
   else {
-      window.location.href = "http://127.0.0.1:5500/html/login.html"
+      window.location.href = "./login.html"
   }
 }
 
@@ -292,11 +292,11 @@ resumoConsulta.addEventListener('submit', async (event) => {
 
   if(response.status == 401) {
     alert("Faça login novamente!")
-    window.location.href = "http://127.0.0.1:5500/html/login.html"
+    window.location.href = "./login.html"
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 
-    window.location.href = "http://127.0.0.1:5500/html/portal-do-paciente/agenda.html"
+    window.location.href = "./portal-do-paciente/agenda.html"
   } 
   else {
     alert("Não foi possível realizar o agendamento. Tente novamente mais tarde!")

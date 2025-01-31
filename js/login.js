@@ -87,7 +87,7 @@ async function redirecionaUsuario() {
         });
 
         if (response.status == 200) 
-            window.location.href = `http://127.0.0.1:5500/html/portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`    
+            window.location.href = `./portal-do-${nomeRole.toLocaleLowerCase()}/${nomeRole.toLocaleLowerCase()}.html`    
        
     } catch (error) {
         alert('Erro ao acessar o portal');

@@ -173,9 +173,6 @@ function searchItems(event) {
 campoPesquisa.addEventListener("input", searchItems);
 
 
-
-
-
 function changeItemsPerPage(event) {
     itemsPerPage = parseInt(event.target.value);
     renderPage(1, itemsPerPage);
