@@ -46,12 +46,12 @@ async function Acessar() {
         Authorization: `Bearer ${token}`
     }});
     
-    if (acesso.status == 401) window.location.href = "/SP-Medical-Group-Front-End/html/login.html"
+    if (acesso.status == 401) window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/html/login.html"
 
   } catch (error) {
       console.error(error)
       alert("Servidor não está respondendo. Tente novamente mais tarde!")
-      window.location.href = "/SP-Medical-Group-Front-End/"
+      window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/"
   }
 }
 
@@ -252,7 +252,7 @@ async function carregarResumo(cpf) {
     }
   }
   else {
-      window.location.href = "/SP-Medical-Group-Front-End/html/login.html"
+      window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/html/login.html"
   }
 }
 
@@ -291,7 +291,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
   if(response.status == 401) {
     alert("Faça login novamente!")
   
-    window.location.href = "/SP-Medical-Group-Front-End/html/login.html"
+    window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/html/login.html"
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 
