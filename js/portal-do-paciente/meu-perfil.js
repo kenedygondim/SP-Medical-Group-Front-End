@@ -33,7 +33,7 @@ function carregarFotoPerfilOptions() {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "..//index.html";
+        window.location.href = "SP-Medical-Group-Front-End/";
     });
 
     viewProfileOption.addEventListener("click", () => {

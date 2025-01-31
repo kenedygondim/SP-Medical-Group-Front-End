@@ -114,7 +114,7 @@ dateInput.addEventListener('change', async () => {
 // Função que cria as ações (Login e Ver Perfil) do botão que contém a foto de perfil do usuário logado  no header
 function createProfilePictureActions() {
     fotoPerfilOptions.addEventListener("click", () => profileMenu.style.display = profileMenu.style.display === "block" ? "none" : "block" );
-    logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "..//index.html"; });
+    logoutOption.addEventListener("click", () => { sessionStorage.clear(); window.location.href = "SP-Medical-Group-Front-End/"; });
     viewProfileOption.addEventListener("click", () =>  window.location.href = "./meu-perfil.html" );
     fotoPerfilOptions.src = InfoBasicasUsuarioJson.fotoPerfilUrl == "" ? "https://sp-medical-group.s3.us-east-1.amazonaws.com/SP-MEDICAL-GROUP-USER-PROFILE-PICTURE-DEFAULT" : InfoBasicasUsuarioJson.fotoPerfilUrl;
     document.addEventListener("click", (event) => !profileContainer.contains(event.target) ? profileMenu.style.display = "none" : null);

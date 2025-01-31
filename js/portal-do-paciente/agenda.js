@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "./index.html";
+        window.location.href = "/SP-Medical-Group-Front-End/";
     });
 
     viewProfileOption.addEventListener("click", () => {
@@ -56,7 +56,7 @@ async function fetchItems() {
     }});
     
     if (acesso.status == 401) 
-        window.location.href = "/html/login.html"
+        window.location.href = "/SP-Medical-Group-Front-End/html/login.html"
   
     const response = await fetch(`${apiPrefix}Consulta/GetAllConsultasPaciente?email=${email}`, {
         method: 'GET',
