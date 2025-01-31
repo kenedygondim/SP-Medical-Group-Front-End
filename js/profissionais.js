@@ -49,7 +49,7 @@ async function getInformacoesBasicasMedico() {
     } catch (error) {
         console.error(error)
         alert("Servidor não está respondendo. Tente novamente mais tarde!")
-        window.location.href = "SP-Medical-Group-Front-End/"
+        window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/"
     }
 }
 
