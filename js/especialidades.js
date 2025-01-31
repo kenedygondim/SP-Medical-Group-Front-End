@@ -36,7 +36,7 @@ async function getEspecialidades() {
     } catch (error) {
         console.error(error)
         alert("Servidor não está respondendo. Tente novamente mais tarde!")
-        window.location.href = "SP-Medical-Group-Front-End/"
+        window.location.href = "../SP-Medical-Group-Front-End/"
     }
 }
 
