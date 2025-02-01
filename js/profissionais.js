@@ -73,7 +73,7 @@ function loadHeaderLogged () {
     const header = document.getElementById("header");
 
     header.innerHTML =  `
-        <a href="https://kenedygondim.github.io/SP-Medical-Group-Front-End/portal-do-paciente/paciente.html"><img id="logo-img" src="../../assets/spmg-branco.png" alt=""/></a>
+        <a href="https://kenedygondim.github.io/SP-Medical-Group-Front-End/portal-do-paciente/paciente.html"><img id="logo-img" src="../assets/spmg-branco.png" alt=""/></a>
         <div id="div-options-header">
           <a href="./portal-do-paciente/minhas-consultas.html">Minhas consultas</a>
           <a href="./portal-do-paciente/agenda.html">Agenda</a>
@@ -149,11 +149,11 @@ function carregarFotoPerfilOptions() {
 
     logoutOption.addEventListener("click", () => {
         sessionStorage.clear();
-        window.location.href = "SP-Medical-Group-Front-End/";
+        window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/";
     });
 
     viewProfileOption.addEventListener("click", () => {
-        window.location.href = "./meu-perfil.html";
+        window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/html/portal-do-paciente/meu-perfil.html";
     });
 }
 
