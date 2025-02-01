@@ -168,6 +168,8 @@ function mostrarProfissionais() {
 }
 
 function construirElementoMedico() {
+    loadingScreen.style.display = "flex";
+
     const perfis = document.getElementById("profissionais-encontrados");
 
     informacoesBasicasMedicoJson.forEach(profissional => {
@@ -185,6 +187,8 @@ function construirElementoMedico() {
             </div>
         </div>`;
     });
+
+    loadingScreen.style.display = "none";
 }
 
 async function getInformacoesMedicoEspecifico(medicoIdentificador) {
