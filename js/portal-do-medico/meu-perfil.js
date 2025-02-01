@@ -15,7 +15,7 @@ const email = sessionStorage.getItem("email");
 let perfilCompletoMedicoJson = {};
 
 // Prefixo de chamada de API
-const apiPrefix = "http://localhost:8080/api/";
+const apiPrefix = "http://44.210.248.181:5001/api/";
 
 // Evento de inicialização
 document.addEventListener("DOMContentLoaded", async () => {
