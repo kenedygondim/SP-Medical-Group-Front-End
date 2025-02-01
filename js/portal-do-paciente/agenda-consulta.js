@@ -23,7 +23,7 @@ const hoje = new Date();
 dataInput.min = retornaDataFormatada(hoje);
 
 // Prefixo de chamada de API
-const apiPrefix = "http://44.210.248.181:5001/api/";
+const apiPrefix = "https://44.210.248.181:5001/api/";
 
 document.addEventListener('DOMContentLoaded', async () => {
     await fetchItems();

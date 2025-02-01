@@ -17,7 +17,7 @@ const token = sessionStorage.getItem("token");
 const email = sessionStorage.getItem("email");
 
 // Prefixo de chamada de API
-const apiPrefix = "http://44.210.248.181:5001/api/";
+const apiPrefix = "https://44.210.248.181:5001/api/";
 
 // Evento de carregamento da página
 document.addEventListener("DOMContentLoaded", async () => {

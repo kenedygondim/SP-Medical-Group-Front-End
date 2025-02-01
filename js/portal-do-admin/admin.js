@@ -9,7 +9,7 @@ const form = document.getElementById('div-form');
 const button = document.getElementById('proximo-button');
 
 // Prefixo de chamada de API
-const apiPrefix = "http://44.210.248.181:5001/api/";
+const apiPrefix = "https://44.210.248.181:5001/api/";
 
 // Recupera o token da sessão
 const token = sessionStorage.getItem("token");

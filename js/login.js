@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 // Prefixo de chamada de API
-const apiPrefix = "http://44.210.248.181:5001/api/";
+const apiPrefix = "https://44.210.248.181:5001/api/";
 
 // Função para realizar login manual
 document.getElementById('form').addEventListener('submit', async (e) => {

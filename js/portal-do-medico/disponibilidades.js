@@ -17,7 +17,7 @@ const email = sessionStorage.getItem("email");
 let InfoBasicasUsuarioJson = {};
 
 // Prefixo de chamada de API
-const apiPrefix = "http://44.210.248.181:5001/api/";
+const apiPrefix = "https://44.210.248.181:5001/api/";
 
 // Evento de inicialização
 document.addEventListener('DOMContentLoaded', async () => {
