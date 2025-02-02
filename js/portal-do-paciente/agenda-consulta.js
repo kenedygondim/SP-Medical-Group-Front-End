@@ -295,7 +295,7 @@ resumoConsulta.addEventListener('submit', async (event) => {
   } 
   else if (response.status == 201) {
     alert("Consulta agendada com sucesso!") 
-    window.location.href = "./portal-do-paciente/agenda.html"
+    window.location.href = "https://kenedygondim.github.io/SP-Medical-Group-Front-End/html/portal-do-paciente/agenda.html"
   } 
   else {
     alert("Não foi possível realizar o agendamento. Tente novamente mais tarde!")
