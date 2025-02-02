@@ -220,6 +220,8 @@ async function getEspecialidadesMedico(medicoIdentificador) {
 }
 
 async function showPopup(medicoIdentificador) {
+    loadingScreen.style.display = "flex";
+
     const medico = await getInformacoesMedicoEspecifico(medicoIdentificador);
     const especialidades = await getEspecialidadesMedico(medicoIdentificador);
 
@@ -248,6 +250,8 @@ async function showPopup(medicoIdentificador) {
     // Exibir o pop-up
     popupOverlay.style.display = "flex";
     popupOverlay.setAttribute('medico-identificador', nomeMedico.textContent); 
+
+    loadingScreen.style.display = "none";
 }
 
 
