@@ -111,10 +111,11 @@ function renderPage(page,  itemsPerPageValue, itemsToRender = consultasPacienteJ
     paginatedItems.forEach(item => {
         const row = document.createElement("tr");
                 
-        const date = new Date(item.dataConsulta);
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit'};
+        const date = new Date(item.dataConsulta + "T00:00:00");
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const dataConsulta = date.toLocaleDateString('pt-BR', options);
 
-        const dataConsulta = date.toLocaleDateString('pt-BR', options); 
+
         const precoConsulta = item.preco;   
         const horaConsulta = `${item.horaInicio} - ${item.horaFim}`;
         const nomeMedico = item.nomeMedico.length > 25 ? item.nomeMedico.substring(0, 25) + "..." : item.nomeMedico;

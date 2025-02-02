@@ -113,10 +113,10 @@ function renderPage(page,  itemsPerPageValue, itemsToRender = consultasMedicoJso
     paginatedItems.forEach(item => {
         const row = document.createElement("tr");
                 
-        const date = new Date(item.dataConsulta);
-        const options = { year: 'numeric', month: '2-digit', day: '2-digit'};
-
-        const dataConsulta = date.toLocaleDateString('pt-BR', options); 
+        const date = new Date(item.dataConsulta + "T00:00:00");
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const dataConsulta = date.toLocaleDateString('pt-BR', options);
+        
         const precoConsulta = item.preco;   
         const horaConsulta = `${item.horaInicio} - ${item.horaFim}`;
         const nomePaciente = item.nomePaciente.length > 25 ? item.nomePaciente.substring(0, 25) + "..." : item.nomePaciente;
